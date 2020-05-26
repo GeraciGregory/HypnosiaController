@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="http://www.youtube.com/watch?feature=player_embedded&v=3K69NLErzWc" target="_blank"><img src="Logo_V2_black.jpg" alt="IMAGE ALT TEXT HERE" width="900" height="600" border="10" /></a>
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=3K69NLErzWc" target="_blank"><img src="Logo_V2_black.jpg" alt="IMAGE ALT TEXT HERE" width="450" height="300" border="10" /></a>
   <br>
 </h1>
 
