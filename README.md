@@ -1,37 +1,18 @@
-## Welcome to GitHub Pages
+<h1 align="center">
+  <br>
+  <a href="http://www.youtube.com/watch?feature=player_embedded&v=3K69NLErzWc" target="_blank"><img src="Logo_V2_black.jpg" alt="IMAGE ALT TEXT HERE" width="900" height="600" border="10" /></a>
+  <br>
+</h1>
 
-You can use the [editor on GitHub](https://github.com/GeraciGregory/HypnosiaController/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+# Description
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+[Hypnosia](https://www.hypnosia.ch/) is a young startup from the Business eXperience (BeX) program, which was born from the union between
+engineers and economists. 
+<br>
+The project consists of developing and implementing a prototype of a matrix display composed of watch movements (biaxial and tri-axial), from the company SOPROD SA. 
+<br>
+Combining both the fields of mechatronics, electronics, computer science and mechanics, the project will consist in the development of a Central Controller to control and manage all of the engine movements. The main controller will also allow Bluetooth connection to a smartphone for remote, wireless communication.
+<br>
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/GeraciGregory/HypnosiaController/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+# Presentation video
+Click on the logo !
