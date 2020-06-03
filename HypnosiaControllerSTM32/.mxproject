@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=C:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerSTM32/Inc
+HeaderPath=C:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/HypnosiaControllerSTM32/Inc
 HeaderFiles=stm32g0xx_it.h;stm32g0xx_hal_conf.h;main.h;
-SourcePath=C:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerSTM32/Src
+SourcePath=C:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/HypnosiaControllerSTM32/Src
 SourceFiles=stm32g0xx_it.c;stm32g0xx_hal_msp.c;main.c;
 
 [PreviousLibFiles]
