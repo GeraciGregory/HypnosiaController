@@ -1,9 +1,13 @@
-#include <iostream>
+#include <QApplication>
+#include "factory.h"
 
-using namespace std;
-
-int main()
+int main(int argc, char *argv[])
 {
-    cout << "Hello World!" << endl;
-    return 0;
+    QApplication a(argc, argv);
+
+    //Factory pattern
+    Factory myFactory;
+    myFactory.buildSystem();
+
+    return a.exec();
 }
