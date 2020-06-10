@@ -1,4 +1,3 @@
-#QT -= gui
 QT += core gui widgets
 
 CONFIG += c++11 console
@@ -15,6 +14,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+include(xf/xf-core/xf-core.pri)
+include(xf/xf-port-default-qt/xf-port-default-qt.pri)
+include(xf/xf-port-idf/xf-port-idf.pri)
+
 SOURCES += \
         main.cpp \
     View/observer.cpp \
@@ -25,7 +28,7 @@ SOURCES += \
     Controller/animation1.cpp \
     Controller/controller.cpp \
     Controller/numbers.cpp \
-    Button/button.cpp
+    Button/button.cpp \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -35,10 +38,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     View/observer.h \
     View/view.h \
+    config/xf-config.h \
+    config/xf-port-config.h \
     factory.h \
     Model/clock.h \
     Model/data.h \
     Controller/animation1.h \
     Controller/controller.h \
     Controller/numbers.h \
-    Button/button.h
+    Button/button.h \
