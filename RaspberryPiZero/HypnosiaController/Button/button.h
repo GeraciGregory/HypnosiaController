@@ -5,19 +5,10 @@
 
 class Button: public QPushButton
 {
-    //Q_OBJECT
-
 public:
     Button(QWidget* parent);
-    ~Button();
-
-    /*
-private slots:
-    void buttonClicked();
-
-signals:
-    void close();
-    */
+    ~Button(); 
 };
+
 
 #endif // BUTTON_H

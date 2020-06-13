@@ -19,15 +19,24 @@ include(xf/xf-port-default-qt/xf-port-default-qt.pri)
 include(xf/xf-port-idf/xf-port-idf.pri)
 
 SOURCES += \
+    Button/combobox.cpp \
+    Button/label.cpp \
+    Controller/countdown.cpp \
+    Events/evanim1.cpp \
+    Events/evcntdown.cpp \
+    Events/evdone.cpp \
+    Events/evminus.cpp \
+    Events/evplus.cpp \
+    Events/evrestart.cpp \
+    Model/watchpointer.cpp \
+    Model/processor.cpp \
         main.cpp \
     View/observer.cpp \
     View/view.cpp \
     factory.cpp \
     Model/clock.cpp \
     Model/data.cpp \
-    Controller/animation1.cpp \
     Controller/controller.cpp \
-    Controller/numbers.cpp \
     Button/button.cpp \
 
 # Default rules for deployment.
@@ -36,6 +45,18 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    Button/combobox.h \
+    Button/label.h \
+    Controller/countdown.h \
+    Events/evanim1.h \
+    Events/evcntdown.h \
+    Events/evdone.h \
+    Events/eventids.h \
+    Events/evminus.h \
+    Events/evplus.h \
+    Events/evrestart.h \
+    Model/watchpointer.h \
+    Model/processor.h \
     View/observer.h \
     View/view.h \
     config/xf-config.h \
@@ -43,7 +64,5 @@ HEADERS += \
     factory.h \
     Model/clock.h \
     Model/data.h \
-    Controller/animation1.h \
     Controller/controller.h \
-    Controller/numbers.h \
     Button/button.h \

@@ -6,3 +6,7 @@ XFCustomEvent::XFCustomEvent(int id, interface::XFReactive * pBehavior)
 {
 
 }
+
+bool XFCustomEvent::deleteAfterConsume() const { return _bDeleteAfterConsume; }
+
+void XFCustomEvent::setDeleteAfterConsume(bool bDeleteAfterConsume) { _bDeleteAfterConsume = bDeleteAfterConsume; }

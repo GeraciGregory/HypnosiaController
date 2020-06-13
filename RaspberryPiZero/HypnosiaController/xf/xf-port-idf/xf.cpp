@@ -2,7 +2,7 @@
 
 #if (USE_XF_PORT_IDF_QT_XF_IMPLEMENTATION != 0)
 
-#include <QCoreApplication>
+#include <QApplication>
 #include "xf-core/interface/timeoutmanager.h"
 #include "xf-core/interface/resourcefactory.h"
 #include "xf-core/interface/dispatcher.h"
@@ -22,9 +22,9 @@ using interface::XFResourceFactory;
 
 bool XF::_bInitialized = false;
 
-static QCoreApplication & getApplication(int argc = 0, char * argv[] = nullptr)
+static QApplication & getApplication(int argc = 0, char * argv[] = nullptr)
 {
-    static QCoreApplication app(argc, argv);
+    static QApplication app(argc, argv);
     return app;
 }
 

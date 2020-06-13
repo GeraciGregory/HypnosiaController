@@ -91,14 +91,49 @@ int XFDispatcherActiveDefault::execute(const void * param /* = nullptr */)
 
 int XFDispatcherActiveDefault::executeOnce()
 {
-    // TODO: Implement code for XFDispatcherActiveDefault::executeOnce
+    if (!_events.empty())
+    {
+        const XFEvent * pEvent;
+
+        // Deque next event from queue
+        pEvent = _events.front(); _events.pop();
+#if defined(XF_TRACE_EVENT_PUSH_POP) && (XF_TRACE_EVENT_PUSH_POP != 0)
+            Trace::out("Pop event:  0x%x", pEvent);
+#endif // XF_TRACE_EVENT_PUSH_POP
+
+        if (pEvent)
+        {
+            // Forward the event to the behavioral class
+            dispatchEvent(pEvent);
+
+            if (pEvent->getEventType() == XFEvent::Terminate)
+            {
+                // Exit the event loop
+                _bExecuting = false;
+            }
+
+            if (pEvent->deleteAfterConsume())
+            {
+                // Remove the consumed event
+                delete pEvent;
+            }
+        }
+    }
 
     return _bExecuting;
 }
 
 void XFDispatcherActiveDefault::dispatchEvent(const XFEvent * pEvent) const
 {
-    // TODO: Implement code for XFDispatcherActiveDefault::dispatchEvent
+    XFReactive::TerminateBehavior terminateBehavior;
+
+    terminateBehavior = pEvent->getBehavior()->process(pEvent);
+
+    // Check if behavior should be deleted
+    if (terminateBehavior and pEvent->getBehavior()->deleteOnTerminate())
+    {
+        delete pEvent->getBehavior();
+    }
 }
 
 #endif // USE_XF_DISPATCHER_ACTIVE_DEFAULT_IMPLEMENTATION

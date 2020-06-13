@@ -1,9 +1,11 @@
 #include "button.h"
+#include "xf-core/behavior.h"
 
 //Constructor
-Button::Button(QWidget* parent):QPushButton(parent)
+Button::Button(QWidget* parent)
+    :QPushButton(parent)
 {
-    //QObject::connect(this,SIGNAL(clicked()),this,SLOT(buttonClicked()));
+
 }
 
 //Desctructor
@@ -11,9 +13,4 @@ Button::~Button()
 {
 
 }
-/*
-void Button::buttonClicked()
-{
 
-}
-*/

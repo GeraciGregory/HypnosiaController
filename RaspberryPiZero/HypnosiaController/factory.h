@@ -14,8 +14,10 @@ public:
 
 private:
     Data* data;
-    Controller* controller;
     View* view;
+
+protected:
+    static Controller* controller;
 };
 
 #endif // FACTORY_H

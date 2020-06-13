@@ -5,10 +5,15 @@
 #include <QWidget>
 #include "Controller/controller.h"
 #include "Button/button.h"
+#include "Button/combobox.h"
+#include "Button/label.h"
 #include "observer.h"
 
 
 class Button;
+class ComboBox;
+class Label;
+class Controller;
 
 class View: public QWidget, public Observer
 {    
@@ -21,10 +26,19 @@ public:
     void changed();
     void stop();
 
-private:
-    Controller* pController;
     Button* countDown;
     Button* anim1;
+    Button* plusBtn;
+    Button* minusBtn;
+    ComboBox* cbProcessor;
+    Label* lbProcessor;
+    ComboBox* cbClock;
+    Label* lbClock;
+    ComboBox* cbWatchPointer;
+    Label* lbWatchPointer;
+
+private:
+    Controller* pController;
 
     //window
     int x;

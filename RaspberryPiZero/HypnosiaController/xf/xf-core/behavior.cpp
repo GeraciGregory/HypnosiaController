@@ -43,11 +43,14 @@ void XFBehavior::startBehavior()
     // Send initial event to state machine
     GEN(XFInitialEvent());
 
+    //getDispatcher()->start();
+
     // Start dispatcher if behavior has its own dispatcher
     if (hasOwnDispatcher())
     {
         getDispatcher()->start();
     }
+
 }
 
 void XFBehavior::pushEvent(XFEvent * pEvent)

@@ -49,6 +49,9 @@ public:
     bool deleteOnTerminate() const override;
     void setDeleteOnTerminate(bool deleteBehaviour) override;
 
+    inline void scheduleTimeout(int timeoutId, int interval) { getDispatcher()->scheduleTimeout(timeoutId, interval, this); }	///< @brief Schedules a timeout for this state machine.
+    inline void unscheduleTimeout(int timeoutId) { getDispatcher()->unscheduleTimeout(timeoutId, this); }						///< @brief Unschedules a timeout for this state machine.
+
 protected:
     /**
      * Executes the current event in its implemented behavior.
@@ -68,8 +71,8 @@ protected:
      */
     const XFTimeout * getCurrentTimeout();
 
-    inline void scheduleTimeout(int timeoutId, int interval) { getDispatcher()->scheduleTimeout(timeoutId, interval, this); }	///< @brief Schedules a timeout for this state machine.
-    inline void unscheduleTimeout(int timeoutId) { getDispatcher()->unscheduleTimeout(timeoutId, this); }						///< @brief Unschedules a timeout for this state machine.
+    //inline void scheduleTimeout(int timeoutId, int interval) { getDispatcher()->scheduleTimeout(timeoutId, interval, this); }	///< @brief Schedules a timeout for this state machine.
+    //inline void unscheduleTimeout(int timeoutId) { getDispatcher()->unscheduleTimeout(timeoutId, this); }						///< @brief Unschedules a timeout for this state machine.
 
 private:
     void setCurrentEvent(const XFEvent * pEvent);		///< Sets the current event to be processed in processEvent().
