@@ -1,7 +1,8 @@
 #ifndef XF_INTERFACE_DISPATCHER_H
 #define XF_INTERFACE_DISPATCHER_H
 
-#include "xf-core/event.h"
+//#include "xf-core/event.h"
+#include "xf/xf-core/event.h"
 
 class XF;
 

@@ -1,9 +1,13 @@
 #include <config/xf-config.h>
-#include "xf-core/interface/timeoutmanager.h"
+//#include "xf-core/interface/timeoutmanager.h"
+#include "xf/xf-core/interface/timeoutmanager.h"
 
 #if (USE_XF_PORT_IDF_QT_PORT_FUNCTIONS_IMPLEMENTATION != 0)
 
 #include <QObject>
+#include <Qt>
+#include <QTimer>
+#include <qnamespace.h>
 #include <QTimerEvent>
 #include "port-functions.h"
 

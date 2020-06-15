@@ -7,7 +7,8 @@
 
 #include <QThread>
 #include <stdint.h>
-#include "xf-core/interface/thread.h"
+//#include "xf-core/interface/thread.h"
+#include "xf/xf-core/interface/thread.h"
 
 /** @ingroup port_default_qt
  *  @{

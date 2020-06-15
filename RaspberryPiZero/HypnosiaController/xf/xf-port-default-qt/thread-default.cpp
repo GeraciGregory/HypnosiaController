@@ -7,7 +7,8 @@
 #include "thread-default.h"
 
 #if !defined(XFTHREAD_DEFAULT_STACK_SIZE)
-    #define XFTHREAD_DEFAULT_STACK_SIZE	256
+    //#define XFTHREAD_DEFAULT_STACK_SIZE	256 //Used for 256MB stack size
+    #define XFTHREAD_DEFAULT_STACK_SIZE	64 //Used for 64MB stack size
 #endif
 
 XFThreadDefault::XFThreadDefault(interface::XFThreadEntryPointProvider * pProvider,

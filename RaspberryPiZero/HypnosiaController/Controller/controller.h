@@ -3,7 +3,8 @@
 
 #include "Model/data.h"
 #include "View/view.h"
-#include "xf-core/behavior.h"
+//#include "xf-core/behavior.h"
+#include "xf/xf-core/behavior.h"
 #include "countdown.h"
 #include <iostream>
 #include <QObject>

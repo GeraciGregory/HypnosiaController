@@ -4,8 +4,10 @@
 #if (USE_XF_TIMEOUTMANAGER_DEFAULT_IMPLEMENTATION != 0)
 
 #include <assert.h>
-#include "xf-core/interface/reactive.h"
-#include "xf-core/interface/mutex.h"
+//#include "xf-core/interface/reactive.h"
+//#include "xf-core/interface/mutex.h"
+#include "xf/xf-core/interface/reactive.h"
+#include "xf/xf-core/interface/mutex.h"
 #include "port-functions.h"
 #include "timeoutmanager-default.h"
 

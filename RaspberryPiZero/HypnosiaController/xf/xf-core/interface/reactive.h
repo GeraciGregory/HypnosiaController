@@ -2,8 +2,10 @@
 #define XF_INTERFACE_REACTIVE_H
 
 #include <string>
-#include "xf-core/event.h"
-#include "xf-core/eventstatus.h"
+//#include "xf-core/event.h"
+#include "xf/xf-core/event.h"
+//#include "xf-core/eventstatus.h"
+#include "xf/xf-core/eventstatus.h"
 
 class XFDispatcherDefault;
 class XFDispatcherActiveDefault;

@@ -17,7 +17,8 @@
     #define USE_XF_PORT_IDF_QT_EVENT_QUEUE_IMPLEMENTATION       1
     #define USE_XF_PORT_IDF_QT_PORT_FUNCTIONS_IMPLEMENTATION    1
 
-    #include "xf-port-idf/eventqueue.h"
+    //#include "xf-port-idf/eventqueue.h"
+    #include "xf/xf-port-idf/eventqueue.h"
 #endif // PORT_IDF_QT
 
 #if (PORT_IDF_STM32CUBE != 0)

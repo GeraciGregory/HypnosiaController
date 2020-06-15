@@ -44,6 +44,7 @@ void View::setupUI()
 {
     this->setWindowTitle(this->title);
     this->setGeometry(x,y,width,height);
+    this->show();
 
     //BUTTONS
     this->countDown->setText("Countdown");
@@ -77,8 +78,6 @@ void View::setupUI()
     this->lbClock->setText("Clock");
     this->lbWatchPointer->setGeometry(220,160,50,20);
     this->lbWatchPointer->setText("WatchPtr");
-
-    this->setVisible(true);
 }
 
 //Update view

@@ -17,6 +17,8 @@ class Controller;
 
 class View: public QWidget, public Observer
 {    
+    //Q_OBJECT  //Used for signals and slots
+
 public:
     View(int x,int y,int width,int height,QString title);
     //View();

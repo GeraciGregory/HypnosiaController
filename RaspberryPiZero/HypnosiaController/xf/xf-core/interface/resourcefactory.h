@@ -1,9 +1,12 @@
 #ifndef XF_INTERFACE_RESOURCE_FACTORY_H
 #define XF_INTERFACE_RESOURCE_FACTORY_H
 
-#include "xf-core/interface/dispatcher.h"
-#include "xf-core/interface/thread.h"
-#include "xf-core/interface/mutex.h"
+//#include "xf-core/interface/dispatcher.h"
+#include "xf/xf-core/interface/dispatcher.h"
+//#include "xf-core/interface/thread.h"
+#include "xf/xf-core/interface/thread.h"
+//#include "xf-core/interface/mutex.h"
+#include "xf/xf-core/interface/mutex.h"
 
 namespace interface {
 

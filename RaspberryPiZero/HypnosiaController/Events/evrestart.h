@@ -2,7 +2,8 @@
 #define EVRESTART_H
 
 
-#include "xf-core/customevent.h"
+//#include "xf-core/customevent.h"
+#include "xf/xf-core/customevent.h"
 #include "eventids.h"
 
 

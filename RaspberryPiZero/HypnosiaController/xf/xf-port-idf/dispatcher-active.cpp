@@ -6,11 +6,16 @@
 #if defined(XF_TRACE_EVENT_PUSH_POP) && (XF_TRACE_EVENT_PUSH_POP != 0)
     #include "trace/trace.h"
 #endif // XF_TRACE_EVENT_PUSH_POP
-#include "xf-core/eventstatus.h"
-#include "xf-core/interface/timeoutmanager.h"
-#include "xf-core/interface/reactive.h"
-#include "xf-core/interface/thread.h"
-#include "xf-core/interface/resourcefactory.h"
+//#include "xf-core/eventstatus.h"
+//#include "xf-core/interface/timeoutmanager.h"
+//#include "xf-core/interface/reactive.h"
+//#include "xf-core/interface/thread.h"
+//#include "xf-core/interface/resourcefactory.h"
+#include "xf/xf-core/eventstatus.h"
+#include "xf/xf-core/interface/timeoutmanager.h"
+#include "xf/xf-core/interface/reactive.h"
+#include "xf/xf-core/interface/thread.h"
+#include "xf/xf-core/interface/resourcefactory.h"
 #include "dispatcher-active.h"
 
 using interface::XFTimeoutManager;

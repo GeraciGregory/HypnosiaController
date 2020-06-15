@@ -7,7 +7,8 @@
 
 #include <stdint.h>
 #include <QMutex>
-#include "xf-core/interface/mutex.h"
+//#include "xf-core/interface/mutex.h"
+#include "xf/xf-core/interface/mutex.h"
 
 /** @ingroup port_default_qt
  *  @{

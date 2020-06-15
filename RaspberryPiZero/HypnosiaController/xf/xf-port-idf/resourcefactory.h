@@ -9,8 +9,10 @@
  *  @{
  */
 
-#include "xf-core/interface/resourcefactory.h"
-#include "xf-core/interface/dispatcher.h"
+//#include "xf-core/interface/resourcefactory.h"
+#include "xf/xf-core/interface/resourcefactory.h"
+//#include "xf-core/interface/dispatcher.h"
+#include "xf/xf-core/interface/dispatcher.h"
 
 /**
  * @brief XFResourceFactoryPort implementation for the IDF Qt port.

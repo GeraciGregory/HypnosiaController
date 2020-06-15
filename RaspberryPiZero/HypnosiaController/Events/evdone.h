@@ -1,7 +1,8 @@
 #ifndef EVDONE_H
 #define EVDONE_H
 
-#include "xf-core/customevent.h"
+//#include "xf-core/customevent.h"
+#include "xf/xf-core/customevent.h"
 #include "eventids.h"
 
 class evDone : public XFCustomEvent

@@ -1,6 +1,7 @@
 
 # Absolute path to XF src files
-ABS_PATH = $$PWD
+#ABS_PATH = $$PWD   #used on windows
+ABS_PATH = $$system(pwd)   #used on linux
 
 INCLUDEPATH += .
 
