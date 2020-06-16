@@ -1,6 +1,6 @@
 
-#ABS_PATH = $$PWD   #used on windows
-ABS_PATH = $$system(pwd)   #used on linux
+ABS_PATH = $$PWD   #used on windows
+#ABS_PATH = $$system(pwd)   #used on linux
 
 INCLUDEPATH += .
 #INCLUDEPATH += $$PWD/..

@@ -14,7 +14,7 @@ CXX           = g++
 DEFINES       = -DUNICODE -D_UNICODE -DWIN32 -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -fno-keep-inline-dllexport -O2 -Wall -W -Wextra $(DEFINES)
 CXXFLAGS      = -fno-keep-inline-dllexport -O2 -std=gnu++11 -Wall -W -Wextra -fexceptions -mthreads $(DEFINES)
-INCPATH       = -I..\HypnosiaController -I. -I..\HypnosiaController -I..\HypnosiaController\xf -I..\HypnosiaController\xf -IC:\Qt\Qt5.11.1\5.11.1\mingw53_32\include -IC:\Qt\Qt5.11.1\5.11.1\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.11.1\5.11.1\mingw53_32\include\QtGui -IC:\Qt\Qt5.11.1\5.11.1\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.11.1\5.11.1\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.11.1\5.11.1\mingw53_32\mkspecs\win32-g++ 
+INCPATH       = -I..\HypnosiaController -I. -I/usr/local/include -I..\HypnosiaController -I..\HypnosiaController -I..\HypnosiaController -IC:\Qt\Qt5.11.1\5.11.1\mingw53_32\include -IC:\Qt\Qt5.11.1\5.11.1\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.11.1\5.11.1\mingw53_32\include\QtGui -IC:\Qt\Qt5.11.1\5.11.1\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.11.1\5.11.1\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.11.1\5.11.1\mingw53_32\mkspecs\win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -Wl,-s -Wl,-subsystem,console -mthreads
 LIBS        =        -LC:\Qt\Qt5.11.1\5.11.1\mingw53_32\lib C:\Qt\Qt5.11.1\5.11.1\mingw53_32\lib\libQt5Widgets.a C:\Qt\Qt5.11.1\5.11.1\mingw53_32\lib\libQt5Gui.a C:\Qt\Qt5.11.1\5.11.1\mingw53_32\lib\libQt5Core.a 
@@ -240,10 +240,9 @@ release/moc_controller.cpp: ../HypnosiaController/Model/data.h \
 		../HypnosiaController/Model/processor.h \
 		../HypnosiaController/Model/clock.h \
 		../HypnosiaController/Model/watchpointer.h \
-		../HypnosiaController/View/view.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QString \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstring.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qchar.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QVector \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qvector.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qalgorithms.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qglobal.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qconfig-bootstrapped.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qconfig.h \
@@ -265,14 +264,27 @@ release/moc_controller.cpp: ../HypnosiaController/Model/data.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qmutex.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qnumeric.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qversiontagging.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearray.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qiterator.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qlist.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qrefcount.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qnamespace.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qarraydata.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qhashfunctions.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstring.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qchar.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearray.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qnamespace.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringliteral.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringalgorithms.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringview.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpair.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearraylist.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringlist.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qregexp.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpoint.h \
+		../HypnosiaController/View/view.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QString \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtWidgets/QWidget \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtWidgets/qwidget.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtWidgets/qtwidgetsglobal.h \
@@ -284,15 +296,6 @@ release/moc_controller.cpp: ../HypnosiaController/Model/data.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qobjectdefs_impl.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qobject.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qlist.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qalgorithms.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qiterator.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qhashfunctions.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpair.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearraylist.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringlist.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qregexp.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringmatcher.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qcoreevent.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qscopedpointer.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qmetatype.h \
@@ -303,13 +306,11 @@ release/moc_controller.cpp: ../HypnosiaController/Model/data.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qpaintdevice.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qrect.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qsize.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpoint.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qpalette.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qcolor.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qrgb.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qrgba64.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qbrush.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qvector.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qmatrix.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qpolygon.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qregion.h \
@@ -393,7 +394,7 @@ release/moc_controller.cpp: ../HypnosiaController/Model/data.h \
 		../HypnosiaController/Controller/controller.h \
 		release/moc_predefs.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/bin/moc.exe
-	C:\Qt\Qt5.11.1\5.11.1\mingw53_32\bin\moc.exe $(DEFINES) --include release/moc_predefs.h -IC:/Qt/Qt5.11.1/5.11.1/mingw53_32/mkspecs/win32-g++ -IC:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/RaspberryPiZero/HypnosiaController -IC:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/RaspberryPiZero/HypnosiaController -IC:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/RaspberryPiZero/HypnosiaController/xf -IC:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/RaspberryPiZero/HypnosiaController/xf -IC:/Qt/Qt5.11.1/5.11.1/mingw53_32/include -IC:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtWidgets -IC:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui -IC:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtANGLE -IC:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore -I. -IC:/Qt/Qt5.11.1/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include -IC:/Qt/Qt5.11.1/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include-fixed -IC:/Qt/Qt5.11.1/Tools/mingw530_32/i686-w64-mingw32/include -IC:/Qt/Qt5.11.1/Tools/mingw530_32/i686-w64-mingw32/include/c++ -IC:/Qt/Qt5.11.1/Tools/mingw530_32/i686-w64-mingw32/include/c++/i686-w64-mingw32 -IC:/Qt/Qt5.11.1/Tools/mingw530_32/i686-w64-mingw32/include/c++/backward ..\HypnosiaController\Controller\controller.h -o release\moc_controller.cpp
+	C:\Qt\Qt5.11.1\5.11.1\mingw53_32\bin\moc.exe $(DEFINES) --include release/moc_predefs.h -IC:/Qt/Qt5.11.1/5.11.1/mingw53_32/mkspecs/win32-g++ -IC:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/RaspberryPiZero/HypnosiaController -IC:/usr/local/include -IC:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/RaspberryPiZero/HypnosiaController -IC:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/RaspberryPiZero/HypnosiaController -IC:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/RaspberryPiZero/HypnosiaController -IC:/Qt/Qt5.11.1/5.11.1/mingw53_32/include -IC:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtWidgets -IC:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui -IC:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtANGLE -IC:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore -I. -IC:/Qt/Qt5.11.1/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include -IC:/Qt/Qt5.11.1/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include-fixed -IC:/Qt/Qt5.11.1/Tools/mingw530_32/i686-w64-mingw32/include -IC:/Qt/Qt5.11.1/Tools/mingw530_32/i686-w64-mingw32/include/c++ -IC:/Qt/Qt5.11.1/Tools/mingw530_32/i686-w64-mingw32/include/c++/i686-w64-mingw32 -IC:/Qt/Qt5.11.1/Tools/mingw530_32/i686-w64-mingw32/include/c++/backward ..\HypnosiaController\Controller\controller.h -o release\moc_controller.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -898,6 +899,10 @@ release/port-functions.o: ../HypnosiaController/xf/xf-port-idf/port-functions.cp
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qvarlengtharray.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qcontainerfwd.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qobject_impl.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/Qt \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QTimer \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qtimer.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbasictimer.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QTimerEvent \
 		../HypnosiaController/xf/xf-port-idf/port-functions.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\port-functions.o ..\HypnosiaController\xf\xf-port-idf\port-functions.cpp
@@ -1381,10 +1386,9 @@ release/countdown.o: ../HypnosiaController/Controller/countdown.cpp ../HypnosiaC
 		../HypnosiaController/Model/processor.h \
 		../HypnosiaController/Model/clock.h \
 		../HypnosiaController/Model/watchpointer.h \
-		../HypnosiaController/View/view.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QString \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstring.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qchar.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QVector \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qvector.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qalgorithms.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qglobal.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qconfig-bootstrapped.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qconfig.h \
@@ -1406,14 +1410,27 @@ release/countdown.o: ../HypnosiaController/Controller/countdown.cpp ../HypnosiaC
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qmutex.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qnumeric.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qversiontagging.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearray.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qiterator.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qlist.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qrefcount.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qnamespace.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qarraydata.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qhashfunctions.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstring.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qchar.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearray.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qnamespace.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringliteral.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringalgorithms.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringview.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpair.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearraylist.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringlist.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qregexp.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpoint.h \
+		../HypnosiaController/View/view.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QString \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtWidgets/QWidget \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtWidgets/qwidget.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtWidgets/qtwidgetsglobal.h \
@@ -1425,15 +1442,6 @@ release/countdown.o: ../HypnosiaController/Controller/countdown.cpp ../HypnosiaC
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qobjectdefs_impl.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qobject.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qlist.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qalgorithms.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qiterator.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qhashfunctions.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpair.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearraylist.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringlist.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qregexp.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringmatcher.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qcoreevent.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qscopedpointer.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qmetatype.h \
@@ -1444,13 +1452,11 @@ release/countdown.o: ../HypnosiaController/Controller/countdown.cpp ../HypnosiaC
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qpaintdevice.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qrect.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qsize.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpoint.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qpalette.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qcolor.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qrgb.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qrgba64.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qbrush.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qvector.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qmatrix.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qpolygon.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qregion.h \
@@ -2018,6 +2024,7 @@ release/main.o: ../HypnosiaController/main.cpp C:/Qt/Qt5.11.1/5.11.1/mingw53_32/
 		../HypnosiaController/Model/processor.h \
 		../HypnosiaController/Model/clock.h \
 		../HypnosiaController/Model/watchpointer.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QVector \
 		../HypnosiaController/View/view.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QString \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtWidgets/QWidget \
@@ -2163,6 +2170,7 @@ release/view.o: ../HypnosiaController/View/view.cpp ../HypnosiaController/View/v
 		../HypnosiaController/Model/processor.h \
 		../HypnosiaController/Model/clock.h \
 		../HypnosiaController/Model/watchpointer.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QVector \
 		../HypnosiaController/xf/xf-core/behavior.h \
 		../HypnosiaController/xf/xf-core/interface/reactive.h \
 		../HypnosiaController/xf/xf-core/event.h \
@@ -2216,10 +2224,9 @@ release/factory.o: ../HypnosiaController/factory.cpp ../HypnosiaController/facto
 		../HypnosiaController/Model/processor.h \
 		../HypnosiaController/Model/clock.h \
 		../HypnosiaController/Model/watchpointer.h \
-		../HypnosiaController/View/view.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QString \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstring.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qchar.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QVector \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qvector.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qalgorithms.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qglobal.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qconfig-bootstrapped.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qconfig.h \
@@ -2241,14 +2248,27 @@ release/factory.o: ../HypnosiaController/factory.cpp ../HypnosiaController/facto
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qmutex.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qnumeric.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qversiontagging.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearray.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qiterator.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qlist.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qrefcount.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qnamespace.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qarraydata.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qhashfunctions.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstring.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qchar.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearray.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qnamespace.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringliteral.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringalgorithms.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringview.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpair.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearraylist.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringlist.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qregexp.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpoint.h \
+		../HypnosiaController/View/view.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QString \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtWidgets/QWidget \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtWidgets/qwidget.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtWidgets/qtwidgetsglobal.h \
@@ -2260,15 +2280,6 @@ release/factory.o: ../HypnosiaController/factory.cpp ../HypnosiaController/facto
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qobjectdefs_impl.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qobject.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qlist.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qalgorithms.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qiterator.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qhashfunctions.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpair.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearraylist.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringlist.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qregexp.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringmatcher.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qcoreevent.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qscopedpointer.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qmetatype.h \
@@ -2279,13 +2290,11 @@ release/factory.o: ../HypnosiaController/factory.cpp ../HypnosiaController/facto
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qpaintdevice.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qrect.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qsize.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpoint.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qpalette.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qcolor.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qrgb.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qrgba64.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qbrush.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qvector.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qmatrix.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qpolygon.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qregion.h \
@@ -2383,19 +2392,10 @@ release/data.o: ../HypnosiaController/Model/data.cpp ../HypnosiaController/Model
 		../HypnosiaController/View/observer.h \
 		../HypnosiaController/Model/processor.h \
 		../HypnosiaController/Model/clock.h \
-		../HypnosiaController/Model/watchpointer.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\data.o ..\HypnosiaController\Model\data.cpp
-
-release/controller.o: ../HypnosiaController/Controller/controller.cpp ../HypnosiaController/Controller/controller.h \
-		../HypnosiaController/Model/data.h \
-		../HypnosiaController/View/observer.h \
-		../HypnosiaController/Model/processor.h \
-		../HypnosiaController/Model/clock.h \
 		../HypnosiaController/Model/watchpointer.h \
-		../HypnosiaController/View/view.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QString \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstring.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qchar.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QVector \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qvector.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qalgorithms.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qglobal.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qconfig-bootstrapped.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qconfig.h \
@@ -2417,14 +2417,78 @@ release/controller.o: ../HypnosiaController/Controller/controller.cpp ../Hypnosi
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qmutex.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qnumeric.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qversiontagging.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearray.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qiterator.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qlist.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qrefcount.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qnamespace.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qarraydata.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qhashfunctions.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstring.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qchar.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearray.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qnamespace.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringliteral.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringalgorithms.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringview.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpair.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearraylist.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringlist.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qregexp.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpoint.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\data.o ..\HypnosiaController\Model\data.cpp
+
+release/controller.o: ../HypnosiaController/Controller/controller.cpp ../HypnosiaController/Controller/controller.h \
+		../HypnosiaController/Model/data.h \
+		../HypnosiaController/View/observer.h \
+		../HypnosiaController/Model/processor.h \
+		../HypnosiaController/Model/clock.h \
+		../HypnosiaController/Model/watchpointer.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QVector \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qvector.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qalgorithms.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qglobal.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qconfig-bootstrapped.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qconfig.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qtcore-config.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qsystemdetection.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qprocessordetection.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qcompilerdetection.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qtypeinfo.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qsysinfo.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qlogging.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qflags.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qatomic.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbasicatomic.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qatomic_bootstrap.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qgenericatomic.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qatomic_msvc.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qglobalstatic.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qmutex.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qnumeric.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qversiontagging.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qiterator.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qlist.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qrefcount.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qarraydata.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qhashfunctions.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstring.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qchar.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearray.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qnamespace.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringliteral.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringalgorithms.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringview.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpair.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearraylist.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringlist.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qregexp.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpoint.h \
+		../HypnosiaController/View/view.h \
+		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/QString \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtWidgets/QWidget \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtWidgets/qwidget.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtWidgets/qtwidgetsglobal.h \
@@ -2436,15 +2500,6 @@ release/controller.o: ../HypnosiaController/Controller/controller.cpp ../Hypnosi
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qobjectdefs_impl.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qwindowdefs_win.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qobject.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qlist.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qalgorithms.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qiterator.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qhashfunctions.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpair.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qbytearraylist.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringlist.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qregexp.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qstringmatcher.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qcoreevent.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qscopedpointer.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qmetatype.h \
@@ -2455,13 +2510,11 @@ release/controller.o: ../HypnosiaController/Controller/controller.cpp ../Hypnosi
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qpaintdevice.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qrect.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qsize.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qpoint.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qpalette.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qcolor.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qrgb.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qrgba64.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qbrush.h \
-		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtCore/qvector.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qmatrix.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qpolygon.h \
 		C:/Qt/Qt5.11.1/5.11.1/mingw53_32/include/QtGui/qregion.h \

@@ -15,7 +15,7 @@ include(xf/xf-port-default-qt/xf-port-default-qt.pri)
 include(xf/xf-port-idf/xf-port-idf.pri)
 
 #Connects the wiringPi libraries during program execution
-LIBS += -L/usr/local/lib -lwiringPi
+#LIBS += -L/usr/local/lib -lwiringPi
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
