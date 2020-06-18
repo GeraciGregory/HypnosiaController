@@ -1,0 +1,13 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : Project [HYPNOSIA_controller_V1.PrjPcb]
+   Generated File[HYPNOSIA_controller_V1-RoundHoles.TXT]
+   Generated File[HYPNOSIA_controller_V1-SlotHoles.TXT]
+   Generated File[HYPNOSIA_controller_V1.LDP]
+   Generated File[HYPNOSIA_controller_V1.DRR]
+
+
+Files Generated   : 4
+Documents Printed : 0
+
+Finished Output Generation At 12:23:39 On 18.06.2020
