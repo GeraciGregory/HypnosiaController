@@ -5,6 +5,7 @@
 #include "Events/evdone.h"
 #include "Events/evplus.h"
 #include "Events/evminus.h"
+#include "Events/evrstpos.h"
 
 //Constructor
 Controller::Controller(int repeatInterval)
@@ -13,6 +14,10 @@ Controller::Controller(int repeatInterval)
     _currentState = STATE_INITIAL;
 
     countDown = new CountDown(this);
+
+    this->lblProcValue = 0;
+    this->lblClockValue = 0;
+    this->lblWatchPtrValue = 0;
 }
 
 //Desctructor
@@ -31,8 +36,18 @@ void Controller::initializeRelation(Data *data, View* view)
     connect(pView->anim1, SIGNAL(clicked()),this,SLOT(onButtonAnim1Clicked()));
     connect(pView->plusBtn, SIGNAL(clicked()),this,SLOT(onButtonPlusClicked()));
     connect(pView->minusBtn, SIGNAL(clicked()),this,SLOT(onButtonMinusClicked()));
+    connect(pView->resetPosition, SIGNAL(clicked()),this,SLOT(onButtonRstPosClicked()));
+
+    connect(pView->btnPlusProc, SIGNAL(clicked()),this,SLOT(onBtnPlusProcClicked()));
+    connect(pView->btnMinusProc, SIGNAL(clicked()),this,SLOT(onBtnMinusProcClicked()));
+    connect(pView->btnPlusClock, SIGNAL(clicked()),this,SLOT(onBtnPlusClockClicked()));
+    connect(pView->btnMinusClock, SIGNAL(clicked()),this,SLOT(onBtnMinusClockClicked()));
+    connect(pView->btnPlusWatchPtr, SIGNAL(clicked()),this,SLOT(onBtnPlusWatchPtrClicked()));
+    connect(pView->btnMinusWatchPtr, SIGNAL(clicked()),this,SLOT(onBtnMinusWatchPtrClicked()));
 }
 
+//**********************************************************************
+// SLOTS
 void Controller::onButtonCntDownClicked()
 {
     GEN(evCntDown());
@@ -53,6 +68,68 @@ void Controller::onButtonMinusClicked()
     GEN(evMinus());
 }
 
+void Controller::onButtonRstPosClicked()
+{
+    GEN(evRstPos());
+}
+
+
+
+void Controller::onBtnPlusProcClicked()
+{
+    if(lblProcValue < pData->getNbrOfProcessor()-1)
+    {
+        lblProcValue++;
+    }
+    pView->lbProcessor->setText("Processor: " + QString::number(lblProcValue));
+}
+
+void Controller::onBtnMinusProcClicked()
+{
+    if(lblProcValue > 0)
+    {
+        lblProcValue--;
+    }
+    pView->lbProcessor->setText("Processor: " + QString::number(lblProcValue));
+}
+
+void Controller::onBtnPlusClockClicked()
+{
+    if(lblClockValue < NBR_CLOCK_PER_PROCESSOR-1)
+    {
+        lblClockValue++;
+    }
+    pView->lbClock->setText("Clock: " + QString::number(lblClockValue));
+}
+
+void Controller::onBtnMinusClockClicked()
+{
+    if(lblClockValue > 0)
+    {
+        lblClockValue--;
+    }
+    pView->lbClock->setText("Clock: " + QString::number(lblClockValue));
+}
+
+void Controller::onBtnPlusWatchPtrClicked()
+{
+    if(lblWatchPtrValue < pData->getProcessor(0)->getClock(0)->getNbrOfWatchPointer()-1)
+    {
+        lblWatchPtrValue++;
+    }
+    pView->lbWatchPointer->setText("Watch Ptr: " + QString::number(lblWatchPtrValue));
+}
+
+void Controller::onBtnMinusWatchPtrClicked()
+{
+    if(lblWatchPtrValue > 0)
+    {
+        lblWatchPtrValue--;
+    }
+    pView->lbWatchPointer->setText("Watch Ptr: " + QString::number(lblWatchPtrValue));
+}
+//**********************************************************************
+// state-machine
 XFEventStatus Controller::processEvent()
 {
     eEventStatus eventStatus = XFEventStatus::Unknown;
@@ -112,6 +189,12 @@ XFEventStatus Controller::processEvent()
             _currentState = STATE_MINUS;
             eventStatus = XFEventStatus::Consumed;
        }
+       if(getCurrentEvent()->getEventType() == XFEvent::Event &&
+               getCurrentEvent()->getId() == EventId::evRstPos)
+       {
+            _currentState = STATE_RSTPOS;
+            eventStatus = XFEventStatus::Consumed;
+       }
        break;
 
    case STATE_CNTDOWN:
@@ -142,6 +225,15 @@ XFEventStatus Controller::processEvent()
        break;
 
    case STATE_MINUS:
+       if(getCurrentEvent()->getEventType() == XFEvent::Event &&
+               getCurrentEvent()->getId() == EventId::evDone)
+       {
+            _currentState = STATE_WAIT;
+            eventStatus = XFEventStatus::Consumed;
+       }
+       break;
+
+   case STATE_RSTPOS:
        if(getCurrentEvent()->getEventType() == XFEvent::Event &&
                getCurrentEvent()->getId() == EventId::evDone)
        {
@@ -193,18 +285,20 @@ XFEventStatus Controller::processEvent()
 
         case STATE_PLUS:
             if(_oldState == STATE_WAIT)
-            {
+            {        
                 //Incement position
-                pData->getProcessor(pView->cbProcessor->currentIndex())
-                        ->getClock(pView->cbClock->currentIndex())
-                        ->getWatchPointer(pView->cbWatchPointer->currentIndex())
+                pData->getProcessor(lblProcValue)
+                        ->getClock(lblClockValue)
+                        ->getWatchPointer(lblWatchPtrValue)
                         ->incrementPosition();
                 //Write on SPI
-                pData->writeSPI(pView->cbProcessor->currentIndex(),
-                                pView->cbClock->currentIndex(),
-                                pView->cbWatchPointer->currentIndex());
+                pData->writeSPI(lblProcValue,
+                                lblClockValue,
+                                lblWatchPtrValue);
+
                 //Trigger
-                pData->triggerWriteSPI(pView->cbProcessor->currentIndex());
+                pData->triggerWriteSPI(lblProcValue);
+
                 GEN(evDone());
             }
             break;
@@ -212,17 +306,33 @@ XFEventStatus Controller::processEvent()
         case STATE_MINUS:
             if(_oldState == STATE_WAIT)
             {
-                //Decrement position
-                pData->getProcessor(pView->cbProcessor->currentIndex())
-                        ->getClock(pView->cbClock->currentIndex())
-                        ->getWatchPointer(pView->cbWatchPointer->currentIndex())
+                //Incement position
+                pData->getProcessor(lblProcValue)
+                        ->getClock(lblClockValue)
+                        ->getWatchPointer(lblWatchPtrValue)
                         ->decrementPosition();
                 //Write on SPI
-                pData->writeSPI(pView->cbProcessor->currentIndex(),
-                                pView->cbClock->currentIndex(),
-                                pView->cbWatchPointer->currentIndex());
+                pData->writeSPI(lblProcValue,
+                                lblClockValue,
+                                lblWatchPtrValue);
                 //Trigger
-                pData->triggerWriteSPI(pView->cbProcessor->currentIndex());
+                pData->triggerWriteSPI(lblProcValue);
+                GEN(evDone());
+            }
+            break;
+
+        case STATE_RSTPOS:
+            if(_oldState == STATE_WAIT)
+            {
+                //Reset position 0
+                pData->getProcessor(lblProcValue)
+                        ->getClock(lblClockValue)
+                        ->getWatchPointer(lblWatchPtrValue)
+                        ->resetPositionZero();
+                //Write on SPI for reset position zero
+                pData->resetPosZeroSPI(lblProcValue,
+                                lblClockValue,
+                                lblWatchPtrValue);
                 GEN(evDone());
             }
             break;

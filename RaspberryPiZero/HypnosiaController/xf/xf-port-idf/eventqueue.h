@@ -9,7 +9,6 @@
 #include <QMutex>
 #include <QWaitCondition>
 #include <QQueue>
-//#include "xf-core/interface/eventqueue.h"
 #include "xf/xf-core/interface/eventqueue.h"
 
 /** @ingroup port_idf_qt

@@ -12,6 +12,7 @@ public:
 
     void setNbrWatchPointer(int nbr);
     int getNbrWatchPointer();
+    int getNbrOfWatchPointer();
     WatchPointer* getWatchPointer(int index);
 
 private:

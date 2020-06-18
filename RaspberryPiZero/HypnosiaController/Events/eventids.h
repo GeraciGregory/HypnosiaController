@@ -22,7 +22,8 @@ public:
         evAnim1 = 3,
         evDone = 4,
         evPlus = 5,
-        evMinus = 6
+        evMinus = 6,
+        evRstPos = 7
 	} eEventId;
 };
 

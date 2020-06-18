@@ -6,12 +6,18 @@ WatchPointer::WatchPointer()
     this->nbrTurns = 0x00;
     this->actualPosition = 0x00;
     this->newPosition = 0x00;
-    this->timeMovementDuration = 0x78;
-    this->offsetStartTime = 0x22;
+    this->timeMovementDuration = 0x00;
+    this->offsetStartTime = 0x00;
 }
 
 WatchPointer::~WatchPointer()
 {
+}
+
+void WatchPointer::resetPositionZero()
+{
+    this->actualPosition = 0;
+    this->newPosition = 0;
 }
 
 void WatchPointer::incrementPosition()

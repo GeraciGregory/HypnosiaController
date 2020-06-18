@@ -9,9 +9,7 @@
  *  @{
  */
 
-//#include "xf-core/interface/resourcefactory.h"
 #include "xf/xf-core/interface/resourcefactory.h"
-//#include "xf-core/interface/dispatcher.h"
 #include "xf/xf-core/interface/dispatcher.h"
 
 /**

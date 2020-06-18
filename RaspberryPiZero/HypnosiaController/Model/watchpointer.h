@@ -10,6 +10,8 @@ public:
     WatchPointer();
     ~WatchPointer();
 
+    void resetPositionZero();
+
     void incrementPosition();
     void decrementPosition();
 

@@ -4,15 +4,15 @@
 #include "View/observer.h"
 #include "processor.h"
 #include <iostream>
-#include <QVector>
 using namespace std;
-//#include "wiringPiSPI.h"
+#include "wiringPiSPI.h"
+#include "wiringPiSPI.h"
 
 #define NBR_PROCESSOR           1
 #define NBR_LINE_OF_PROCESSOR   1
 #define NBR_COLUMN_OF_PROCESSOR 1
-#define CHANNEL                 1
-#define SPI_SPEED               500000  //500'000Hz to 32'000'000Hz
+#define CHANNEL                 0
+#define SPI_SPEED               3200000  //500'000Hz to 32'000'000Hz
 #define MAX_FRAME_SIZE          95      // 0x6F - 0x10 = 95d
 #define NBR_REGISTER_PER_WATCHPTR 4
 
@@ -36,7 +36,10 @@ public:
     void triggerWriteSPI(void);                         //Trigger the new values for each processor
     void triggerWriteSPI(int iProc);                    //Trigger the new values for one processor
 
+    void resetPosZeroSPI(int iProc, int iClock, int iWatchPtr);
+
     Processor* getProcessor(int index);
+    int getNbrOfProcessor();
     void setPosition(bool incr, int proc, int clk, int watchPtr);
 
 private:

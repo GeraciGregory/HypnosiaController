@@ -16,7 +16,7 @@ Data::~Data()
 
 void Data::initializeSPI()
 {
-    //fd = wiringPiSPISetup(CHANNEL, SPI_SPEED);
+    fd = wiringPiSPISetup(CHANNEL, SPI_SPEED);
     cout << "SPI initialized" << endl;
 }
 
@@ -31,7 +31,8 @@ void Data::writeSPI(void)
 void Data::writeSPI(int iProc)
 {
     //14 = 1 + 1 + 12
-    QVector<char> frame(14, 0x00);
+    //QVector<char> frame(14, 0x00);
+    unsigned char frame[14];
     char configBit = 0x00;
 
     cout << "Processor : " << iProc << endl;
@@ -39,7 +40,7 @@ void Data::writeSPI(int iProc)
     for(int i=0; i<NBR_CLOCK_PER_PROCESSOR; i++)
     {
         //Processor address
-        frame[0] = (iProc << 1) + configBit;
+        frame[0] = (iProc << 2) + configBit;
         //Clock address
         frame[1] = i;
         for(int x=0; x< MAX_WATCHPOINTER; x++)
@@ -50,33 +51,32 @@ void Data::writeSPI(int iProc)
             frame[4+(x*4)] = processor[iProc]->getClock(i)->getWatchPointer(x)->getTimeMovementDuration();
             frame[5+(x*4)] = processor[iProc]->getClock(i)->getWatchPointer(x)->getOffsetStartTime();
         }
-        //wiringPiSPIDataRW(CHANNEL, frame, 14); //14 = 1+1+12
+
         cout << "Clock : " << i << endl;
         for(int y=0; y<14; y++)
         {
-            cout << hex << +frame[y] << ", " ;
+            cout << hex << (int)frame[y] << ", " ;
         }
         cout << endl;
-
-
-        frame.fill(0x00);
     }
     cout << endl;
+    wiringPiSPIDataRW(CHANNEL, frame, 14); //14 = 1+1+12
 }
 //Update all watch pointer of one clock of one processor
 void Data::writeSPI(int iProc, int iClock)
 {
     cout << iProc << iClock << endl;
 }
+
 //Update one watch pointer of one clock of one processor
 void Data::writeSPI(int iProc, int iClock, int iWatchPtr)
 {
     //6 = 1 + 1 + 4
-    QVector<char> frame(6, 0x00);
+    unsigned char frame[6];
     char configBit = 0x00;
 
     //Processor address
-    frame[0] = (iProc << 1) + configBit;
+    frame[0] = (iProc << 2) + configBit;
     //Clock address
     frame[1] = iClock;
     frame[2] = (processor[iProc]->getClock(iClock)->getWatchPointer(iWatchPtr)->getClockWise()<<3) +
@@ -85,18 +85,41 @@ void Data::writeSPI(int iProc, int iClock, int iWatchPtr)
     frame[4] = processor[iProc]->getClock(iClock)->getWatchPointer(iWatchPtr)->getTimeMovementDuration();
     frame[5] = processor[iProc]->getClock(iClock)->getWatchPointer(iWatchPtr)->getOffsetStartTime();
 
-    //wiringPiSPIDataRW(CHANNEL, frame, 6); //6 = 1+1+4
+
     cout << "Processor : " << iProc << endl;
     cout << "Clock : " << iClock << endl;
     cout << "Watch pointer : " << iWatchPtr << endl;
     for(int y=0; y<6; y++)
     {
-        cout << hex << +frame[y] << ", " ;
+        cout << hex << (int)frame[y] << ", " ;
     }
     cout << endl;
     cout << endl;
+    wiringPiSPIDataRW(CHANNEL, frame, 6); //6 = 1+1+4
+}
 
-    frame.fill(0x00);
+void Data::resetPosZeroSPI(int iProc, int iClock, int iWatchPtr)
+{
+    //3 = 1 + 1 + 1
+    unsigned char frame[3];
+    char configBit = 0x02;
+
+    //Processor address
+    frame[0] = (iProc << 2) + configBit;
+    //Clock address
+    frame[1] = iClock;
+    frame[2] = iWatchPtr;
+
+    cout << "Processor : " << iProc << endl;
+    cout << "Clock : " << iClock << endl;
+    cout << "Watch pointer : " << iWatchPtr << endl;
+    for(int y=0; y<3; y++)
+    {
+        cout << hex << (int)frame[y] << ", " ;
+    }
+    cout << endl;
+    cout << endl;
+    wiringPiSPIDataRW(CHANNEL, frame, 3); //3 = 1+1+1
 }
 
 void Data::writeSPIConfig()
@@ -116,28 +139,35 @@ void Data::triggerWriteSPI()
 
 void Data::triggerWriteSPI(int iProc)
 {
-    QVector<char> frame(2, 0x00);
+
+    //QVector<char> frame(2, 0x00);
+    unsigned char frame[2];
     char configBit = 0x01;  //Config frame
     char trigger = 0x01;
 
-    frame[0] = (iProc << 1) + configBit;
+    frame[0] = (iProc << 2) + configBit;
     frame[1] = (trigger<<4);
 
-    //wiringPiSPIDataRW(CHANNEL, frame, 6); //6 = 1+1+4
+
     cout << "Processor : " << iProc << endl;
     for(int y=0; y<2; y++)
     {
-        cout << hex << +frame[y] << ", " ;
+        cout << hex << (int)frame[y] << ", " ;
     }
     cout << endl;
     cout << endl;
+    wiringPiSPIDataRW(CHANNEL, frame, 2); //2 = 1+1
 
-    frame.fill(0x00);
 }
 
 Processor* Data::getProcessor(int index)
 {
     return processor[index];
+}
+
+int Data::getNbrOfProcessor()
+{
+    return NBR_PROCESSOR;
 }
 
 //Initialize relation

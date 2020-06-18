@@ -1,7 +1,6 @@
 #ifndef EVANIM1_H
 #define EVANIM1_H
 
-//#include "xf-core/customevent.h"
 #include "xf/xf-core/customevent.h"
 #include "eventids.h"
 

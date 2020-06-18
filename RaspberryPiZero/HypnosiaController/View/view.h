@@ -4,11 +4,11 @@
 #include <QString>
 #include <QWidget>
 #include "Controller/controller.h"
-#include "Button/button.h"
-#include "Button/combobox.h"
-#include "Button/label.h"
 #include "observer.h"
-
+#include <QComboBox>
+#include <QPushButton>
+#include <QLabel>
+#include <QObject>
 
 class Button;
 class ComboBox;
@@ -17,10 +17,10 @@ class Controller;
 
 class View: public QWidget, public Observer
 {    
-    //Q_OBJECT  //Used for signals and slots
+    Q_OBJECT  //Used for signals and slots
 
 public:
-    View(int x,int y,int width,int height,QString title);
+    View(int x,int y,int width,int height,QString title, QWidget* parent=0);
     //View();
     ~View();
     void initializeRelation(Controller* controller);
@@ -28,16 +28,26 @@ public:
     void changed();
     void stop();
 
-    Button* countDown;
-    Button* anim1;
-    Button* plusBtn;
-    Button* minusBtn;
-    ComboBox* cbProcessor;
-    Label* lbProcessor;
-    ComboBox* cbClock;
-    Label* lbClock;
-    ComboBox* cbWatchPointer;
-    Label* lbWatchPointer;
+    QPushButton* countDown;
+    QPushButton* anim1;
+    QPushButton* plusBtn;
+    QPushButton* minusBtn;
+    QPushButton* resetPosition;
+
+    QPushButton* btnPlusProc;
+    QPushButton* btnMinusProc;
+    QPushButton* btnPlusClock;
+    QPushButton* btnMinusClock;
+    QPushButton* btnPlusWatchPtr;
+    QPushButton* btnMinusWatchPtr;
+
+
+    QLabel* lbProcessor;
+    QLabel* lbClock;
+    QLabel* lbWatchPointer;
+
+public slots:
+    void onBoxChanged();
 
 private:
     Controller* pController;

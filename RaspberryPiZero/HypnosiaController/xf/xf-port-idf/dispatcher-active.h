@@ -5,11 +5,8 @@
 
 #if (USE_XF_DISPATCHER_ACTIVE_DEFAULT_IMPLEMENTATION != 0)
 
-//#include "xf-core/interface/dispatcher.h"
 #include "xf/xf-core/interface/dispatcher.h"
-//#include "xf-core/interface/thread.h"
 #include "xf/xf-core/interface/thread.h"
-//#include "xf-core/interface/mutex.h"
 #include "xf/xf-core/interface/mutex.h"
 
 /*

@@ -5,9 +5,8 @@
 //Constructor
 Factory::Factory()
 {
-    //int screenWidth = QApplication::desktop()->width();
-    //int screenHeight = QApplication::desktop()->height();
-    view = new View(300,500,300,200,"HYPNOSIA Controller");
+    view = new View(300,500,300,220,"HYPNOSIA Controller");
+    view->show();
     controller = new Controller(1000);
     data = new Data();   
 }

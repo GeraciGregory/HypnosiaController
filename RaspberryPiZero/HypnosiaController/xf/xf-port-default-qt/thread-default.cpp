@@ -7,8 +7,7 @@
 #include "thread-default.h"
 
 #if !defined(XFTHREAD_DEFAULT_STACK_SIZE)
-    //#define XFTHREAD_DEFAULT_STACK_SIZE	256 //Used for 256MB stack size
-    #define XFTHREAD_DEFAULT_STACK_SIZE	64 //Used for 64MB stack size
+    #define XFTHREAD_DEFAULT_STACK_SIZE	256000 //! The value must be sufficiently large !
 #endif
 
 XFThreadDefault::XFThreadDefault(interface::XFThreadEntryPointProvider * pProvider,
@@ -44,6 +43,7 @@ void XFThreadDefault::run()
 void XFThreadDefault::start()
 {
     QThread::start();
+    QThread::start();
 }
 
 void XFThreadDefault::stop()
@@ -67,7 +67,6 @@ void XFThreadDefault::setPriority(XFThreadPriority priority)
     default:
         break;
     }
-
     QThread::setPriority(prio);
 }
 

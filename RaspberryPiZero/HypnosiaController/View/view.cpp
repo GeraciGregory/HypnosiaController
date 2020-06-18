@@ -1,7 +1,8 @@
 #include "view.h"
 
 //Constructor
-View::View(int x,int y,int width,int height,QString title)
+View::View(int x,int y,int width,int height,QString title, QWidget* parent)
+    : QWidget(parent)
 {
     this->x = x;
     this->y = y;
@@ -10,27 +11,35 @@ View::View(int x,int y,int width,int height,QString title)
     this->title = title;
 
     //BUTTONS
-    countDown = new Button(this);
-    anim1 = new Button(this);
-    plusBtn = new Button(this);
-    minusBtn = new Button(this);
-    //COMBOBOXS
-    cbProcessor = new ComboBox(this);
-    cbClock = new ComboBox(this);
-    cbWatchPointer = new ComboBox(this);
+    countDown = new QPushButton(this);
+    anim1 = new QPushButton(this);
+    plusBtn = new QPushButton(this);
+    minusBtn = new QPushButton(this);
+    resetPosition = new QPushButton(this);
+
+    btnPlusProc = new QPushButton(this);
+    btnMinusProc = new QPushButton(this);
+    btnPlusClock = new QPushButton(this);
+    btnMinusClock = new QPushButton(this);
+    btnPlusWatchPtr = new QPushButton(this);
+    btnMinusWatchPtr = new QPushButton(this);
     //LABELS
-    lbProcessor = new Label(this);
-    lbClock = new Label(this);
-    lbWatchPointer = new Label(this);
+    lbProcessor = new QLabel(this);
+    lbClock = new QLabel(this);
+    lbWatchPointer = new QLabel(this);
 
     setupUI();
+}
+
+void View::onBoxChanged()
+{
+    cout << "Test" << endl;
 }
 
 
 //Desctructor
 View::~View()
 {
-
 }
 
 //Initialize relation
@@ -42,42 +51,43 @@ void View::initializeRelation(Controller *controller)
 //Setup User Interface
 void View::setupUI()
 {
-    this->setWindowTitle(this->title);
     this->setGeometry(x,y,width,height);
-    this->show();
+    this->setWindowTitle(this->title);
+    //this->show();
 
     //BUTTONS
-    this->countDown->setText("Countdown");
-    this->countDown->setGeometry(15,30,120,30);
-    this->anim1->setText("Animation 1");
-    this->anim1->setGeometry(165,30,120,30);
-    this->plusBtn->setText("+");
-    this->plusBtn->setGeometry(50,80,50,50);
-    this->minusBtn->setText("-");
-    this->minusBtn->setGeometry(50,130,50,50);
-    //COMBOBOX
-    this->cbProcessor->setGeometry(165,80,50,20);
-    for(int i=0; i<14; i++)
-    {
-        this->cbProcessor->addItem(QString::number(i));
-    }
-    this->cbClock->setGeometry(165,120,50,20);
-    for(int i=0; i<6; i++)
-    {
-        this->cbClock->addItem(QString::number(i));
-    }
-    this->cbWatchPointer->setGeometry(165,160,50,20);
-    for(int i=0; i<3; i++)
-    {
-        this->cbWatchPointer->addItem(QString::number(i));
-    }
+    countDown->setText("Countdown");
+    countDown->setGeometry(15,10,120,30);
+    anim1->setText("Animation 1");
+    anim1->setGeometry(165,10,120,30);
+    plusBtn->setText("+");
+    plusBtn->setGeometry(50,70,50,50);
+    minusBtn->setText("-");
+    minusBtn->setGeometry(50,120,50,50);
+    resetPosition->setText("RESET POSITION");
+    resetPosition->setGeometry(15,190,270,20);
+
+    btnPlusProc->setText("+");
+    btnPlusProc->setGeometry(145,70,20,20);
+    btnMinusProc->setText("-");
+    btnMinusProc->setGeometry(125,70,20,20);
+
+    btnPlusClock->setText("+");
+    btnPlusClock->setGeometry(145,110,20,20);
+    btnMinusClock->setText("-");
+    btnMinusClock->setGeometry(125,110,20,20);
+
+    btnPlusWatchPtr->setText("+");
+    btnPlusWatchPtr->setGeometry(145,150,20,20);
+    btnMinusWatchPtr->setText("-");
+    btnMinusWatchPtr->setGeometry(125,150,20,20);
     //LABELS
-    this->lbProcessor->setGeometry(220,80,50,20);
-    this->lbProcessor->setText("Processor");
-    this->lbClock->setGeometry(220,120,50,20);
-    this->lbClock->setText("Clock");
-    this->lbWatchPointer->setGeometry(220,160,50,20);
-    this->lbWatchPointer->setText("WatchPtr");
+    lbProcessor->setGeometry(170,70,100,20);
+    lbProcessor->setText("Processor: 0");
+    lbClock->setGeometry(170,110,100,20);
+    lbClock->setText("Clock: 0");
+    lbWatchPointer->setGeometry(170,150,100,20);
+    lbWatchPointer->setText("Watch Ptr: 0");
 }
 
 //Update view

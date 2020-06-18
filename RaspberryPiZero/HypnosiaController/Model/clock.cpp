@@ -13,3 +13,8 @@ WatchPointer* Clock::getWatchPointer(int index)
 {
     return watchPointer[index];
 }
+
+int Clock::getNbrOfWatchPointer()
+{
+    return MAX_WATCHPOINTER;
+}

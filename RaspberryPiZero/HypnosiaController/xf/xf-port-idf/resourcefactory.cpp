@@ -3,12 +3,9 @@
 #if (USE_XF_PORT_IDF_QT_RESOURCE_FACTORY_IMPLEMENTATION != 0)
 
 #include <QtGlobal>
-//#include "xf-port-default-qt/thread-default.h"
 #include "xf/xf-port-default-qt/thread-default.h"
 #include "dispatcher-active.h"
-//#include "xf-core/interface/mutex.h"
 #include "xf/xf-core/interface/mutex.h"
-//#include "xf-core/interface/resourcefactory.h"
 #include "xf/xf-core/interface/resourcefactory.h"
 #include "resourcefactory.h"
 

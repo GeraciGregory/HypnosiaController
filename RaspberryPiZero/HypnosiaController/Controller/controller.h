@@ -31,6 +31,10 @@ private:
     View* pView;
     CountDown* countDown;
 
+    int lblProcValue;
+    int lblClockValue;
+    int lblWatchPtrValue;
+
 protected:
     virtual XFEventStatus processEvent();								///< Remplementation from XFBehavior
 
@@ -41,6 +45,14 @@ public slots:
     void onButtonAnim1Clicked();
     void onButtonPlusClicked();
     void onButtonMinusClicked();
+    void onButtonRstPosClicked();
+
+    void onBtnPlusProcClicked();
+    void onBtnMinusProcClicked();
+    void onBtnPlusClockClicked();
+    void onBtnMinusClockClicked();
+    void onBtnPlusWatchPtrClicked();
+    void onBtnMinusWatchPtrClicked();
 
 protected:
     /**
@@ -55,7 +67,8 @@ protected:
         STATE_CNTDOWN = 3,
         STATE_ANIM1 = 4,
         STATE_PLUS = 5,
-        STATE_MINUS = 6
+        STATE_MINUS = 6,
+        STATE_RSTPOS = 7
     } eMainState;
 
     eMainState _currentState;		///< Attribute indicating currently active state

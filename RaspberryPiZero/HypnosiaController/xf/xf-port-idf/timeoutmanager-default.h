@@ -6,11 +6,8 @@
 
 #if (USE_XF_TIMEOUTMANAGER_DEFAULT_IMPLEMENTATION != 0)
 
-//#include "xf-core/interface/timeoutmanager.h"
 #include "xf/xf-core/interface/timeoutmanager.h"
-//#include "xf-core/timeout.h"
 #include "xf/xf-core/timeout.h"
-//#include "xf-core/interface/mutex.h"
 #include "xf/xf-core/interface/mutex.h"
 
 /** @ingroup port_default
