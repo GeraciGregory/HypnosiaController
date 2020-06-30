@@ -1,0 +1,8 @@
+event.h:42:5:XFEvent::XFEvent(XFEvent::XFEventType, int, interface::XFReactive*)	24	static
+event.h:43:13:XFEvent::~XFEvent()	16	static
+event.h:43:13:virtual XFEvent::~XFEvent()	16	static
+event.h:64:18:virtual bool XFEvent::deleteAfterConsume() const	16	static
+initialevent.cpp:3:1:XFInitialEvent::XFInitialEvent()	16	static
+initialevent.cpp:8:6:virtual bool XFInitialEvent::deleteAfterConsume() const	16	static
+initialevent.h:16:7:XFInitialEvent::~XFInitialEvent()	16	static
+initialevent.h:16:7:virtual XFInitialEvent::~XFInitialEvent()	16	static

@@ -1,0 +1,10 @@
+event.h:42:5:XFEvent::XFEvent(XFEvent::XFEventType, int, interface::XFReactive*)	24	static
+event.h:43:13:XFEvent::~XFEvent()	16	static
+event.h:43:13:virtual XFEvent::~XFEvent()	16	static
+event.h:62:16:int XFEvent::getId() const	16	static
+event.h:64:18:virtual bool XFEvent::deleteAfterConsume() const	16	static
+timeout.cpp:3:1:XFTimeout::XFTimeout(int, int, interface::XFReactive*)	24	static
+timeout.cpp:10:6:bool XFTimeout::operator==(const XFTimeout&) const	24	static
+timeout.cpp:16:6:virtual bool XFTimeout::deleteAfterConsume() const	16	static
+timeout.h:27:7:XFTimeout::~XFTimeout()	16	static
+timeout.h:27:7:virtual XFTimeout::~XFTimeout()	16	static

@@ -1,0 +1,5 @@
+gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
+Clock.cpp:3:1:Clock::Clock(bool)	32	static
+Clock.cpp:18:1:Clock::~Clock()	16	static
+Clock.cpp:18:1:virtual Clock::~Clock()	16	static
+Clock.cpp:21:15:WatchPointer* Clock::getWatchPointer(int)	16	static

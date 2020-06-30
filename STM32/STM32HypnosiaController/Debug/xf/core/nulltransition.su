@@ -1,0 +1,8 @@
+event.h:42:5:XFEvent::XFEvent(XFEvent::XFEventType, int, interface::XFReactive*)	24	static
+event.h:43:13:XFEvent::~XFEvent()	16	static
+event.h:43:13:virtual XFEvent::~XFEvent()	16	static
+event.h:64:18:virtual bool XFEvent::deleteAfterConsume() const	16	static
+nulltransition.cpp:3:1:XFNullTransition::XFNullTransition(interface::XFReactive*)	16	static
+nulltransition.cpp:8:6:virtual bool XFNullTransition::deleteAfterConsume() const	16	static
+nulltransition.h:19:7:XFNullTransition::~XFNullTransition()	16	static
+nulltransition.h:19:7:virtual XFNullTransition::~XFNullTransition()	16	static

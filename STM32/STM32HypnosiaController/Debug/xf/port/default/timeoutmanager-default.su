@@ -1,0 +1,89 @@
+new:168:14:void* operator new(std::size_t, void*)	16	static
+gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
+event.h:43:13:XFEvent::~XFEvent()	16	static
+event.h:43:13:virtual XFEvent::~XFEvent()	16	static
+event.h:55:36:interface::XFReactive* XFEvent::getBehavior() const	16	static
+event.h:64:18:virtual bool XFEvent::deleteAfterConsume() const	16	static
+timeoutmanager.h:35:18:virtual void interface::XFTimeoutManager::initialize(int32_t)	16	static
+timeoutmanager.h:43:21:virtual int32_t interface::XFTimeoutManager::getTickInterval() const	16	static
+timeoutmanager.h:78:5:interface::XFTimeoutManager::XFTimeoutManager()	16	static
+timeout.h:49:16:int XFTimeout::getRelTicks() const	16	static
+timeout.h:50:17:void XFTimeout::substractFromRelTicks(int)	16	static
+timeout.h:51:17:void XFTimeout::addToRelTicks(int)	16	static
+timeoutmanager-default.cpp:14:31:static interface::XFTimeoutManager* interface::XFTimeoutManager::getInstance()	8	static
+timeoutmanager-default.cpp:21:36:void __tcf_0()	8	static
+timeoutmanager-default.cpp:19:31:static interface::XFTimeoutManager* XFTimeoutManagerDefault::getInstance()	8	static
+timeoutmanager.h:27:13:interface::XFTimeoutManager::~XFTimeoutManager()	16	static
+timeoutmanager.h:27:13:virtual interface::XFTimeoutManager::~XFTimeoutManager()	16	static
+stl_list.h:733:7:std::__cxx11::list<_Tp, _Alloc>::~list() [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+timeoutmanager-default.cpp:25:1:XFTimeoutManagerDefault::XFTimeoutManagerDefault()	16	static
+timeoutmanager-default.cpp:32:1:XFTimeoutManagerDefault::~XFTimeoutManagerDefault()	16	static
+timeoutmanager-default.cpp:32:1:virtual XFTimeoutManagerDefault::~XFTimeoutManagerDefault()	16	static
+timeoutmanager-default.cpp:36:6:virtual void XFTimeoutManagerDefault::start()	16	static
+timeoutmanager-default.cpp:47:6:virtual void XFTimeoutManagerDefault::scheduleTimeout(int32_t, int32_t, interface::XFReactive*)	40	static
+timeoutmanager-default.cpp:57:6:virtual void XFTimeoutManagerDefault::unscheduleTimeout(int32_t, interface::XFReactive*)	80	static
+timeoutmanager-default.cpp:95:6:virtual void XFTimeoutManagerDefault::tick()	48	static
+timeoutmanager-default.cpp:156:6:virtual void XFTimeoutManagerDefault::addTimeout(XFTimeout*)	64	static
+timeoutmanager-default.cpp:221:6:void XFTimeoutManagerDefault::returnTimeout(XFTimeout*)	16	static
+stl_list.h:589:7:std::__cxx11::list<_Tp, _Alloc>::list() [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+stl_list.h:323:14:std::__cxx11::_List_base<XFTimeout*, std::allocator<XFTimeout*> >::_List_impl::~_List_impl()	16	static
+stl_list.h:441:7:std::__cxx11::_List_base<_Tp, _Alloc>::~_List_base() [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+stl_list.h:851:7:std::__cxx11::list<_Tp, _Alloc>::iterator std::__cxx11::list<_Tp, _Alloc>::begin() [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	24	static
+stl_list.h:869:7:std::__cxx11::list<_Tp, _Alloc>::iterator std::__cxx11::list<_Tp, _Alloc>::end() [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	24	static
+stl_list.h:194:7:bool std::_List_iterator< <template-parameter-1-1> >::operator!=(const _Self&) const [with _Tp = XFTimeout*]	16	static
+stl_list.h:152:7:_Tp& std::_List_iterator< <template-parameter-1-1> >::operator*() const [with _Tp = XFTimeout*]	16	static
+stl_list.h:160:7:std::_List_iterator< <template-parameter-1-1> >::_Self& std::_List_iterator< <template-parameter-1-1> >::operator++() [with _Tp = XFTimeout*]	16	static
+stl_list.h:227:7:std::_List_const_iterator< <template-parameter-1-1> >::_List_const_iterator(const iterator&) [with _Tp = XFTimeout*]	16	static
+list.tcc:149:5:std::__cxx11::list<_Tp, _Alloc>::iterator std::__cxx11::list<_Tp, _Alloc>::erase(std::__cxx11::list<_Tp, _Alloc>::const_iterator) [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	24	static
+stl_list.h:167:7:std::_List_iterator< <template-parameter-1-1> >::_Self std::_List_iterator< <template-parameter-1-1> >::operator++(int) [with _Tp = XFTimeout*]	24	static
+stl_list.h:961:7:bool std::__cxx11::list<_Tp, _Alloc>::empty() const [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+stl_list.h:1020:7:std::__cxx11::list<_Tp, _Alloc>::reference std::__cxx11::list<_Tp, _Alloc>::front() [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	24	static
+stl_list.h:966:7:std::__cxx11::list<_Tp, _Alloc>::size_type std::__cxx11::list<_Tp, _Alloc>::size() const [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+stl_list.h:1103:7:void std::__cxx11::list<_Tp, _Alloc>::pop_front() [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+list.tcc:100:5:std::__cxx11::list<_Tp, _Alloc>::iterator std::__cxx11::list<_Tp, _Alloc>::insert(std::__cxx11::list<_Tp, _Alloc>::const_iterator, const value_type&) [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	40	static
+stl_list.h:1067:7:void std::__cxx11::list<_Tp, _Alloc>::push_front(const value_type&) [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+stl_list.h:400:7:std::__cxx11::_List_base<_Tp, _Alloc>::_List_base() [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+allocator.h:139:7:std::allocator< <template-parameter-1-1> >::~allocator() [with _Tp = std::_List_node<XFTimeout*>]	16	static
+list.tcc:65:5:void std::__cxx11::_List_base<_Tp, _Alloc>::_M_clear() [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	32	static
+stl_list.h:143:7:std::_List_iterator< <template-parameter-1-1> >::_List_iterator(std::__detail::_List_node_base*) [with _Tp = XFTimeout*]	16	static
+stl_list.h:113:18:_Tp* std::_List_node<_Tp>::_M_valptr() [with _Tp = XFTimeout*]	16	static
+stl_list.h:1809:7:void std::__cxx11::list<_Tp, _Alloc>::_M_erase(std::__cxx11::list<_Tp, _Alloc>::iterator) [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	32	static
+stl_list.h:231:7:std::_List_const_iterator< <template-parameter-1-1> >::iterator std::_List_const_iterator< <template-parameter-1-1> >::_M_const_cast() const [with _Tp = XFTimeout*]	24	static
+stl_list.h:364:14:std::size_t std::__cxx11::_List_base<_Tp, _Alloc>::_M_node_count() const [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+move.h:73:5:constexpr _Tp&& std::forward(typename std::remove_reference<_From>::type&) [with _Tp = XFTimeout* const&]	16	static
+stl_list.h:570:2:) [with _Args = {XFTimeout* const&}; _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	40	static
+stl_list.h:354:12:void std::__cxx11::_List_base<_Tp, _Alloc>::_M_inc_size(std::size_t) [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+stl_list.h:1799:8:) [with _Args = {XFTimeout* const&}; _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	32	static
+stl_list.h:332:2:std::__cxx11::_List_base<_Tp, _Alloc>::_List_impl::_List_impl() [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+stl_list.h:448:7:void std::__cxx11::_List_base<_Tp, _Alloc>::_M_init() [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+new_allocator.h:86:7:__gnu_cxx::new_allocator<_Tp>::~new_allocator() [with _Tp = std::_List_node<XFTimeout*>]	16	static
+stl_list.h:393:7:std::__cxx11::_List_base<_Tp, _Alloc>::_Node_alloc_type& std::__cxx11::_List_base<_Tp, _Alloc>::_M_get_Node_allocator() [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+alloc_traits.h:486:2:static void std::allocator_traits<std::allocator<_Tp1> >::destroy(std::allocator_traits<std::allocator<_Tp1> >::allocator_type&, _Up*) [with _Up = XFTimeout*; _Tp = std::_List_node<XFTimeout*>]	16	static
+stl_list.h:386:7:void std::__cxx11::_List_base<_Tp, _Alloc>::_M_put_node(typename std::__cxx11::_List_base<_Tp, _Alloc>::_Node_alloc_traits::pointer) [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+aligned_buffer.h:70:7:_Tp* __gnu_cxx::__aligned_membuf<_Tp>::_M_ptr() [with _Tp = XFTimeout*]	16	static
+stl_list.h:356:12:void std::__cxx11::_List_base<_Tp, _Alloc>::_M_dec_size(std::size_t) [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+stl_list.h:114:18:const _Tp* std::_List_node<_Tp>::_M_valptr() const [with _Tp = unsigned int]	16	static
+stl_list.h:382:7:typename std::__cxx11::_List_base<_Tp, _Alloc>::_Node_alloc_traits::pointer std::__cxx11::_List_base<_Tp, _Alloc>::_M_get_node() [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+allocated_ptr.h:52:7:std::__allocated_ptr<_Alloc>::__allocated_ptr(_Alloc&, std::__allocated_ptr<_Alloc>::pointer) [with _Alloc = std::allocator<std::_List_node<XFTimeout*> >]	24	static
+allocated_ptr.h:70:7:std::__allocated_ptr<_Alloc>::~__allocated_ptr() [with _Alloc = std::allocator<std::_List_node<XFTimeout*> >]	16	static
+alloc_traits.h:474:2:) [with _Up = XFTimeout*; _Args = {XFTimeout* const&}; _Tp = std::_List_node<XFTimeout*>]	24	static
+allocated_ptr.h:78:7:std::__allocated_ptr<_Alloc>& std::__allocated_ptr<_Alloc>::operator=(std::nullptr_t) [with _Alloc = std::allocator<std::_List_node<XFTimeout*> >]	16	static
+stl_list.h:113:18:_Tp* std::_List_node<_Tp>::_M_valptr() [with _Tp = unsigned int]	16	static
+allocator.h:131:7:std::allocator< <template-parameter-1-1> >::allocator() [with _Tp = std::_List_node<XFTimeout*>]	16	static
+stl_list.h:352:12:void std::__cxx11::_List_base<_Tp, _Alloc>::_M_set_size(std::size_t) [with _Tp = XFTimeout*; _Alloc = std::allocator<XFTimeout*>]	16	static
+new_allocator.h:140:2:void __gnu_cxx::new_allocator<_Tp>::destroy(_Up*) [with _Up = XFTimeout*; _Tp = std::_List_node<XFTimeout*>]	16	static
+alloc_traits.h:461:7:static void std::allocator_traits<std::allocator<_Tp1> >::deallocate(std::allocator_traits<std::allocator<_Tp1> >::allocator_type&, std::allocator_traits<std::allocator<_Tp1> >::pointer, std::allocator_traits<std::allocator<_Tp1> >::size_type) [with _Tp = std::_List_node<XFTimeout*>]	24	static
+aligned_buffer.h:62:7:void* __gnu_cxx::__aligned_membuf<_Tp>::_M_addr() [with _Tp = XFTimeout*]	16	static
+aligned_buffer.h:74:7:const _Tp* __gnu_cxx::__aligned_membuf<_Tp>::_M_ptr() const [with _Tp = unsigned int]	16	static
+alloc_traits.h:435:7:static _Tp* std::allocator_traits<std::allocator<_Tp1> >::allocate(std::allocator_traits<std::allocator<_Tp1> >::allocator_type&, std::allocator_traits<std::allocator<_Tp1> >::size_type) [with _Tp = std::_List_node<XFTimeout*>]	16	static
+move.h:47:5:constexpr _Tp* std::__addressof(_Tp&) [with _Tp = std::allocator<std::_List_node<XFTimeout*> >]	16	static
+new_allocator.h:135:2:) [with _Up = XFTimeout*; _Args = {XFTimeout* const&}; _Tp = std::_List_node<XFTimeout*>]	32	static
+aligned_buffer.h:70:7:_Tp* __gnu_cxx::__aligned_membuf<_Tp>::_M_ptr() [with _Tp = unsigned int]	16	static
+new_allocator.h:79:7:__gnu_cxx::new_allocator<_Tp>::new_allocator() [with _Tp = std::_List_node<XFTimeout*>]	16	static
+new_allocator.h:116:7:void __gnu_cxx::new_allocator<_Tp>::deallocate(__gnu_cxx::new_allocator<_Tp>::pointer, __gnu_cxx::new_allocator<_Tp>::size_type) [with _Tp = std::_List_node<XFTimeout*>]	24	static
+aligned_buffer.h:66:7:const void* __gnu_cxx::__aligned_membuf<_Tp>::_M_addr() const [with _Tp = unsigned int]	16	static
+new_allocator.h:99:7:_Tp* __gnu_cxx::new_allocator<_Tp>::allocate(__gnu_cxx::new_allocator<_Tp>::size_type, const void*) [with _Tp = std::_List_node<XFTimeout*>]	24	static
+aligned_buffer.h:62:7:void* __gnu_cxx::__aligned_membuf<_Tp>::_M_addr() [with _Tp = unsigned int]	16	static
+new_allocator.h:129:7:__gnu_cxx::new_allocator<_Tp>::size_type __gnu_cxx::new_allocator<_Tp>::max_size() const [with _Tp = std::_List_node<XFTimeout*>]	16	static
+timeout.h:27:7:XFTimeout::~XFTimeout()	16	static
+timeout.h:27:7:virtual XFTimeout::~XFTimeout()	16	static

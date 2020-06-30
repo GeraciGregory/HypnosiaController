@@ -1,0 +1,21 @@
+event.h:49:24:XFEvent::XFEventType XFEvent::getEventType() const	16	static
+event.h:60:17:void XFEvent::setBehavior(interface::XFReactive*)	16	static
+gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
+eventstatus.h:37:5:XFEventStatus::XFEventStatus(XFEventStatus::eEventStatus)	16	static
+eventstatus.h:42:10:bool XFEventStatus::operator==(const XFEventStatus::eEventStatus&) const	16	static
+behavior.h:62:17:bool XFBehavior::hasOwnDispatcher() const	16	static
+reactive.h:49:5:constexpr interface::XFReactive::XFReactive()	16	static
+reactive.h:37:13:interface::XFReactive::~XFReactive()	16	static
+reactive.h:37:13:virtual interface::XFReactive::~XFReactive()	16	static
+behavior.cpp:11:1:XFBehavior::XFBehavior(bool)	24	static
+behavior.cpp:36:1:XFBehavior::~XFBehavior()	16	static
+behavior.cpp:36:1:virtual XFBehavior::~XFBehavior()	16	static
+behavior.cpp:41:6:virtual void XFBehavior::startBehavior()	24	static
+behavior.cpp:53:6:virtual void XFBehavior::pushEvent(XFEvent*)	16	static
+behavior.cpp:61:6:virtual bool XFBehavior::deleteOnTerminate() const	16	static
+behavior.cpp:66:6:virtual void XFBehavior::setDeleteOnTerminate(bool)	16	static
+behavior.cpp:71:31:virtual interface::XFReactive::TerminateBehavior XFBehavior::process(const XFEvent*)	32	static
+behavior.cpp:84:27:interface::XFDispatcher* XFBehavior::getDispatcher()	16	static
+behavior.cpp:89:6:void XFBehavior::setCurrentEvent(const XFEvent*)	16	static
+behavior.cpp:94:17:const XFEvent* XFBehavior::getCurrentEvent() const	16	static
+behavior.cpp:99:19:const XFTimeout* XFBehavior::getCurrentTimeout()	16	static

@@ -1,0 +1,8 @@
+event.h:42:5:XFEvent::XFEvent(XFEvent::XFEventType, int, interface::XFReactive*)	24	static
+event.h:43:13:XFEvent::~XFEvent()	16	static
+event.h:43:13:virtual XFEvent::~XFEvent()	16	static
+event.h:64:18:virtual bool XFEvent::deleteAfterConsume() const	16	static
+customevent.h:37:10:virtual bool XFCustomEvent::deleteAfterConsume() const	16	static
+customevent.cpp:3:1:XFCustomEvent::XFCustomEvent(int, interface::XFReactive*)	24	static
+customevent.h:22:7:XFCustomEvent::~XFCustomEvent()	16	static
+customevent.h:22:7:virtual XFCustomEvent::~XFCustomEvent()	16	static
