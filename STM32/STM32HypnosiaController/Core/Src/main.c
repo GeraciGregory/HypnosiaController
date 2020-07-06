@@ -29,7 +29,9 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+CAN_RxHeaderTypeDef myRxMessage;
+CAN_TxHeaderTypeDef myTxMessage;
+CAN_FilterTypeDef filterConfig;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -106,10 +108,29 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-	XF_initialize(10);
-	Factory_initialize();
-	Factory_build();
-	XF_exec();
+  filterConfig.FilterFIFOAssignment = CAN_FILTER_FIFO0;
+  filterConfig.FilterIdHigh = 14;
+  filterConfig.FilterIdLow = 0;
+  filterConfig.FilterMaskIdHigh = 0;
+  filterConfig.FilterMaskIdLow = 0;
+  filterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
+  filterConfig.FilterActivation = ENABLE;
+  if(HAL_CAN_ConfigFilter(&hcan, &filterConfig) != HAL_OK)
+  {
+	  Error_Handler();
+  }
+  if(HAL_CAN_Start(&hcan) != HAL_OK)  //Start CAN
+  {
+	  Error_Handler();
+  }
+  if(HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK)//Enable CAN interrupt
+  {
+	  Error_Handler();
+  }
+  XF_initialize(10);
+  Factory_initialize();
+  Factory_build();
+  XF_exec();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -181,11 +202,11 @@ static void MX_CAN_Init(void)
 
   /* USER CODE END CAN_Init 1 */
   hcan.Instance = CAN;
-  hcan.Init.Prescaler = 16;
+  hcan.Init.Prescaler = 3;
   hcan.Init.Mode = CAN_MODE_NORMAL;
   hcan.Init.SyncJumpWidth = CAN_SJW_1TQ;
-  hcan.Init.TimeSeg1 = CAN_BS1_1TQ;
-  hcan.Init.TimeSeg2 = CAN_BS2_1TQ;
+  hcan.Init.TimeSeg1 = CAN_BS1_13TQ;
+  hcan.Init.TimeSeg2 = CAN_BS2_2TQ;
   hcan.Init.TimeTriggeredMode = DISABLE;
   hcan.Init.AutoBusOff = DISABLE;
   hcan.Init.AutoWakeUp = DISABLE;
@@ -446,13 +467,13 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin : SW_4_Pin */
   GPIO_InitStruct.Pin = SW_4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(SW_4_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : SW_3_Pin SW_2_Pin SW_1_Pin SW_0_Pin */
   GPIO_InitStruct.Pin = SW_3_Pin|SW_2_Pin|SW_1_Pin|SW_0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LED_3_Pin LED_2_Pin M4_Am_Pin LED_1_Pin 

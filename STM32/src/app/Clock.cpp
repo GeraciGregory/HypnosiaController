@@ -12,6 +12,11 @@ Clock::Clock(bool nbrWatchPtr)
 	if(nbrWatchPtr == false)
 	{
 		delete _watchPtr[2];
+		nbrWatchPointer = 2;
+	}
+	else
+	{
+		nbrWatchPointer = 3;
 	}
 }
 
@@ -20,5 +25,17 @@ Clock::~Clock()
 
 WatchPointer* Clock::getWatchPointer(int index)
 {
-	return _watchPtr[index];
+	if(index < nbrWatchPointer)
+	{
+		return _watchPtr[index];
+	}
+	else
+	{
+		Error_Handler();
+	}
+}
+
+uint8_t Clock::getNbrWatchPointer()
+{
+	return nbrWatchPointer;
 }

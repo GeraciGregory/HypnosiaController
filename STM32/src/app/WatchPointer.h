@@ -5,8 +5,8 @@
 #include "stm32f0xx_hal.h"
 #include "xf/behavior.h"
 
-#define DELAY_ON	30	//3ms
-#define DELAY_OFF	140	//14ms
+#define DELAY_ON	30	//2.9ms
+#define DELAY_OFF	150	//13.7ms
 
 class WatchPointer : public XFBehavior
 {
@@ -14,8 +14,8 @@ public:
 	WatchPointer();
 	virtual ~WatchPointer();
 
-	void initGPIO(GPIO_TypeDef* A_Port, uint16_t A_Pin, uint16_t A_Nbr,
-					GPIO_TypeDef* B_Port, uint16_t B_Pin, uint16_t B_Nbr,
+	void initGPIO(GPIO_TypeDef* A_Port, uint16_t A_Pin,
+					GPIO_TypeDef* B_Port, uint16_t B_Pin,
 					GPIO_TypeDef* C_Port, uint16_t C_Pin);
 	void doOneStep(bool clockwise);
 
@@ -58,13 +58,16 @@ protected:
 	eMotorsState _oldState;			///< Attribute indicating currently active state
 
 private:
+	bool clockwiseStep;
+	bool counterClockwiseStep;
+
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+
 	GPIO_TypeDef* A_GPIO_Port;
 	uint16_t A_GPIO_Pin;
-	uint16_t A_Pin_Nbr;
 
 	GPIO_TypeDef* B_GPIO_Port;
 	uint16_t B_GPIO_Pin;
-	uint16_t B_Pin_Nbr;
 
 	GPIO_TypeDef* C_GPIO_Port;
 	uint16_t C_GPIO_Pin;

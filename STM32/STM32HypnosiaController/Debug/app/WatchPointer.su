@@ -3,8 +3,8 @@ event.h:49:24:XFEvent::XFEventType XFEvent::getEventType() const	16	static
 event.h:62:16:int XFEvent::getId() const	16	static
 behavior.h:71:17:void XFBehavior::scheduleTimeout(int, int)	32	static
 WatchPointer.cpp:5:1:WatchPointer::WatchPointer()	16	static
-WatchPointer.cpp:10:1:WatchPointer::~WatchPointer()	16	static
-WatchPointer.cpp:10:1:virtual WatchPointer::~WatchPointer()	16	static
-WatchPointer.cpp:13:6:void WatchPointer::initGPIO(GPIO_TypeDef*, uint16_t, uint16_t, GPIO_TypeDef*, uint16_t, uint16_t, GPIO_TypeDef*, uint16_t)	24	static
-WatchPointer.cpp:31:6:void WatchPointer::doOneStep(bool)	32	static
-WatchPointer.cpp:43:15:virtual XFEventStatus WatchPointer::processEvent()	24	static
+WatchPointer.cpp:13:1:WatchPointer::~WatchPointer()	16	static
+WatchPointer.cpp:13:1:virtual WatchPointer::~WatchPointer()	16	static
+WatchPointer.cpp:16:6:void WatchPointer::initGPIO(GPIO_TypeDef*, uint16_t, GPIO_TypeDef*, uint16_t, GPIO_TypeDef*, uint16_t)	24	static
+WatchPointer.cpp:32:6:void WatchPointer::doOneStep(bool)	32	static
+WatchPointer.cpp:44:15:virtual XFEventStatus WatchPointer::processEvent()	24	static

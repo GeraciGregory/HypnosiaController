@@ -12,15 +12,21 @@ Controller.cpp:29:6:void Controller::intitialize()	16	static
 Controller.cpp:33:6:void Controller::start()	16	static
 Controller.cpp:38:6:void Controller::onIrqSPI()	32	static
 Controller.cpp:43:6:void Controller::onIrqCAN()	32	static
-Controller.cpp:48:6:void Controller::readDIPSwitch()	16	static
-Controller.cpp:59:6:void Controller::initializeMotorsGPIO()	48	static
-Controller.cpp:128:15:virtual XFEventStatus Controller::processEvent()	40	static
-Controller.cpp:300:6:void Controller::readSPIFrame()	24	static
-Controller.cpp:338:6:void Controller::dataFrame()	32	static
-Controller.cpp:358:6:void Controller::configurationFrame()	24	static
-Controller.cpp:375:6:void Controller::broadcastConfigurationFrame()	24	static
-Controller.cpp:387:6:void Controller::resetPositionZeroFrame()	32	static
-Controller.cpp:406:6:void Controller::readSPIDataBytes(int, int)	40	static
-Controller.cpp:451:6:void Controller::readSPIConfigBytes(int)	40	static
-Controller.cpp:496:6:void Controller::readCANFrame()	16	static
-Controller.cpp:501:6:void Controller::writeCANFrame()	16	static
+Controller.cpp:49:6:void Controller::readDIPSwitch()	16	static
+Controller.cpp:60:6:void Controller::initializeMotorsGPIO()	40	static
+Controller.cpp:129:15:virtual XFEventStatus Controller::processEvent()	40	static
+Controller.cpp:321:6:void Controller::readSPIFrame()	24	static
+Controller.cpp:352:6:void Controller::dataFrameSPI()	24	static
+Controller.cpp:368:6:void Controller::configurationFrameSPI()	24	static
+Controller.cpp:384:6:void Controller::broadcastConfigurationFrameSPI()	16	static
+Controller.cpp:395:6:void Controller::resetPositionZeroFrameSPI()	32	static
+Controller.cpp:416:6:void Controller::readSPIDataBytes()	32	static
+Controller.cpp:466:6:void Controller::readSPIConfigBytes()	40	static
+Controller.cpp:514:6:void Controller::writeCANFrame()	32	static
+Controller.cpp:559:6:void Controller::readCANFrame()	24	static
+Controller.cpp:586:6:void Controller::dataFrameCAN()	24	static
+Controller.cpp:596:6:void Controller::configurationFrameCAN()	24	static
+Controller.cpp:606:6:void Controller::broadcastConfigurationFrameCAN()	16	static
+Controller.cpp:612:6:void Controller::resetPositionZeroFrameCAN()	32	static
+Controller.cpp:625:6:void Controller::readCANDataBytes()	32	static
+Controller.cpp:675:6:void Controller::readCANConfigBytes()	40	static

@@ -7,8 +7,12 @@
 
 #define NBR_CLOCK_PER_PROCESSOR 6
 #define SPI_FRAME_SIZE			11
+#define MAX_CAN_BYTES			8
 
 extern SPI_HandleTypeDef hspi1;
+extern CAN_HandleTypeDef hcan;
+extern CAN_RxHeaderTypeDef myRxMessage;
+extern CAN_TxHeaderTypeDef myTxMessage;
 
 class Controller : public XFBehavior
 {
@@ -31,21 +35,31 @@ public:
 
 	//SPI
 	void readSPIFrame();
-	void dataFrame();
-	void configurationFrame();
-	void broadcastConfigurationFrame();
-	void resetPositionZeroFrame();
-	void readSPIDataBytes(int clkAddr, int nbrBytes);
-	void readSPIConfigBytes(int nbrBytes);
+	void dataFrameSPI();
+	void configurationFrameSPI();
+	void broadcastConfigurationFrameSPI();
+	void resetPositionZeroFrameSPI();
+	void readSPIDataBytes();
+	void readSPIConfigBytes();
 
 	//CAN
 	void readCANFrame();
+	void dataFrameCAN();
+	void configurationFrameCAN();
+	void broadcastConfigurationFrameCAN();
+	void resetPositionZeroFrameCAN();
+	void readCANDataBytes();
+	void readCANConfigBytes();
 	void writeCANFrame();
 
 private:
 	Clock* _clock[NBR_CLOCK_PER_PROCESSOR];
 	uint8_t buffer_SPI_rx[SPI_FRAME_SIZE];
+	uint8_t buffer_CAN_rx[MAX_CAN_BYTES];
 	bool test;
+	uint32_t TxMailbox;
+	uint8_t bufferTest[4] = {0x00, 0x01, 0x02, 0x03};
+
 
 	//Configuration variables
 	uint8_t myAddress;
@@ -53,6 +67,9 @@ private:
 	uint8_t statusBytes;
 	uint8_t startTime;
 	uint8_t stopTime;
+
+	//Used for test
+	uint8_t i;
 
 protected:
 	virtual XFEventStatus processEvent();
