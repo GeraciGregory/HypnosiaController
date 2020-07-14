@@ -24,41 +24,78 @@ public:
 	void start();
 
 	void initializeMotorsGPIO();
+	void manageMotors();
+	void goToZeroPosition();
+	void incrementPosition(bool clockwise, int i, int x);
+	bool bestClockwise(int i, int x);
 
 	//Singleton
 	static Controller* getInstance();
 
+	//Generate events
 	void onIrqSPI();
 	void onIrqCAN();
 
 	void readDIPSwitch();
 
-	//SPI
-	void readSPIFrame();
-	void dataFrameSPI();
-	void configurationFrameSPI();
-	void broadcastConfigurationFrameSPI();
-	void resetPositionZeroFrameSPI();
-	void readSPIDataBytes();
-	void readSPIConfigBytes();
 
-	//CAN
-	void readCANFrame();
-	void dataFrameCAN();
-	void configurationFrameCAN();
-	void broadcastConfigurationFrameCAN();
-	void resetPositionZeroFrameCAN();
-	void readCANDataBytes();
-	void readCANConfigBytes();
-	void writeCANFrame();
+
+	//---------------------------------------------------------------------------------------------------------------------
+	//------------------------------------------------------------SPI------------------------------------------------------
+	//---------------------------------------------------------------------------------------------------------------------
+	//Read SPI frame
+	void SPI_readFrame();
+
+	//Frame type
+	void SPI_dataFrame();
+	void SPI_configurationFrame();
+	void SPI_broadcastConfigurationFrame();
+	void SPI_resetPositionZeroFrame();
+
+	//Two types of frame -> data frame or configuration frame
+	void SPI_readDataBytes();
+	void SPI_readConfigBytes();
+
+	//Write on registers
+	void SPI_writeDataRegister(uint8_t clkAddr, uint8_t nbrBytes);
+	void SPI_writeDataRegister_0(uint8_t clkAddr, uint8_t nbrBytes);
+	void SPI_writeDataRegister_1(uint8_t clkAddr, uint8_t nbrBytes);
+	void SPI_writeDataRegister_2(uint8_t clkAddr, uint8_t nbrBytes);
+	//---------------------------------------------------------------------------------------------------------------------
+	//------------------------------------------------------------CAN------------------------------------------------------
+	//---------------------------------------------------------------------------------------------------------------------
+	//Read CAN frame
+	void CAN_readFrame();
+
+	//Write CAN frame
+	void CAN_writeFrame();
+
+	//Frame type
+	void CAN_dataFrame();
+	void CAN_configurationFrame();
+	void CAN_broadcastConfigurationFrame();
+	void CAN_resetPositionZeroFrame();
+
+	//Two types of frame -> data frame or configuration frame
+	void CAN_readDataBytes();
+	void CAN_readConfigBytes();
+
+	//Write on registers
+	void CAN_writeDataRegister(uint8_t clkAddr, uint8_t nbrBytes);
+	void CAN_writeDataRegister_0(uint8_t clkAddr, uint8_t nbrBytes);
+	void CAN_writeDataRegister_1(uint8_t clkAddr, uint8_t nbrBytes);
+	void CAN_writeDataRegister_2(uint8_t clkAddr, uint8_t nbrBytes);
+	//---------------------------------------------------------------------------------------------------------------------
+
 
 private:
 	Clock* _clock[NBR_CLOCK_PER_PROCESSOR];
 	uint8_t buffer_SPI_rx[SPI_FRAME_SIZE];
 	uint8_t buffer_CAN_rx[MAX_CAN_BYTES];
-	bool test;
+	uint8_t test;
 	uint32_t TxMailbox;
 	uint8_t bufferTest[4] = {0x00, 0x01, 0x02, 0x03};
+	bool goToZero;
 
 
 	//Configuration variables
@@ -94,7 +131,10 @@ protected:
 		STATE_SPI = 2,
 		STATE_CAN = 3,
 		STATE_TRIGGER = 4,
-		STATE_LED = 5
+		STATE_WAIT_TRIGGER = 5,
+		STATE_GO_TO_ZERO = 6,
+		STATE_WAIT_ZERO = 7,
+		STATE_LED = 8
 	} eMainState;
 
 	eMainState _currentState;		///< Attribute indicating currently active state

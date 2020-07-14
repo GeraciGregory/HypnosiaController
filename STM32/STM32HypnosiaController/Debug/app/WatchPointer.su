@@ -1,10 +1,12 @@
 gthr-default.h:229:1:int __gthread_key_delete(__gthread_key_t)	16	static
 event.h:49:24:XFEvent::XFEventType XFEvent::getEventType() const	16	static
 event.h:62:16:int XFEvent::getId() const	16	static
+eventstatus.h:37:5:XFEventStatus::XFEventStatus(XFEventStatus::eEventStatus)	16	static
 behavior.h:71:17:void XFBehavior::scheduleTimeout(int, int)	32	static
-WatchPointer.cpp:5:1:WatchPointer::WatchPointer()	16	static
-WatchPointer.cpp:13:1:WatchPointer::~WatchPointer()	16	static
-WatchPointer.cpp:13:1:virtual WatchPointer::~WatchPointer()	16	static
-WatchPointer.cpp:16:6:void WatchPointer::initGPIO(GPIO_TypeDef*, uint16_t, GPIO_TypeDef*, uint16_t, GPIO_TypeDef*, uint16_t)	24	static
-WatchPointer.cpp:32:6:void WatchPointer::doOneStep(bool)	32	static
-WatchPointer.cpp:44:15:virtual XFEventStatus WatchPointer::processEvent()	24	static
+WatchPointer.cpp:5:1:WatchPointer::WatchPointer(uint8_t)	16	static
+WatchPointer.cpp:22:1:WatchPointer::~WatchPointer()	16	static
+WatchPointer.cpp:22:1:virtual WatchPointer::~WatchPointer()	16	static
+WatchPointer.cpp:25:6:void WatchPointer::initGPIO(GPIO_TypeDef*, uint16_t, GPIO_TypeDef*, uint16_t, GPIO_TypeDef*, uint16_t)	24	static
+WatchPointer.cpp:42:6:void WatchPointer::doOneStep(bool)	16	static
+WatchPointer.cpp:58:6:void WatchPointer::generateEvent()	40	static
+WatchPointer.cpp:86:15:virtual XFEventStatus WatchPointer::processEvent()	32	static

@@ -1,0 +1,9 @@
+event.h:43:13:XFEvent::~XFEvent()	16	static
+event.h:43:13:virtual XFEvent::~XFEvent()	16	static
+event.h:64:18:virtual bool XFEvent::deleteAfterConsume() const	16	static
+customevent.h:37:10:virtual bool XFCustomEvent::deleteAfterConsume() const	16	static
+customevent.h:22:7:XFCustomEvent::~XFCustomEvent()	16	static
+customevent.h:22:7:virtual XFCustomEvent::~XFCustomEvent()	16	static
+evGoToZero.cpp:11:1:evGoToZero::evGoToZero()	16	static
+evGoToZero.h:7:7:evGoToZero::~evGoToZero()	16	static
+evGoToZero.h:7:7:virtual evGoToZero::~evGoToZero()	16	static

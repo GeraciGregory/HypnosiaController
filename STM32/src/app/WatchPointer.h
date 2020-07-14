@@ -6,28 +6,38 @@
 #include "xf/behavior.h"
 
 #define DELAY_ON	30	//2.9ms
-#define DELAY_OFF	150	//13.7ms
+#define DELAY_OFF	140	//13.7ms
 
 class WatchPointer : public XFBehavior
 {
 public:
-	WatchPointer();
+	WatchPointer(uint8_t outputAngle);
 	virtual ~WatchPointer();
 
 	void initGPIO(GPIO_TypeDef* A_Port, uint16_t A_Pin,
 					GPIO_TypeDef* B_Port, uint16_t B_Pin,
 					GPIO_TypeDef* C_Port, uint16_t C_Pin);
 	void doOneStep(bool clockwise);
+	void generateEvent();
 
+	//Queue of event
+	bool eventQueue[500];
+	uint16_t indexQueue;
+
+	uint8_t outputAngle;
 	//Configuration
 	uint8_t clockwise;
 	uint8_t nbrTurns;
 	//Position
-	uint8_t position;
+	uint8_t newPosition;
+	uint8_t actualPosition;
 	//Timing
 	uint8_t offsetStartTime;
 	uint8_t movmentDurationTime;
 
+
+	int tata;
+	int toto;
 
 protected:
 	virtual XFEventStatus processEvent();
