@@ -5,7 +5,7 @@ extern CAN_RxHeaderTypeDef myRxMessage;
 
 extern "C" void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
 {
-	HAL_GPIO_TogglePin(LED_6_GPIO_Port, LED_6_Pin);
+	HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
 	Controller::getInstance()->onIrqSPI();
 }
 
@@ -13,7 +13,7 @@ extern "C" void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
 extern "C" void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
 	//Controller::getInstance()->readCANItFrame();
-	HAL_GPIO_TogglePin(LED_3_GPIO_Port, LED_3_Pin);
+	HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
 	Controller::getInstance()->onIrqCAN();
 }
 

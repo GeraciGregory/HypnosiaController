@@ -352,11 +352,13 @@ XFEventStatus Controller::processEvent()
 				{
 					HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, GPIO_PIN_SET);
 				}
+				/*
 				HAL_GPIO_TogglePin(LED_2_GPIO_Port, LED_2_Pin);
 				HAL_GPIO_TogglePin(LED_3_GPIO_Port, LED_3_Pin);
 				HAL_GPIO_TogglePin(LED_4_GPIO_Port, LED_4_Pin);
 				HAL_GPIO_TogglePin(LED_5_GPIO_Port, LED_5_Pin);
 				HAL_GPIO_TogglePin(LED_6_GPIO_Port, LED_6_Pin);
+				*/
 
 				scheduleTimeout(Timeout, 5000);	//5000 = 500ms
 				//GEN(XFNullTransition());
