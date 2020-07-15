@@ -6,4 +6,4 @@ main.c:270:13:MX_TIM1_Init	96	static
 main.c:344:13:MX_USART1_UART_Init	8	static
 main.c:377:13:MX_DMA_Init	16	static
 main.c:395:13:MX_GPIO_Init	64	static
-main.c:522:6:Error_Handler	8	static
+main.c:509:6:Error_Handler	8	static
