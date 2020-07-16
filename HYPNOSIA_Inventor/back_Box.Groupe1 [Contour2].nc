@@ -1,0 +1,25 @@
+( Made using CamBam - http://www.cambam.co.uk )
+( back_Box 7/14/2020 4:40:59 PM )
+( Post processor: Default )
+( T2 : 2.0 )
+G21 G90 G64 G40
+G0 Z10.0
+( T2 : 2.0 )
+T2 M6
+( Contour2 )
+G17
+M3 S3000
+G0 X329.0 Y679.0
+G0 Z1.0
+G1 F300.0 Z-3.5
+G3 F800.0 X304.0 Y704.0 I-25.0 J0.0
+G1 X64.0
+G3 X39.0 Y679.0 I0.0 J-25.0
+G1 Y49.0
+G3 X64.0 Y24.0 I25.0 J0.0
+G1 X304.0
+G3 X329.0 Y49.0 I0.0 J25.0
+G1 Y679.0
+G0 Z10.0
+M5
+M30
