@@ -18,7 +18,7 @@ class Controller : public XFBehavior
 {
 public:
 	Controller();
-	virtual ~Controller();
+	~Controller();
 
 	void intitialize();
 	void start();
@@ -28,6 +28,8 @@ public:
 	void goToZeroPosition();
 	void incrementPosition(bool clockwise, int i, int x);
 	bool bestClockwise(int i, int x);
+
+	bool bestClockwiseGoToZero(int i, int x);
 
 	//Singleton
 	static Controller* getInstance();

@@ -5,14 +5,16 @@
 #include "stm32f0xx_hal.h"
 #include "xf/behavior.h"
 
-#define DELAY_ON	30	//2.9ms
-#define DELAY_OFF	140	//13.7ms
+#define DELAY_ON	30	//3ms
+#define DELAY_OFF	140	//14ms
+
+#define QUEUE_SIZE	360	//MAX 2 turns = 2*(360/2)
 
 class WatchPointer : public XFBehavior
 {
 public:
 	WatchPointer(uint8_t outputAngle);
-	virtual ~WatchPointer();
+	~WatchPointer();
 
 	void initGPIO(GPIO_TypeDef* A_Port, uint16_t A_Pin,
 					GPIO_TypeDef* B_Port, uint16_t B_Pin,
@@ -21,7 +23,7 @@ public:
 	void generateEvent();
 
 	//Queue of event
-	bool eventQueue[500];
+	bool eventQueue[QUEUE_SIZE];
 	uint16_t indexQueue;
 
 	uint8_t outputAngle;
@@ -70,6 +72,7 @@ protected:
 private:
 	bool clockwiseStep;
 	bool counterClockwiseStep;
+	bool coilSelection;
 
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
 

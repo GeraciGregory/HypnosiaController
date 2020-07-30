@@ -10,6 +10,8 @@ WatchPointer::WatchPointer(uint8_t outputAngle)
 	clockwiseStep = true;
 	counterClockwiseStep = true;
 
+	coilSelection = true;
+
 	actualPosition = 0;
 	newPosition = 0;
 
@@ -43,6 +45,12 @@ void WatchPointer::doOneStep(bool clockwise)
 {
 	eventQueue[indexQueue] = clockwise;
 	indexQueue++;
+
+	if(indexQueue >= QUEUE_SIZE)
+	{
+		int tot;
+		tot = 0;
+	}
 
 	if((_currentState == STATE_WAIT) && ((_oldState == STATE_WAIT) || (_oldState == STATE_INIT)))
 	{
@@ -168,7 +176,8 @@ XFEventStatus WatchPointer::processEvent()
 				GPIO_InitStruct.Pull = GPIO_NOPULL;
 				HAL_GPIO_Init(B_GPIO_Port, &GPIO_InitStruct);
 
-				if(counterClockwiseStep == true)
+				//if(counterClockwiseStep == true)
+				if(coilSelection == true)
 				{
 					HAL_GPIO_WritePin(A_GPIO_Port, A_GPIO_Pin, GPIO_PIN_SET);
 					HAL_GPIO_WritePin(C_GPIO_Port, C_GPIO_Pin, GPIO_PIN_RESET);
@@ -178,7 +187,8 @@ XFEventStatus WatchPointer::processEvent()
 					HAL_GPIO_WritePin(A_GPIO_Port, A_GPIO_Pin, GPIO_PIN_RESET);
 					HAL_GPIO_WritePin(C_GPIO_Port, C_GPIO_Pin, GPIO_PIN_SET);
 				}
-				counterClockwiseStep = !counterClockwiseStep;
+				coilSelection = !coilSelection;
+				//counterClockwiseStep = !counterClockwiseStep;
 				scheduleTimeout(StepTimeout, DELAY_ON);
 				tata++;
 			}
@@ -193,7 +203,8 @@ XFEventStatus WatchPointer::processEvent()
 				GPIO_InitStruct.Pull = GPIO_NOPULL;
 				HAL_GPIO_Init(A_GPIO_Port, &GPIO_InitStruct);
 
-				if(clockwiseStep == true)
+				//if(clockwiseStep == true)
+				if(coilSelection == true)
 				{
 					HAL_GPIO_WritePin(B_GPIO_Port, B_GPIO_Pin, GPIO_PIN_SET);
 					HAL_GPIO_WritePin(C_GPIO_Port, C_GPIO_Pin, GPIO_PIN_RESET);
@@ -203,8 +214,8 @@ XFEventStatus WatchPointer::processEvent()
 					HAL_GPIO_WritePin(B_GPIO_Port, B_GPIO_Pin, GPIO_PIN_RESET);
 					HAL_GPIO_WritePin(C_GPIO_Port, C_GPIO_Pin, GPIO_PIN_SET);
 				}
-
-				clockwiseStep = !clockwiseStep;
+				coilSelection = !coilSelection;
+				//clockwiseStep = !clockwiseStep;
 				scheduleTimeout(StepTimeout, DELAY_ON);	//3ms
 			}
 			break;
@@ -233,6 +244,7 @@ XFEventStatus WatchPointer::processEvent()
 				HAL_GPIO_WritePin(A_GPIO_Port, A_GPIO_Pin, GPIO_PIN_RESET);
 				HAL_GPIO_WritePin(B_GPIO_Port, B_GPIO_Pin, GPIO_PIN_RESET);
 				HAL_GPIO_WritePin(C_GPIO_Port, C_GPIO_Pin, GPIO_PIN_RESET);
+
 				scheduleTimeout(StepTimeout, DELAY_OFF);	//14ms
 			}
 

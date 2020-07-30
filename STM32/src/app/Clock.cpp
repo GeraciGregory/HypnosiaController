@@ -20,7 +20,13 @@ Clock::Clock(bool nbrWatchPtr)
 }
 
 Clock::~Clock()
-{}
+{
+	for(int i=0; i<MAX_WATCHPOINTER; i++)
+	{
+		delete _watchPtr[i];
+	}
+	delete[] _watchPtr;
+}
 
 WatchPointer* Clock::getWatchPointer(int index)
 {
@@ -31,6 +37,7 @@ WatchPointer* Clock::getWatchPointer(int index)
 	else
 	{
 		Error_Handler();
+		return 0;
 	}
 }
 

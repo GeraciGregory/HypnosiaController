@@ -11,7 +11,7 @@ class Clock
 {
 public:
 	Clock(bool nbrWatchPtr);
-	virtual ~Clock();
+	~Clock();
 
 	WatchPointer* getWatchPointer(int index);
 

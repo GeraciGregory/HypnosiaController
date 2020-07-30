@@ -16,11 +16,18 @@ Controller::Controller()
 	goToZero = false;
 
 	//ONLY FOR TEST
-	nbrWatchPtrClk = 0b00010110;
+	//nbrWatchPtrClk = 0b00010110;	//3 triaxes & 3 biaxes
+	nbrWatchPtrClk = 0b00000000;	//6 biaxes
 }
 
 Controller::~Controller()
-{}
+{
+	for(int i=0; i<NBR_CLOCK_PER_PROCESSOR; i++)
+	{
+		delete _clock[i];
+	}
+	delete[] _clock;
+}
 
 //Singleton pattern
 //Return the reference of the singleton
@@ -32,6 +39,7 @@ Controller* Controller::getInstance()
 
 void Controller::intitialize()
 {
+	initializeMotorsGPIO();
 }
 
 void Controller::start()
@@ -258,17 +266,22 @@ XFEventStatus Controller::processEvent()
 	//Action switch
 	if(_oldState != _currentState)
 	{
+		if(_oldState == STATE_WAIT)
+		{
+			HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, GPIO_PIN_RESET);
+		}
+
 		switch(_currentState)
 		{
 		case STATE_INIT:
-
 			break;
 
 		case STATE_WAIT:
+			HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, GPIO_PIN_SET);
 			if(_oldState == STATE_INIT)
 			{
 				readDIPSwitch();
-				initializeMotorsGPIO();
+				//initializeMotorsGPIO();
 				HAL_SPI_Receive_DMA(&hspi1, buffer_SPI_rx, SPI_FRAME_SIZE);
 				GEN(XFNullTransition());
 			}
@@ -375,7 +388,6 @@ XFEventStatus Controller::processEvent()
 void Controller::goToZeroPosition()
 {
 	bool allToZero = true;
-	bool clockwise;
 
 	//Check position of each watch pointer
 	for(uint8_t i=0; i<NBR_CLOCK_PER_PROCESSOR; i++)
@@ -384,16 +396,19 @@ void Controller::goToZeroPosition()
 		{
 			if(_clock[i]->getWatchPointer(x)->actualPosition != 0)
 			{
-				if(i==1 || i==2 || i==4)
-				{
-					_clock[i]->getWatchPointer(x)->doOneStep(true);
-				}
-				else
-				{
-					_clock[i]->getWatchPointer(x)->doOneStep(false);
-
-				}
+				/*
+				_clock[i]->getWatchPointer(x)->doOneStep(false);
 				incrementPosition(false,i,x);
+				allToZero = false;
+				*/
+
+
+				//Check best clockwise
+				bool clockwise = bestClockwiseGoToZero(i,x);
+
+				_clock[i]->getWatchPointer(x)->doOneStep(clockwise);
+				incrementPosition(clockwise,i,x);
+				_clock[i]->getWatchPointer(x)->newPosition = _clock[i]->getWatchPointer(x)->actualPosition;
 				allToZero = false;
 			}
 		}
@@ -420,19 +435,10 @@ void Controller::manageMotors()
 			if(_clock[i]->getWatchPointer(x)->actualPosition != (_clock[i]->getWatchPointer(x)->newPosition))
 			{
 				//Check best clockwise
-				//bool clockwise = bestClockwise(i,x);
-				bool clockwise = false;
+				bool clockwise = bestClockwise(i,x);
+				//bool clockwise = false;
 
-
-				if(i==1 || i==2 || i==4)
-				{
-					_clock[i]->getWatchPointer(x)->doOneStep(!clockwise);	//Triaxe clockwise is the opposite of biaxe
-				}
-				else
-				{
-					_clock[i]->getWatchPointer(x)->doOneStep(clockwise);
-
-				}
+				_clock[i]->getWatchPointer(x)->doOneStep(clockwise);
 				incrementPosition(clockwise,i,x);
 				allToNewPosition = false;
 			}
@@ -458,7 +464,7 @@ bool Controller::bestClockwise(int i, int x)
 	if(newPos > actualPos)
 	{
 		//New position > actual position
-		if((newPos-actualPos) > 180)
+		if((newPos-actualPos) > ((360/_clock[i]->getWatchPointer(x)->outputAngle) / 2))	//Superior at 180°
 		{
 			clockwise = false;
 		}
@@ -470,7 +476,7 @@ bool Controller::bestClockwise(int i, int x)
 	else
 	{
 		//New position < actual position
-		if((actualPos-newPos) > 180)
+		if((actualPos-newPos) > ((360/_clock[i]->getWatchPointer(x)->outputAngle) / 2))
 		{
 			clockwise = true;
 		}
@@ -483,6 +489,25 @@ bool Controller::bestClockwise(int i, int x)
 	return clockwise;
 }
 
+bool Controller::bestClockwiseGoToZero(int i, int x)
+{
+	bool clockwise;
+
+	uint8_t actualPos = _clock[i]->getWatchPointer(x)->actualPosition;
+
+	if(actualPos > ((360/_clock[i]->getWatchPointer(x)->outputAngle) / 2))	//Superior at 180°
+	{
+		clockwise = true;
+	}
+	else
+	{
+		clockwise = false;
+	}
+
+
+	return clockwise;
+}
+
 void Controller::incrementPosition(bool clockwise, int i, int x)
 {
 	//Increment position
@@ -491,6 +516,7 @@ void Controller::incrementPosition(bool clockwise, int i, int x)
 		if(_clock[i]->getWatchPointer(x)->actualPosition == ((360/_clock[i]->getWatchPointer(x)->outputAngle)-1))
 		{
 			_clock[i]->getWatchPointer(x)->actualPosition = 0;
+
 		}
 		else
 		{
@@ -927,7 +953,7 @@ void Controller::CAN_resetPositionZeroFrame()
 void Controller::CAN_readDataBytes()
 {
 	uint8_t clkAddr = (myRxMessage.StdId & 0b00000011100) >> 2;	//3 bits
-	uint8_t watchPtrAddress = (buffer_SPI_rx[1] & 0b00000011);	//2 bits
+	uint8_t watchPtrAddress = (myRxMessage.StdId & 0b00000011);	//2 bits
 	uint8_t nbrBytes = myRxMessage.DLC;
 
 
@@ -1086,6 +1112,10 @@ void Controller::CAN_readConfigBytes()
 		{
 		case 0:
 			statusBytes = buffer_CAN_rx[i+1];
+			if(((statusBytes & 0b00100000) >> 5) == true)
+			{
+				GEN(evGoToZero());		//FLAG GO TO ZERO
+			}
 			if(((statusBytes & 0b00010000)>>4) == true)
 			{
 				GEN(evFlagTrigger());	//FLAG TRIGGER
