@@ -48,6 +48,19 @@ Core/Src/isrs.o: ../Core/Src/isrs.cpp ../Core/Inc/main.h \
  c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\timeout.h \
  c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\app\Clock.h \
  c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\app\WatchPointer.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evclockwise.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\EventsID.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\customevent.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\xf.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evcounterclockwise.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evmove.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evspiirq.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evcanirq.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evflagtrigger.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evtimetrigger.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evdone.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evgotozero.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evnulltransition.h \
  ../Core/Inc/stm32f0xx_it.h
 
 ../Core/Inc/main.h:
@@ -149,5 +162,31 @@ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\
 c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\app\Clock.h:
 
 c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\app\WatchPointer.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evclockwise.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\EventsID.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\customevent.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\xf.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evcounterclockwise.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evmove.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evspiirq.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evcanirq.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evflagtrigger.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evtimetrigger.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evdone.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evgotozero.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evnulltransition.h:
 
 ../Core/Inc/stm32f0xx_it.h:

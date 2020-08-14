@@ -1,8 +1,10 @@
-#include "events.h"
 #include "evTimeTrigger.h"
 
 evTimeTrigger::evTimeTrigger() :
-	XFCustomEvent(evTimeTriggerId)
+	XFCustomEvent(EventsID::evTimeTriggerId)
 {
 	//setDeleteAfterConsume(false);
 }
+
+evTimeTrigger::~evTimeTrigger()
+{}

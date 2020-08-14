@@ -1,8 +1,10 @@
-#include "events.h"
 #include "evFlagTrigger.h"
 
 evFlagTrigger::evFlagTrigger() :
-	XFCustomEvent(evFlagTriggerId)
+	XFCustomEvent(EventsID::evFlagTriggerId)
 {
-	//setDeleteAfterConsume(false);
+	setDeleteAfterConsume(false);
 }
+
+evFlagTrigger::~evFlagTrigger()
+{}

@@ -54,7 +54,7 @@ TIM_HandleTypeDef htim1;
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
-
+char error[200] = {};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -108,6 +108,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
+  //Filter configuration used for the CAN
   filterConfig.FilterFIFOAssignment = CAN_FILTER_FIFO0;
   filterConfig.FilterIdHigh = 14;
   filterConfig.FilterIdLow = 0;
@@ -115,22 +116,24 @@ int main(void)
   filterConfig.FilterMaskIdLow = 0;
   filterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
   filterConfig.FilterActivation = ENABLE;
-  if(HAL_CAN_ConfigFilter(&hcan, &filterConfig) != HAL_OK)
+  if(HAL_CAN_ConfigFilter(&hcan, &filterConfig) != HAL_OK)							//Check CAN filter
   {
 	  Error_Handler();
   }
-  if(HAL_CAN_Start(&hcan) != HAL_OK)  //Start CAN
+  if(HAL_CAN_Start(&hcan) != HAL_OK)  												//Start CAN
   {
 	  Error_Handler();
   }
-  if(HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK)//Enable CAN interrupt
+  if(HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK)	//Enable CAN interrupt
   {
 	  Error_Handler();
   }
-  XF_initialize(10);
-  Factory_initialize();
-  Factory_build();
-  XF_exec();
+
+
+  XF_initialize(10);		//Initialize XF
+  Factory_initialize();		//Initialize the system
+  Factory_build();			//Start behavior of the system
+  XF_exec();				//Execute XF
   /* USER CODE END 2 */
 
   /* Infinite loop */

@@ -1,47 +1,59 @@
 #ifndef CONTROLLER_H_
 #define CONTROLLER_H_
 
+//************************************INCLUDE***************************************
 #include "xf/behavior.h"
 #include "Clock.h"
 #include "main.h"
-
+//Used events
+#include "event/evSpiIrq.h"
+#include "event/evCanIrq.h"
+#include "event/evFlagTrigger.h"
+#include "event/evTimeTrigger.h"
+#include "event/evDone.h"
+#include "event/evGoToZero.h"
+#include "event/evNullTransition.h"
+//************************************DEFINE****************************************
 #define NBR_CLOCK_PER_PROCESSOR 6
 #define SPI_FRAME_SIZE			11
 #define MAX_CAN_BYTES			8
-
+//************************************EXTERN****************************************
+//Declared in the class "main.c"
 extern SPI_HandleTypeDef hspi1;
 extern CAN_HandleTypeDef hcan;
 extern CAN_RxHeaderTypeDef myRxMessage;
 extern CAN_TxHeaderTypeDef myTxMessage;
-
+//**********************************************************************************
 class Controller : public XFBehavior
 {
 public:
-	Controller();
-	~Controller();
+	Controller();												//Constructor
+	~Controller();												//Desctructor
 
-	void intitialize();
-	void start();
+	void intitialize();											//Initialize system
+	void start();												//Start behavior of the system
+	void readDIPSwitch();										//Used at startup to set the processor address
 
-	void initializeMotorsGPIO();
-	void manageMotors();
-	void goToZeroPosition();
-	void incrementPosition(bool clockwise, int i, int x);
-	bool bestClockwise(int i, int x);
+	void initializeMotorsGPIO();								//Initialize PIN used to control movements
+	void manageMotors();										//Go to the new position
+	void goToZeroPosition();									//Go to the zero position
+	void incrementPosition(bool clockwise, int i, int x);		//Increment position
+	bool bestClockwise(int i, int x);							//Calculating the best direction to go to the new position
+	bool bestClockwiseGoToZero(int i, int x);					//Calculating the best direction to go to the zero position
 
-	bool bestClockwiseGoToZero(int i, int x);
-
-	//Singleton
-	static Controller* getInstance();
+	static Controller* getInstance();							//Singleton
 
 	//Generate events
-	void onIrqSPI();
-	void onIrqCAN();
+	void onIrqSPI();											//Called when an SPI interruption has occurred
+	void onIrqCAN();											//Called when an CAN interruption has occurred
 
-	void readDIPSwitch();
-
-
-
+	//Static events
+	evSpiIrq _evSpiIrq;
+	evCanIrq _evCanIrq;
+	evFlagTrigger _evFlagTrigger;
+	evGoToZero _evGoToZero;
+	evDone _evDone;
+	evNullTransition _evNullTranisiton;
 	//---------------------------------------------------------------------------------------------------------------------
 	//------------------------------------------------------------SPI------------------------------------------------------
 	//---------------------------------------------------------------------------------------------------------------------
@@ -89,16 +101,13 @@ public:
 	void CAN_writeDataRegister_2(uint8_t clkAddr, uint8_t nbrBytes);
 	//---------------------------------------------------------------------------------------------------------------------
 
-
 private:
-	Clock* _clock[NBR_CLOCK_PER_PROCESSOR];
-	uint8_t buffer_SPI_rx[SPI_FRAME_SIZE];
-	uint8_t buffer_CAN_rx[MAX_CAN_BYTES];
-	uint8_t test;
-	uint32_t TxMailbox;
-	uint8_t bufferTest[4] = {0x00, 0x01, 0x02, 0x03};
-	bool goToZero;
+	Clock* _clock[NBR_CLOCK_PER_PROCESSOR];			//Clock array
 
+	uint8_t buffer_SPI_rx[SPI_FRAME_SIZE];			//Used to receive data via SPI
+
+	uint8_t buffer_CAN_rx[MAX_CAN_BYTES];			//Used to receive data via CAN
+	uint32_t TxMailbox;								//Used to send data via CAN
 
 	//Configuration variables
 	uint8_t myAddress;
@@ -106,9 +115,6 @@ private:
 	uint8_t statusBytes;
 	uint8_t startTime;
 	uint8_t stopTime;
-
-	//Used for test
-	uint8_t i;
 
 protected:
 	virtual XFEventStatus processEvent();
@@ -133,10 +139,7 @@ protected:
 		STATE_SPI = 2,
 		STATE_CAN = 3,
 		STATE_TRIGGER = 4,
-		STATE_WAIT_TRIGGER = 5,
 		STATE_GO_TO_ZERO = 6,
-		STATE_WAIT_ZERO = 7,
-		STATE_LED = 8
 	} eMainState;
 
 	eMainState _currentState;		///< Attribute indicating currently active state

@@ -1,8 +1,10 @@
-#include "events.h"
 #include "evDone.h"
 
 evDone::evDone() :
-	XFCustomEvent(evDoneId)
+	XFCustomEvent(EventsID::evDoneId)
 {
-	//setDeleteAfterConsume(false);
+	setDeleteAfterConsume(false);
 }
+
+evDone::~evDone()
+{}

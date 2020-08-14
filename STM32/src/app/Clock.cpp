@@ -1,6 +1,27 @@
 #include <app/Clock.h>
 
-Clock::Clock(bool nbrWatchPtr)
+//Constructor
+Clock::Clock()
+{
+	//Initialize pointers
+	for(int i=0; i<MAX_WATCHPOINTER; i++)
+	{
+		_watchPtr[i] = nullptr;
+	}
+}
+
+//Destructor
+Clock::~Clock()
+{
+	//Never used
+	for(int i=0; i<MAX_WATCHPOINTER; i++)
+	{
+		delete _watchPtr[i];
+	}
+	delete[] _watchPtr;
+}
+
+void Clock::initialize(bool nbrWatchPtr)
 {
 	//False -> 2 watch pointers
 	//True -> 3 watch pointers
@@ -17,15 +38,6 @@ Clock::Clock(bool nbrWatchPtr)
 		_watchPtr[2] = new WatchPointer(6);	//6° output angle
 		nbrWatchPointer = 3;
 	}
-}
-
-Clock::~Clock()
-{
-	for(int i=0; i<MAX_WATCHPOINTER; i++)
-	{
-		delete _watchPtr[i];
-	}
-	delete[] _watchPtr;
 }
 
 WatchPointer* Clock::getWatchPointer(int index)

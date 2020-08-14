@@ -1,9 +1,10 @@
-#include "events.h"
 #include "evSpiIrq.h"
 
-
 evSpiIrq::evSpiIrq() :
-	XFCustomEvent(evSpiIrqId)
+	XFCustomEvent(EventsID::evSpiIrqId)
 {
-	//setDeleteAfterConsume(false);
+	setDeleteAfterConsume(false);
 }
+
+evSpiIrq::~evSpiIrq()
+{}

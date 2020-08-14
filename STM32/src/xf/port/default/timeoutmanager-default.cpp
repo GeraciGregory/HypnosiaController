@@ -46,6 +46,8 @@ void XFTimeoutManagerDefault::start()
 
 void XFTimeoutManagerDefault::scheduleTimeout(int32_t timeoutId, int32_t interval, interface::XFReactive * pReactive)
 {
+	//sprintf(error, "Error at line: %d in file %s", __LINE__, __FILE__);
+
     XFTimeout * pTimeout = new XFTimeout(timeoutId, interval, pReactive);
 
     if (pTimeout)

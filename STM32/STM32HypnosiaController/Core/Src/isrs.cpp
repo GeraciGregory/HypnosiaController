@@ -3,18 +3,16 @@
 #include "stm32f0xx_it.h"
 extern CAN_RxHeaderTypeDef myRxMessage;
 
+//Called when an SPI interruption has occurred
 extern "C" void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
 {
-	HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
-	Controller::getInstance()->onIrqSPI();
+	Controller::getInstance()->onIrqSPI();	//Generate event for state machine
 }
 
-
+//Called when an CAN interruption has occurred
 extern "C" void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
-	//Controller::getInstance()->readCANItFrame();
-	HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
-	Controller::getInstance()->onIrqCAN();
+	Controller::getInstance()->onIrqCAN();	//Generate event for state machine
 }
 
 

@@ -1,8 +1,10 @@
-#include "events.h"
 #include "evCounterClockwise.h"
 
 evCounterClockwise::evCounterClockwise() :
-	XFCustomEvent(evCounterClockwiseId)
+	XFCustomEvent(EventsID::evCounterClockwiseId)
 {
 	//setDeleteAfterConsume(false);
 }
+
+evCounterClockwise::~evCounterClockwise()
+{}

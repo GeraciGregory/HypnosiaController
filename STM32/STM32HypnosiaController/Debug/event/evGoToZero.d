@@ -1,7 +1,7 @@
 event/evGoToZero.o: \
  C:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/STM32/src/event/evGoToZero.cpp \
- C:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/STM32/src/event/events.h \
  C:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/STM32/src/event/evGoToZero.h \
+ C:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/STM32/src/event/EventsID.h \
  c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\customevent.h \
  c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\xf.h \
  c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\config\xf-config.h \
@@ -13,9 +13,9 @@ event/evGoToZero.o: \
  c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\interface\dispatcher.h \
  c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\event.h
 
-C:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/STM32/src/event/events.h:
-
 C:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/STM32/src/event/evGoToZero.h:
+
+C:/Users/gerac/Desktop/HES-SO_3/BACHELOR_THESIS/HypnosiaControllerGIT/STM32/src/event/EventsID.h:
 
 c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\customevent.h:
 

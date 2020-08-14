@@ -4,6 +4,6 @@ event.h:64:18:virtual bool XFEvent::deleteAfterConsume() const	16	static
 customevent.h:37:10:virtual bool XFCustomEvent::deleteAfterConsume() const	16	static
 customevent.h:22:7:XFCustomEvent::~XFCustomEvent()	16	static
 customevent.h:22:7:virtual XFCustomEvent::~XFCustomEvent()	16	static
-evClockwise.cpp:4:1:evClockwise::evClockwise()	16	static
-evClockwise.h:7:7:evClockwise::~evClockwise()	16	static
-evClockwise.h:7:7:virtual evClockwise::~evClockwise()	16	static
+evClockwise.cpp:3:1:evClockwise::evClockwise()	16	static
+evClockwise.cpp:9:1:evClockwise::~evClockwise()	16	static
+evClockwise.cpp:9:1:virtual evClockwise::~evClockwise()	16	static

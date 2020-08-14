@@ -1,11 +1,13 @@
-#include "events.h"
 #include "evCanIrq.h"
 
 
 evCanIrq::evCanIrq() :
-	XFCustomEvent(evCanIrqId)
+	XFCustomEvent(EventsID::evCanIrqId)
 {
-	//setDeleteAfterConsume(false);
+	setDeleteAfterConsume(false);
 }
+
+evCanIrq::~evCanIrq()
+{}
 
 

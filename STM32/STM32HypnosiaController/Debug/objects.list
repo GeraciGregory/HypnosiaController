@@ -36,6 +36,8 @@
 "event/evDone.o"
 "event/evFlagTrigger.o"
 "event/evGoToZero.o"
+"event/evMove.o"
+"event/evNullTransition.o"
 "event/evSpiIrq.o"
 "event/evStepDone.o"
 "event/evTimeTrigger.o"

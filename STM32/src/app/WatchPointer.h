@@ -1,31 +1,32 @@
 #ifndef WATCHPOINTER_H_
 #define WATCHPOINTER_H_
 
+//************************************INCLUDE***************************************
 #include "stdint.h"
 #include "stm32f0xx_hal.h"
 #include "xf/behavior.h"
-
+//Used events
+#include "event/evClockwise.h"
+#include "event/evCounterClockwise.h"
+#include "event/evMove.h"
+//************************************DEFINE****************************************
 #define DELAY_ON	30	//3ms
 #define DELAY_OFF	140	//14ms
-
-#define QUEUE_SIZE	360	//MAX 2 turns = 2*(360/2)
-
+//**********************************************************************************
 class WatchPointer : public XFBehavior
 {
 public:
-	WatchPointer(uint8_t outputAngle);
-	~WatchPointer();
+	WatchPointer(uint8_t angle);							//Constructor, initialize the output angle of the movement
+	~WatchPointer();										//Destructor
 
-	void initGPIO(GPIO_TypeDef* A_Port, uint16_t A_Pin,
+	void initGPIO(GPIO_TypeDef* A_Port, uint16_t A_Pin,		//Initialize GPIO in order to drive the movement
 					GPIO_TypeDef* B_Port, uint16_t B_Pin,
 					GPIO_TypeDef* C_Port, uint16_t C_Pin);
-	void doOneStep(bool clockwise);
-	void generateEvent();
+	void onMove();											//Generate event for the state machine
+	void changePosition(bool clockwise);					//Update position
 
-	//Queue of event
-	bool eventQueue[QUEUE_SIZE];
-	uint16_t indexQueue;
 
+	//WATCH POINTER PROPERTIES
 	uint8_t outputAngle;
 	//Configuration
 	uint8_t clockwise;
@@ -36,10 +37,11 @@ public:
 	//Timing
 	uint8_t offsetStartTime;
 	uint8_t movmentDurationTime;
+	//Step to do
+	uint8_t nbrStepToDo;
 
-
-	int tata;
-	int toto;
+	//Static event
+	evMove _evMove;
 
 protected:
 	virtual XFEventStatus processEvent();
@@ -61,27 +63,21 @@ protected:
 	{
 		STATE_INIT = 0,
 		STATE_WAIT = 1,
-		STATE_CLKWISE = 2,
-		STATE_CNT_CLKWISE = 3,
-		STATE_COMMON = 4
+		STATE_STEP_ON = 3,
+		STATE_STEP_OFF = 4
 	} eMotorsState;
 
 	eMotorsState _currentState;		///< Attribute indicating currently active state
 	eMotorsState _oldState;			///< Attribute indicating currently active state
 
 private:
-	bool clockwiseStep;
-	bool counterClockwiseStep;
+	//Used to drive the movement
 	bool coilSelection;
-
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
-
 	GPIO_TypeDef* A_GPIO_Port;
 	uint16_t A_GPIO_Pin;
-
 	GPIO_TypeDef* B_GPIO_Port;
 	uint16_t B_GPIO_Pin;
-
 	GPIO_TypeDef* C_GPIO_Port;
 	uint16_t C_GPIO_Pin;
 };

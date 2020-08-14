@@ -1,28 +1,26 @@
 #include <app/WatchPointer.h>
-#include "event/evClockwise.h"
-#include "event/evCounterClockwise.h"
+#include <string.h>
 
-WatchPointer::WatchPointer(uint8_t outputAngle)
+//Used for debugging
+extern char error[200];
+
+//Constructor
+WatchPointer::WatchPointer(uint8_t angle)
 {
-	this->outputAngle = outputAngle;
-	_currentState = STATE_INIT;
+	this->outputAngle = angle;			//Initialize output angle, 2° or 3°
 
-	clockwiseStep = true;
-	counterClockwiseStep = true;
+	_currentState = STATE_INIT;			//Initialize state of the state machine
 
+	//Initialize used variable
 	coilSelection = true;
-
 	actualPosition = 0;
 	newPosition = 0;
-
-	indexQueue = 0;
-
-	tata = 0;
-	toto=0;
+	nbrStepToDo = 0;
 }
-
+//Destructor
 WatchPointer::~WatchPointer()
 {}
+
 
 void WatchPointer::initGPIO(GPIO_TypeDef* A_Port, uint16_t A_Pin,
 							GPIO_TypeDef* B_Port, uint16_t B_Pin,
@@ -41,54 +39,10 @@ void WatchPointer::initGPIO(GPIO_TypeDef* A_Port, uint16_t A_Pin,
 	this->startBehavior();
 }
 
-void WatchPointer::doOneStep(bool clockwise)
+void WatchPointer::onMove()
 {
-	eventQueue[indexQueue] = clockwise;
-	indexQueue++;
-
-	if(indexQueue >= QUEUE_SIZE)
-	{
-		int tot;
-		tot = 0;
-	}
-
-	if((_currentState == STATE_WAIT) && ((_oldState == STATE_WAIT) || (_oldState == STATE_INIT)))
-	{
-		generateEvent();
-	}
-	else
-	{
-		//Wait we are on STATE_WAIT
-
-	}
-}
-
-void WatchPointer::generateEvent()
-{
-	//Check if array is empty
-	if(indexQueue != 0)
-	{
-		if(eventQueue[0] == true)
-		{
-			GEN(evClockwise());
-		}
-		else
-		{
-			GEN(evCounterClockwise());
-			toto++;
-		}
-
-		//Decrement position of each value of the array
-		for(int i=0; i<indexQueue-1; i++)
-		{
-			eventQueue[i] = eventQueue[i+1];
-		}
-		indexQueue--;
-	}
-	else
-	{
-		GEN(XFNullTransition());
-	}
+	//Called by the controller
+	pushEvent(&_evMove);
 }
 
 XFEventStatus WatchPointer::processEvent()
@@ -96,6 +50,7 @@ XFEventStatus WatchPointer::processEvent()
 	eEventStatus eventStatus = XFEventStatus::Unknown;
 	_oldState = _currentState;
 
+	//**********************************************************************************
 	//Transition switch
 	switch(_currentState)
 	{
@@ -109,42 +64,43 @@ XFEventStatus WatchPointer::processEvent()
 
 	case STATE_WAIT:
 		if (getCurrentEvent()->getEventType() == XFEvent::Event &&
-					getCurrentEvent()->getId() == EventIds::evClockwiseId)
+					getCurrentEvent()->getId() == EventsID::evMoveId)
 		{
-			_currentState = STATE_CLKWISE;
-			eventStatus = XFEventStatus::Consumed;
-		}
-		if (getCurrentEvent()->getEventType() == XFEvent::Event &&
-					getCurrentEvent()->getId() == EventIds::evCounterClockwiseId)
-		{
-			_currentState = STATE_CNT_CLKWISE;
-			eventStatus = XFEventStatus::Consumed;
-		}
-		break;
-
-	case STATE_CLKWISE:
-		if (getCurrentEvent()->getEventType() == XFEvent::Timeout &&
-						getCurrentTimeout()->getId() == StepTimeout)
-		{
-			_currentState = STATE_COMMON;
+			//Check number of step to be taken to set the next state
+			if(nbrStepToDo > 0)
+			{
+				_currentState = STATE_STEP_ON;
+			}
+			else
+			{
+				_currentState = STATE_WAIT;
+			}
 			eventStatus = XFEventStatus::Consumed;
 		}
 		break;
 
-	case STATE_CNT_CLKWISE:
+	case STATE_STEP_ON:
 		if (getCurrentEvent()->getEventType() == XFEvent::Timeout &&
 						getCurrentTimeout()->getId() == StepTimeout)
 		{
-			_currentState = STATE_COMMON;
+			_currentState = STATE_STEP_OFF;
 			eventStatus = XFEventStatus::Consumed;
 		}
 		break;
 
-	case STATE_COMMON:
+	case STATE_STEP_OFF:
 		if (getCurrentEvent()->getEventType() == XFEvent::Timeout &&
 						getCurrentTimeout()->getId() == StepTimeout)
 		{
-			_currentState = STATE_WAIT;
+			//Check number of step to be taken to set the next state
+			if(nbrStepToDo > 0)
+			{
+				_currentState = STATE_STEP_ON;
+			}
+			else
+			{
+				_currentState = STATE_WAIT;
+			}
 			eventStatus = XFEventStatus::Consumed;
 		}
 		break;
@@ -152,6 +108,7 @@ XFEventStatus WatchPointer::processEvent()
 	default:
 		break;
 	}
+	//**********************************************************************************
 	//Action switch
 	if(_oldState != _currentState)
 	{
@@ -161,91 +118,88 @@ XFEventStatus WatchPointer::processEvent()
 			break;
 
 		case STATE_WAIT:
-			if(_oldState == STATE_COMMON)
-			{
-				generateEvent(); //Generate next event
-			}
 			break;
 
-		case STATE_CNT_CLKWISE:
-			if(_oldState == STATE_WAIT)
+		case STATE_STEP_ON:
+			if(_oldState == STATE_WAIT || _oldState == STATE_STEP_OFF)
 			{
-				//Output -> Input
-				GPIO_InitStruct.Pin = B_GPIO_Pin;
-				GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-				GPIO_InitStruct.Pull = GPIO_NOPULL;
-				HAL_GPIO_Init(B_GPIO_Port, &GPIO_InitStruct);
+				nbrStepToDo--;
+				changePosition(clockwise);
 
-				//if(counterClockwiseStep == true)
-				if(coilSelection == true)
+				if(clockwise==true)
 				{
-					HAL_GPIO_WritePin(A_GPIO_Port, A_GPIO_Pin, GPIO_PIN_SET);
-					HAL_GPIO_WritePin(C_GPIO_Port, C_GPIO_Pin, GPIO_PIN_RESET);
+					//Output -> Input
+					GPIO_InitStruct.Pin = B_GPIO_Pin;
+					GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+					GPIO_InitStruct.Pull = GPIO_NOPULL;
+					HAL_GPIO_Init(B_GPIO_Port, &GPIO_InitStruct);
+
+					if(coilSelection == true)
+					{
+						HAL_GPIO_WritePin(A_GPIO_Port, A_GPIO_Pin, GPIO_PIN_SET);
+						HAL_GPIO_WritePin(C_GPIO_Port, C_GPIO_Pin, GPIO_PIN_RESET);
+					}
+					else
+					{
+						HAL_GPIO_WritePin(A_GPIO_Port, A_GPIO_Pin, GPIO_PIN_RESET);
+						HAL_GPIO_WritePin(C_GPIO_Port, C_GPIO_Pin, GPIO_PIN_SET);
+					}
 				}
 				else
 				{
-					HAL_GPIO_WritePin(A_GPIO_Port, A_GPIO_Pin, GPIO_PIN_RESET);
-					HAL_GPIO_WritePin(C_GPIO_Port, C_GPIO_Pin, GPIO_PIN_SET);
+					//Output -> Input
+					GPIO_InitStruct.Pin = A_GPIO_Pin;
+					GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+					GPIO_InitStruct.Pull = GPIO_NOPULL;
+					HAL_GPIO_Init(A_GPIO_Port, &GPIO_InitStruct);
+
+					if(coilSelection == true)
+					{
+						HAL_GPIO_WritePin(B_GPIO_Port, B_GPIO_Pin, GPIO_PIN_SET);
+						HAL_GPIO_WritePin(C_GPIO_Port, C_GPIO_Pin, GPIO_PIN_RESET);
+					}
+					else
+					{
+						HAL_GPIO_WritePin(B_GPIO_Port, B_GPIO_Pin, GPIO_PIN_RESET);
+						HAL_GPIO_WritePin(C_GPIO_Port, C_GPIO_Pin, GPIO_PIN_SET);
+					}
 				}
+
+				sprintf(error, "Error at line: %d in file %s", __LINE__, __FILE__);		//Used for debugging
 				coilSelection = !coilSelection;
-				//counterClockwiseStep = !counterClockwiseStep;
-				scheduleTimeout(StepTimeout, DELAY_ON);
-				tata++;
+				scheduleTimeout(StepTimeout, DELAY_ON);									//Schedule timeout (ON)
 			}
 			break;
 
-		case STATE_CLKWISE:
-			if(_oldState == STATE_WAIT)
+		case STATE_STEP_OFF:
+			if(_oldState == STATE_STEP_ON)
 			{
-				//Output -> Input
-				GPIO_InitStruct.Pin = A_GPIO_Pin;
-				GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-				GPIO_InitStruct.Pull = GPIO_NOPULL;
-				HAL_GPIO_Init(A_GPIO_Port, &GPIO_InitStruct);
-
-				//if(clockwiseStep == true)
-				if(coilSelection == true)
+				if(clockwise == true)
 				{
-					HAL_GPIO_WritePin(B_GPIO_Port, B_GPIO_Pin, GPIO_PIN_SET);
-					HAL_GPIO_WritePin(C_GPIO_Port, C_GPIO_Pin, GPIO_PIN_RESET);
+					//Input -> Output
+					GPIO_InitStruct.Pin = B_GPIO_Pin;
+					GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+					GPIO_InitStruct.Pull = GPIO_NOPULL;
+					GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+					HAL_GPIO_Init(B_GPIO_Port, &GPIO_InitStruct);
 				}
 				else
 				{
-					HAL_GPIO_WritePin(B_GPIO_Port, B_GPIO_Pin, GPIO_PIN_RESET);
-					HAL_GPIO_WritePin(C_GPIO_Port, C_GPIO_Pin, GPIO_PIN_SET);
+					//Input -> Output
+					GPIO_InitStruct.Pin = A_GPIO_Pin;
+					GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+					GPIO_InitStruct.Pull = GPIO_NOPULL;
+					GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+					HAL_GPIO_Init(A_GPIO_Port, &GPIO_InitStruct);
 				}
-				coilSelection = !coilSelection;
-				//clockwiseStep = !clockwiseStep;
-				scheduleTimeout(StepTimeout, DELAY_ON);	//3ms
-			}
-			break;
 
-		case STATE_COMMON:
-			if(_oldState == STATE_CNT_CLKWISE)
-			{
-				//Input -> Output
-				GPIO_InitStruct.Pin = B_GPIO_Pin;
-				GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-				GPIO_InitStruct.Pull = GPIO_NOPULL;
-				GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-				HAL_GPIO_Init(B_GPIO_Port, &GPIO_InitStruct);
-			}
-			if(_oldState == STATE_CLKWISE)
-			{
-				//Input -> Output
-				GPIO_InitStruct.Pin = A_GPIO_Pin;
-				GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-				GPIO_InitStruct.Pull = GPIO_NOPULL;
-				GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-				HAL_GPIO_Init(A_GPIO_Port, &GPIO_InitStruct);
-			}
-			if(_oldState == STATE_CLKWISE || _oldState == STATE_CNT_CLKWISE)
-			{
+
 				HAL_GPIO_WritePin(A_GPIO_Port, A_GPIO_Pin, GPIO_PIN_RESET);
 				HAL_GPIO_WritePin(B_GPIO_Port, B_GPIO_Pin, GPIO_PIN_RESET);
 				HAL_GPIO_WritePin(C_GPIO_Port, C_GPIO_Pin, GPIO_PIN_RESET);
 
-				scheduleTimeout(StepTimeout, DELAY_OFF);	//14ms
+				sprintf(error, "Error at line: %d in file %s", __LINE__, __FILE__);		//Used for debugging
+				scheduleTimeout(StepTimeout, DELAY_OFF);								//Schedule timeout (OFF)
 			}
 
 			break;
@@ -253,6 +207,37 @@ XFEventStatus WatchPointer::processEvent()
 			break;
 		}
 	}
+	//**********************************************************************************
 	return eventStatus;
+}
+
+void WatchPointer::changePosition(bool clockwise)
+{
+	//Increment position
+	if(clockwise == true)
+	{
+		//Check limits
+		if(actualPosition == ((360/outputAngle)-1))
+		{
+			actualPosition = 0;
+
+		}
+		else
+		{
+			actualPosition++;
+		}
+	}
+	else
+	{
+		//Check limits
+		if(actualPosition == 0)
+		{
+			actualPosition = ((360/outputAngle)-1);
+		}
+		else
+		{
+			actualPosition--;
+		}
+	}
 }
 

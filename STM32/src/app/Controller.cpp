@@ -1,27 +1,28 @@
 #include <app/Controller.h>
-#include "event/evSpiIrq.h"
-#include "event/evCanIrq.h"
-#include "event/evFlagTrigger.h"
-#include "event/evTimeTrigger.h"
-#include "event/evDone.h"
-#include "event/evGoToZero.h"
 #include "Core/Inc/main.h"
 
+//Constructor
 Controller::Controller()
 {
+	//Define first state for the state machine
 	_currentState = STATE_INIT;
 
-	test = 0;
+	//Configure number of biaxes and triaxes used movements
+	//0 = biaxe
+	//1 = triaxe
+	nbrWatchPtrClk = 0b00000000;					//6 biaxes
 
-	goToZero = false;
-
-	//ONLY FOR TEST
-	//nbrWatchPtrClk = 0b00010110;	//3 triaxes & 3 biaxes
-	nbrWatchPtrClk = 0b00000000;	//6 biaxes
+	//Initialize pointer
+	for(int i=0; i<NBR_CLOCK_PER_PROCESSOR; i++)
+	{
+		_clock[i] = nullptr;
+	}
 }
 
+//Desctructor
 Controller::~Controller()
 {
+	//Never used
 	for(int i=0; i<NBR_CLOCK_PER_PROCESSOR; i++)
 	{
 		delete _clock[i];
@@ -37,25 +38,31 @@ Controller* Controller::getInstance()
 	return &_controller;
 }
 
+
 void Controller::intitialize()
 {
+	//Dynamic allocation
+	for(int i=0; i<NBR_CLOCK_PER_PROCESSOR; i++)
+	{
+		_clock[i] = new Clock();
+	}
 	initializeMotorsGPIO();
 }
 
 void Controller::start()
 {
-	startBehavior();
+	startBehavior();			//Start behavior of the XF
 }
 
 void Controller::onIrqSPI()
 {
-	GEN(evSpiIrq());
+	pushEvent(&_evSpiIrq);
 }
-
 void Controller::onIrqCAN()
 {
+	//Read data
 	HAL_CAN_GetRxMessage(&hcan, CAN_RX_FIFO0, &myRxMessage, buffer_CAN_rx);
-	GEN(evCanIrq());
+	pushEvent(&_evCanIrq);
 }
 
 void Controller::readDIPSwitch()
@@ -73,43 +80,37 @@ void Controller::initializeMotorsGPIO()
 {
 	//False -> 2 watch pointers
 	//True -> 3 watch pointers
-	_clock[0] = new Clock((nbrWatchPtrClk & 0b00000001)); //2
-	_clock[1] = new Clock((nbrWatchPtrClk & 0b00000010) >> 1); //3
-	_clock[2] = new Clock((nbrWatchPtrClk & 0b00000100) >> 2); //3
-	_clock[3] = new Clock((nbrWatchPtrClk & 0b00001000) >> 3); //2
-	_clock[4] = new Clock((nbrWatchPtrClk & 0b00010000) >> 4); //3
-	_clock[5] = new Clock((nbrWatchPtrClk & 0b00100000) >> 5); //2
+	_clock[0]->initialize((nbrWatchPtrClk & 0b00000001)); //2
+	_clock[1]->initialize((nbrWatchPtrClk & 0b00000010) >> 1); //3
+	_clock[2]->initialize((nbrWatchPtrClk & 0b00000100) >> 2); //3
+	_clock[3]->initialize((nbrWatchPtrClk & 0b00001000) >> 3); //2
+	_clock[4]->initialize((nbrWatchPtrClk & 0b00010000) >> 4); //3
+	_clock[5]->initialize((nbrWatchPtrClk & 0b00100000) >> 5); //2
 
-	//Pin nbr --> see schematic, 0..15
-	//Motor 1 -> biaxes
+
+
+	//Define PIN number --> see schematic, 0..15
+	//Motor 1 -> biaxe
 	_clock[0]->getWatchPointer(0)->initGPIO(M1_Ah_GPIO_Port, M1_Ah_Pin,
 											M1_Bh_GPIO_Port, M1_Bh_Pin,
 											M1_Ch_GPIO_Port, M1_Ch_Pin);
 	_clock[0]->getWatchPointer(1)->initGPIO(M1_Am_GPIO_Port, M1_Am_Pin,
 											M1_Bm_GPIO_Port, M1_Bm_Pin,
 											M1_Cm_GPIO_Port, M1_Cm_Pin);
-	//Motor 2 -> triaxes
+	//Motor 2 -> biaxe
 	_clock[1]->getWatchPointer(0)->initGPIO(M2_Ah_GPIO_Port, M2_Ah_Pin,
 											M2_Bh_GPIO_Port, M2_Bh_Pin,
 											M2_Ch_GPIO_Port, M2_Ch_Pin);
 	_clock[1]->getWatchPointer(1)->initGPIO(M2_Am_GPIO_Port, M2_Am_Pin,
 											M2_Bm_GPIO_Port, M2_Bm_Pin,
 											M2_Cm_GPIO_Port, M2_Cm_Pin);
-	/*_clock[1]->getWatchPointer(2)->initGPIO(M2_As_GPIO_Port, M2_As_Pin,
-											M2_Bs_GPIO_Port, M2_Bs_Pin,
-											M2_Cs_GPIO_Port, M2_Cs_Pin);*/
-
-	//Motor 3 -> triaxes
+	//Motor 3 -> biaxe
 	_clock[2]->getWatchPointer(0)->initGPIO(M3_Ah_GPIO_Port, M3_Ah_Pin,
 											M3_Bh_GPIO_Port, M3_Bh_Pin,
 											M3_Ch_GPIO_Port, M3_Ch_Pin);
 	_clock[2]->getWatchPointer(1)->initGPIO(M3_Am_GPIO_Port, M3_Am_Pin,
 											M3_Bm_GPIO_Port, M3_Bm_Pin,
 											M3_Cm_GPIO_Port, M3_Cm_Pin);
-	/*_clock[2]->getWatchPointer(2)->initGPIO(M3_As_GPIO_Port, M3_As_Pin,
-											M3_Bs_GPIO_Port, M3_Bs_Pin,
-											M3_Cs_GPIO_Port, M3_Cs_Pin);*/
-
 	//Motor 4 -> biaxes
 	_clock[3]->getWatchPointer(0)->initGPIO(M4_Ah_GPIO_Port, M4_Ah_Pin,
 											M4_Bh_GPIO_Port, M4_Bh_Pin,
@@ -117,18 +118,13 @@ void Controller::initializeMotorsGPIO()
 	_clock[3]->getWatchPointer(1)->initGPIO(M4_Am_GPIO_Port, M4_Am_Pin,
 											M4_Bm_GPIO_Port, M4_Bm_Pin,
 											M4_Cm_GPIO_Port, M4_Cm_Pin);
-
-	//Motor 5 -> triaxes
+	//Motor 5 -> biaxe
 	_clock[4]->getWatchPointer(0)->initGPIO(M5_Ah_GPIO_Port, M5_Ah_Pin,
 											M5_Bh_GPIO_Port, M5_Bh_Pin,
 											M5_Ch_GPIO_Port, M5_Ch_Pin);
 	_clock[4]->getWatchPointer(1)->initGPIO(M5_Am_GPIO_Port, M5_Am_Pin,
 											M5_Bm_GPIO_Port, M5_Bm_Pin,
 											M5_Cm_GPIO_Port, M5_Cm_Pin);
-	/*_clock[4]->getWatchPointer(2)->initGPIO(M5_As_GPIO_Port, M5_As_Pin,
-											M5_Bs_GPIO_Port, M5_Bs_Pin,
-											M5_Cs_GPIO_Port, M5_Cs_Pin);*/
-
 	//Motor 6 -> biaxes
 	_clock[5]->getWatchPointer(0)->initGPIO(M6_Ah_GPIO_Port, M6_Ah_Pin,
 											M6_Bh_GPIO_Port, M6_Bh_Pin,
@@ -138,13 +134,14 @@ void Controller::initializeMotorsGPIO()
 											M6_Cm_GPIO_Port, M6_Cm_Pin);
 }
 
+//Reactive class --> state machine
 XFEventStatus Controller::processEvent()
 {
 
 	eEventStatus eventStatus = XFEventStatus::Unknown;
 	_oldState = _currentState;
 
-
+	//**********************************************************************************
 	//Transition switch
 	switch(_currentState)
 	{
@@ -157,32 +154,32 @@ XFEventStatus Controller::processEvent()
 		break;
 
 	case STATE_WAIT:
-		if (getCurrentEvent()->getEventType() == XFEvent::NullTransition)
+		if (getCurrentEvent()->getEventType() == XFEvent::Event &&
+				getCurrentEvent()->getId() == EventsID::evNullTransitionId)
 		{
-			//_currentState = STATE_TRIGGER;
+			//Consumed event but do nothing
 			eventStatus = XFEventStatus::Consumed;
 		}
-
 		if (getCurrentEvent()->getEventType() == XFEvent::Event &&
-				getCurrentEvent()->getId() == EventIds::evSpiIrqId)
+				getCurrentEvent()->getId() == EventsID::evSpiIrqId)
 		{
 			_currentState = STATE_SPI;
 			eventStatus = XFEventStatus::Consumed;
 		}
 		if (getCurrentEvent()->getEventType() == XFEvent::Event &&
-				getCurrentEvent()->getId() == EventIds::evCanIrqId)
+				getCurrentEvent()->getId() == EventsID::evCanIrqId)
 		{
 			_currentState = STATE_CAN;
 			eventStatus = XFEventStatus::Consumed;
 		}
 		if (getCurrentEvent()->getEventType() == XFEvent::Event &&
-				getCurrentEvent()->getId() == EventIds::evFlagTriggerId)
+				getCurrentEvent()->getId() == EventsID::evFlagTriggerId)
 		{
 			_currentState = STATE_TRIGGER;
 			eventStatus = XFEventStatus::Consumed;
 		}
 		if (getCurrentEvent()->getEventType() == XFEvent::Event &&
-				getCurrentEvent()->getId() == EventIds::evGoToZeroId)
+				getCurrentEvent()->getId() == EventsID::evGoToZeroId)
 		{
 			_currentState = STATE_GO_TO_ZERO;
 			eventStatus = XFEventStatus::Consumed;
@@ -190,7 +187,8 @@ XFEventStatus Controller::processEvent()
 		break;
 
 	case STATE_SPI:
-		if (getCurrentEvent()->getEventType() == XFEvent::NullTransition)
+		if (getCurrentEvent()->getEventType() == XFEvent::Event &&
+				getCurrentEvent()->getId() == EventsID::evNullTransitionId)
 		{
 			_currentState = STATE_WAIT;
 			eventStatus = XFEventStatus::Consumed;
@@ -198,7 +196,8 @@ XFEventStatus Controller::processEvent()
 		break;
 
 	case STATE_CAN:
-		if (getCurrentEvent()->getEventType() == XFEvent::NullTransition)
+		if (getCurrentEvent()->getEventType() == XFEvent::Event &&
+				getCurrentEvent()->getId() == EventsID::evNullTransitionId)
 		{
 			_currentState = STATE_WAIT;
 			eventStatus = XFEventStatus::Consumed;
@@ -206,53 +205,17 @@ XFEventStatus Controller::processEvent()
 		break;
 
 	case STATE_TRIGGER:
-		if (getCurrentEvent()->getEventType() == XFEvent::NullTransition)
-		{
-			_currentState = STATE_WAIT_TRIGGER;
-			eventStatus = XFEventStatus::Consumed;
-		}
-
 		if (getCurrentEvent()->getEventType() == XFEvent::Event &&
-				getCurrentEvent()->getId() == EventIds::evDoneId)
+				getCurrentEvent()->getId() == EventsID::evDoneId)
 		{
 			_currentState = STATE_WAIT;
-			eventStatus = XFEventStatus::Consumed;
-		}
-		break;
-
-	case STATE_WAIT_TRIGGER:
-		if (getCurrentEvent()->getEventType() == XFEvent::NullTransition)
-		{
-			_currentState = STATE_TRIGGER;
 			eventStatus = XFEventStatus::Consumed;
 		}
 		break;
 
 	case STATE_GO_TO_ZERO:
 		if (getCurrentEvent()->getEventType() == XFEvent::Event &&
-						getCurrentEvent()->getId() == EventIds::evDoneId)
-		{
-			_currentState = STATE_WAIT;
-			eventStatus = XFEventStatus::Consumed;
-		}
-		if (getCurrentEvent()->getEventType() == XFEvent::NullTransition)
-		{
-			_currentState = STATE_WAIT_ZERO;
-			eventStatus = XFEventStatus::Consumed;
-		}
-		break;
-
-	case STATE_WAIT_ZERO:
-		if (getCurrentEvent()->getEventType() == XFEvent::NullTransition)
-		{
-			_currentState = STATE_GO_TO_ZERO;
-			eventStatus = XFEventStatus::Consumed;
-		}
-		break;
-
-	case STATE_LED:
-		if (getCurrentEvent()->getEventType() == XFEvent::Timeout &&
-				getCurrentTimeout()->getId() == Timeout)
+				getCurrentEvent()->getId() == EventsID::evDoneId)
 		{
 			_currentState = STATE_WAIT;
 			eventStatus = XFEventStatus::Consumed;
@@ -263,54 +226,40 @@ XFEventStatus Controller::processEvent()
 		Error_Handler();
 		break;
 	}
+	//**********************************************************************************
 	//Action switch
 	if(_oldState != _currentState)
 	{
-		if(_oldState == STATE_WAIT)
-		{
-			HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, GPIO_PIN_RESET);
-		}
-
 		switch(_currentState)
 		{
 		case STATE_INIT:
 			break;
 
 		case STATE_WAIT:
-			HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, GPIO_PIN_SET);
 			if(_oldState == STATE_INIT)
 			{
+				//Do at startup of the system
+				HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, GPIO_PIN_RESET);
 				readDIPSwitch();
-				//initializeMotorsGPIO();
 				HAL_SPI_Receive_DMA(&hspi1, buffer_SPI_rx, SPI_FRAME_SIZE);
-				GEN(XFNullTransition());
+				pushEvent(&_evNullTranisiton);
 			}
 			if(_oldState == STATE_SPI)
 			{
 				HAL_SPI_Receive_DMA(&hspi1, buffer_SPI_rx, SPI_FRAME_SIZE);
 			}
 			if(_oldState == STATE_CAN)
-			{
-
-			}
-			if(_oldState == STATE_LED)
-			{
-				GEN(XFNullTransition());
-			}
+			{}
 			if(_oldState == STATE_TRIGGER)
-			{
-				//GEN(XFNullTransition());
-			}
+			{}
 			if(_oldState == STATE_GO_TO_ZERO)
-			{
-
-			}
+			{}
 			break;
 
 		case STATE_SPI:
 			if(_oldState == STATE_WAIT)
 			{
-				GEN(XFNullTransition());
+				pushEvent(&_evNullTranisiton);
 				SPI_readFrame();
 			}
 			break;
@@ -318,143 +267,70 @@ XFEventStatus Controller::processEvent()
 		case STATE_CAN:
 			if(_oldState == STATE_WAIT)
 			{
-				GEN(XFNullTransition());
+				pushEvent(&_evNullTranisiton);
 				CAN_readFrame();
 			}
 			break;
 
 		case STATE_TRIGGER:
-			if(_oldState == STATE_WAIT || _oldState == STATE_WAIT_TRIGGER)
+			if(_oldState == STATE_WAIT)
 			{
 				manageMotors();
-				//GEN(XFNullTransition());
-				//scheduleTimeout(Timeout, 10);
-			}
-			break;
-
-		case STATE_WAIT_TRIGGER:
-			if(_oldState == STATE_TRIGGER)
-			{
-				GEN(XFNullTransition());
 			}
 			break;
 
 		case STATE_GO_TO_ZERO:
-			if(_oldState == STATE_WAIT || _oldState == STATE_WAIT_ZERO)
+			if(_oldState == STATE_WAIT)
 			{
 				goToZeroPosition();
 			}
-
 			break;
 
-		case STATE_WAIT_ZERO:
-			if(_oldState == STATE_GO_TO_ZERO)
-			{
-				GEN(XFNullTransition());
-			}
-			break;
-
-		case STATE_LED:
-			if(_oldState == STATE_WAIT)
-			{
-				if(HAL_GPIO_ReadPin(SW_0_GPIO_Port, SW_0_Pin) == GPIO_PIN_RESET)
-				{
-					HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, GPIO_PIN_RESET);
-				}
-				else
-				{
-					HAL_GPIO_WritePin(LED_1_GPIO_Port, LED_1_Pin, GPIO_PIN_SET);
-				}
-				/*
-				HAL_GPIO_TogglePin(LED_2_GPIO_Port, LED_2_Pin);
-				HAL_GPIO_TogglePin(LED_3_GPIO_Port, LED_3_Pin);
-				HAL_GPIO_TogglePin(LED_4_GPIO_Port, LED_4_Pin);
-				HAL_GPIO_TogglePin(LED_5_GPIO_Port, LED_5_Pin);
-				HAL_GPIO_TogglePin(LED_6_GPIO_Port, LED_6_Pin);
-				*/
-
-				scheduleTimeout(Timeout, 5000);	//5000 = 500ms
-				//GEN(XFNullTransition());
-			}
-			break;
 		default:
 			Error_Handler();
 			break;
 		}
 	}
+	//**********************************************************************************
 	return eventStatus;
 }
 
 void Controller::goToZeroPosition()
 {
-	bool allToZero = true;
-
-	//Check position of each watch pointer
 	for(uint8_t i=0; i<NBR_CLOCK_PER_PROCESSOR; i++)
 	{
 		for(uint8_t x=0; x<(MAX_WATCHPOINTER-1); x++)
 		{
-			if(_clock[i]->getWatchPointer(x)->actualPosition != 0)
-			{
-				/*
-				_clock[i]->getWatchPointer(x)->doOneStep(false);
-				incrementPosition(false,i,x);
-				allToZero = false;
-				*/
-
-
-				//Check best clockwise
-				bool clockwise = bestClockwiseGoToZero(i,x);
-
-				_clock[i]->getWatchPointer(x)->doOneStep(clockwise);
-				incrementPosition(clockwise,i,x);
-				_clock[i]->getWatchPointer(x)->newPosition = _clock[i]->getWatchPointer(x)->actualPosition;
-				allToZero = false;
-			}
+			//Check best clockwise
+			_clock[i]->getWatchPointer(x)->clockwise = bestClockwiseGoToZero(i, x);
+			//Move state machine
+			_clock[i]->getWatchPointer(x)->onMove();
 		}
 	}
 
-	if(allToZero == true)
-	{
-		GEN(evDone());
-	}
-	else
-	{
-		GEN(XFNullTransition());
-	}
+	//Used to go to the WAIT state
+	pushEvent(&_evDone);
 }
 
 void Controller::manageMotors()
 {
-	bool allToNewPosition = true;
-
 	for(uint8_t i=0; i<NBR_CLOCK_PER_PROCESSOR; i++)
 	{
 		for(uint8_t x=0; x<(MAX_WATCHPOINTER-1); x++)
 		{
-			if(_clock[i]->getWatchPointer(x)->actualPosition != (_clock[i]->getWatchPointer(x)->newPosition))
-			{
-				//Check best clockwise
-				bool clockwise = bestClockwise(i,x);
-				//bool clockwise = false;
-
-				_clock[i]->getWatchPointer(x)->doOneStep(clockwise);
-				incrementPosition(clockwise,i,x);
-				allToNewPosition = false;
-			}
+			//Check best clockwise
+			_clock[i]->getWatchPointer(x)->clockwise = bestClockwise(i,x);
+			//Move state machine
+			_clock[i]->getWatchPointer(x)->onMove();
 		}
 	}
 
-	if(allToNewPosition == true)
-	{
-		GEN(evDone());
-	}
-	else
-	{
-		GEN(XFNullTransition());
-	}
+	//Used to go to the WAIT state
+	pushEvent(&_evDone);
 }
 
+
+//Calculating the best direction to go to the new position
 bool Controller::bestClockwise(int i, int x)
 {
 	bool clockwise;
@@ -467,28 +343,38 @@ bool Controller::bestClockwise(int i, int x)
 		if((newPos-actualPos) > ((360/_clock[i]->getWatchPointer(x)->outputAngle) / 2))	//Superior at 180°
 		{
 			clockwise = false;
+			_clock[i]->getWatchPointer(x)->nbrStepToDo = (360/_clock[i]->getWatchPointer(x)->outputAngle) -
+																(_clock[i]->getWatchPointer(x)->newPosition -
+																_clock[i]->getWatchPointer(x)->actualPosition);
 		}
 		else
 		{
 			clockwise = true;
+			_clock[i]->getWatchPointer(x)->nbrStepToDo = _clock[i]->getWatchPointer(x)->newPosition -
+																_clock[i]->getWatchPointer(x)->actualPosition;
 		}
 	}
-	else
+	else if (newPos < actualPos)
 	{
 		//New position < actual position
 		if((actualPos-newPos) > ((360/_clock[i]->getWatchPointer(x)->outputAngle) / 2))
 		{
 			clockwise = true;
+			_clock[i]->getWatchPointer(x)->nbrStepToDo = (360/_clock[i]->getWatchPointer(x)->outputAngle) -
+																(_clock[i]->getWatchPointer(x)->actualPosition -
+																_clock[i]->getWatchPointer(x)->newPosition);
 		}
 		else
 		{
 			clockwise = false;
+			_clock[i]->getWatchPointer(x)->nbrStepToDo = _clock[i]->getWatchPointer(x)->actualPosition -
+																_clock[i]->getWatchPointer(x)->newPosition;
 		}
 	}
-
 	return clockwise;
 }
 
+//Calculating the best direction to go to the zero position
 bool Controller::bestClockwiseGoToZero(int i, int x)
 {
 	bool clockwise;
@@ -498,13 +384,14 @@ bool Controller::bestClockwiseGoToZero(int i, int x)
 	if(actualPos > ((360/_clock[i]->getWatchPointer(x)->outputAngle) / 2))	//Superior at 180°
 	{
 		clockwise = true;
+		_clock[i]->getWatchPointer(x)->nbrStepToDo = (360/_clock[i]->getWatchPointer(x)->outputAngle) -
+															_clock[i]->getWatchPointer(x)->actualPosition;
 	}
 	else
 	{
 		clockwise = false;
+		_clock[i]->getWatchPointer(x)->nbrStepToDo = _clock[i]->getWatchPointer(x)->actualPosition;
 	}
-
-
 	return clockwise;
 }
 
@@ -513,6 +400,7 @@ void Controller::incrementPosition(bool clockwise, int i, int x)
 	//Increment position
 	if(clockwise == true)
 	{
+		//Check limit
 		if(_clock[i]->getWatchPointer(x)->actualPosition == ((360/_clock[i]->getWatchPointer(x)->outputAngle)-1))
 		{
 			_clock[i]->getWatchPointer(x)->actualPosition = 0;
@@ -525,6 +413,7 @@ void Controller::incrementPosition(bool clockwise, int i, int x)
 	}
 	else
 	{
+		//Check limit
 		if(_clock[i]->getWatchPointer(x)->actualPosition == 0)
 		{
 			_clock[i]->getWatchPointer(x)->actualPosition = ((360/_clock[i]->getWatchPointer(x)->outputAngle)-1);
@@ -604,13 +493,11 @@ void Controller::SPI_configurationFrame()
 
 void Controller::SPI_broadcastConfigurationFrame()
 {
-
 	//Write on our variables
 	SPI_readConfigBytes();
 
 	//Send via CAN for others
 	CAN_writeFrame();
-
 }
 
 void Controller::SPI_resetPositionZeroFrame()
@@ -622,8 +509,8 @@ void Controller::SPI_resetPositionZeroFrame()
 	//Check Processor address
 	if(readAddress == myAddress)
 	{
-		clkAddress = (buffer_SPI_rx[1] & 0b00011100) >> 2;	//3 bits
-		watchPtrAddress = (buffer_SPI_rx[1] & 0b00000011);	//2 bits
+		clkAddress = (buffer_SPI_rx[1] & 0b00011100) >> 2;		//3 bits
+		watchPtrAddress = (buffer_SPI_rx[1] & 0b00000011);		//2 bits
 		//Reset position zero
 		_clock[clkAddress]->getWatchPointer(watchPtrAddress)->newPosition = 0;
 		_clock[clkAddress]->getWatchPointer(watchPtrAddress)->actualPosition = 0;
@@ -637,7 +524,7 @@ void Controller::SPI_resetPositionZeroFrame()
 
 void Controller::SPI_readDataBytes()
 {
-	uint8_t clkAddr = (buffer_SPI_rx[1] & 0b00011100) >> 2;	//3 bits
+	uint8_t clkAddr = (buffer_SPI_rx[1] & 0b00011100) >> 2;		//3 bits
 	uint8_t watchPtrAddress = (buffer_SPI_rx[1] & 0b00000011);	//2 bits
 	uint8_t nbrBytes = buffer_SPI_rx[2];
 
@@ -657,18 +544,18 @@ void Controller::SPI_readDataBytes()
 		break;
 
 	case 3:
-		SPI_writeDataRegister(clkAddr, nbrBytes); //Data frame for all watch pointer
+		SPI_writeDataRegister(clkAddr, nbrBytes); 	//Data frame for all watch pointer
 		break;
 
 	default:
 		Error_Handler();
 		break;
 	}
-
 }
 
 void Controller::SPI_writeDataRegister(uint8_t clkAddr, uint8_t nbrBytes)
 {
+	//Data register for all watch pointers
 	for(uint8_t i=0; i<nbrBytes; i++)
 	{
 		switch(i)
@@ -711,9 +598,9 @@ void Controller::SPI_writeDataRegister(uint8_t clkAddr, uint8_t nbrBytes)
 	}
 }
 
-//Data register for watch pointer n°0
 void Controller::SPI_writeDataRegister_0(uint8_t clkAddr, uint8_t nbrBytes)
 {
+	//Data register for watch pointer n°0
 	for(uint8_t i=0; i<nbrBytes; i++)
 	{
 		switch(i)
@@ -746,9 +633,9 @@ void Controller::SPI_writeDataRegister_0(uint8_t clkAddr, uint8_t nbrBytes)
 	}
 }
 
-//Data register for watch pointer n°1
 void Controller::SPI_writeDataRegister_1(uint8_t clkAddr, uint8_t nbrBytes)
 {
+	//Data register for watch pointer n°1
 	for(uint8_t i=0; i<nbrBytes; i++)
 	{
 		switch(i)
@@ -790,6 +677,7 @@ void Controller::SPI_readConfigBytes()
 {
 	uint8_t nbrBytes = buffer_SPI_rx[1];
 	uint8_t indexRegister = buffer_SPI_rx[2];
+
 	//First, read data bytes
 	//Then, write on each variables
 	for(uint8_t i=indexRegister; i<nbrBytes; i++)
@@ -798,13 +686,14 @@ void Controller::SPI_readConfigBytes()
 		{
 		case 0:
 			statusBytes = buffer_SPI_rx[i+3];
+			//Check flags
 			if(((statusBytes & 0b00100000) >> 5) == true)
 			{
-				GEN(evGoToZero());		//FLAG GO TO ZERO
+				pushEvent(&_evGoToZero);
 			}
-			if(((statusBytes & 0b00010000)>>4) == true)
+			else if(((statusBytes & 0b00010000)>>4) == true)
 			{
-				GEN(evFlagTrigger());	//FLAG TRIGGER
+				pushEvent(&_evFlagTrigger);
 			}
 			break;
 		case 1:
@@ -882,25 +771,26 @@ void Controller::CAN_writeFrame()
 	}
 }
 
-
 void Controller::CAN_readFrame()
 {
+	//Check frame type
 	uint8_t frameType = (myRxMessage.StdId & 0b11000000000) >> 9;
-	//uint8_t processorAddress = (myRxMessage.StdId & 0b00111100000) >> 5;
-	//uint8_t clockAddress = (myRxMessage.StdId & 0b00000011100) >> 2;
-	//uint8_t watchPointerAddress = (myRxMessage.StdId & 0b00000000011);
 
 	switch(frameType)
 	{
+	//DATA FRAME
 	case 0:
 		CAN_dataFrame();
 		break;
+	//CONFIGURATION FRAME
 	case 1:
 		CAN_configurationFrame();
 		break;
+	//BROADCAST CONFIGURATION FRAME
 	case 2:
 		CAN_broadcastConfigurationFrame();
 		break;
+	//RESET POSITION ZERO FRAME
 	case 3:
 		CAN_resetPositionZeroFrame();
 		break;
@@ -914,6 +804,7 @@ void Controller::CAN_dataFrame()
 {
 	uint8_t processorAddress = (myRxMessage.StdId & 0b00111100000) >> 5;
 
+	//Check processor address
 	if(processorAddress == myAddress)
 	{
 		CAN_readDataBytes();
@@ -924,6 +815,7 @@ void Controller::CAN_configurationFrame()
 {
 	uint8_t processorAddress = (myRxMessage.StdId & 0b00111100000) >> 5;
 
+	//Check processor address
 	if(processorAddress == myAddress)
 	{
 		CAN_readConfigBytes();
@@ -932,18 +824,21 @@ void Controller::CAN_configurationFrame()
 
 void Controller::CAN_broadcastConfigurationFrame()
 {
-	//Because broadcast
+	//Because broadcast, do not check processor address
 	CAN_readConfigBytes();
 }
 
 void Controller::CAN_resetPositionZeroFrame()
 {
+	//Get processor address
 	uint8_t processorAddress = (myRxMessage.StdId & 0b00111100000) >> 5;
 
 	if(processorAddress == myAddress)
 	{
+		//Get clock and watch pointer address
 		uint8_t clockAddress = (myRxMessage.StdId & 0b00000011100) >> 2;
 		uint8_t watchPointerAddress = (myRxMessage.StdId & 0b00000000011);
+
 		//Reset position zero
 		_clock[clockAddress]->getWatchPointer(watchPointerAddress)->newPosition = 0;
 		_clock[clockAddress]->getWatchPointer(watchPointerAddress)->actualPosition = 0;
@@ -952,10 +847,11 @@ void Controller::CAN_resetPositionZeroFrame()
 
 void Controller::CAN_readDataBytes()
 {
+	//Get clock and watch pointer address
 	uint8_t clkAddr = (myRxMessage.StdId & 0b00000011100) >> 2;	//3 bits
 	uint8_t watchPtrAddress = (myRxMessage.StdId & 0b00000011);	//2 bits
+	//Get number of bytes to read
 	uint8_t nbrBytes = myRxMessage.DLC;
-
 
 	//First, read data bytes
 	//Then, write on each variables
@@ -985,7 +881,7 @@ void Controller::CAN_readDataBytes()
 
 void Controller::CAN_writeDataRegister(uint8_t clkAddr, uint8_t nbrBytes)
 {
-	//Write on registers
+	//Data register for all watch pointers
 	for(uint8_t i=0; i<nbrBytes; i++)
 	{
 		switch(i)
@@ -1030,6 +926,7 @@ void Controller::CAN_writeDataRegister(uint8_t clkAddr, uint8_t nbrBytes)
 
 void Controller::CAN_writeDataRegister_0(uint8_t clkAddr, uint8_t nbrBytes)
 {
+	//Data register for watch pointer n°0
 	for(uint8_t i=0; i<nbrBytes; i++)
 	{
 		switch(i)
@@ -1064,6 +961,7 @@ void Controller::CAN_writeDataRegister_0(uint8_t clkAddr, uint8_t nbrBytes)
 
 void Controller::CAN_writeDataRegister_1(uint8_t clkAddr, uint8_t nbrBytes)
 {
+	//Data register for watch pointer n°1
 	for(uint8_t i=0; i<nbrBytes; i++)
 	{
 		switch(i)
@@ -1096,6 +994,8 @@ void Controller::CAN_writeDataRegister_1(uint8_t clkAddr, uint8_t nbrBytes)
 	}
 }
 
+//Data register for watch pointer n°2
+//Used only with triaxes movments
 void Controller::CAN_writeDataRegister_2(uint8_t clkAddr, uint8_t nbrBytes)
 {}
 
@@ -1104,6 +1004,7 @@ void Controller::CAN_readConfigBytes()
 {
 	uint8_t nbrBytes = myRxMessage.DLC;
 	uint8_t indexRegister = buffer_CAN_rx[0];
+
 	//First, read data bytes
 	//Then, write on each variables
 	for(uint8_t i=indexRegister; i<nbrBytes; i++)
@@ -1112,13 +1013,14 @@ void Controller::CAN_readConfigBytes()
 		{
 		case 0:
 			statusBytes = buffer_CAN_rx[i+1];
+			//Check flags
 			if(((statusBytes & 0b00100000) >> 5) == true)
 			{
-				GEN(evGoToZero());		//FLAG GO TO ZERO
+				pushEvent(&_evGoToZero);
 			}
-			if(((statusBytes & 0b00010000)>>4) == true)
+			else if(((statusBytes & 0b00010000)>>4) == true)
 			{
-				GEN(evFlagTrigger());	//FLAG TRIGGER
+				pushEvent(&_evFlagTrigger);
 			}
 			break;
 		case 1:

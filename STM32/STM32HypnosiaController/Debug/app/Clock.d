@@ -48,6 +48,12 @@ app/Clock.o: \
  c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\port\default-idf\mutex-default.h \
  c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\interface\mutex.h \
  c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\timeout.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evclockwise.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\EventsID.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\customevent.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\xf.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evcounterclockwise.h \
+ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evmove.h \
  ../Core/Inc/main.h
 
 c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\app\clock.h:
@@ -145,5 +151,17 @@ c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\
 c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\interface\mutex.h:
 
 c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\timeout.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evclockwise.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\EventsID.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\customevent.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\xf\include\xf\xf.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evcounterclockwise.h:
+
+c:\users\gerac\desktop\hes-so_3\bachelor_thesis\hypnosiacontrollergit\stm32\src\event\evmove.h:
 
 ../Core/Inc/main.h:
