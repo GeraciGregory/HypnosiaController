@@ -18,27 +18,27 @@ Controller.cpp:298:6:void Controller::goToZeroPosition()	40	static
 Controller.cpp:315:6:void Controller::manageMotors()	40	static
 Controller.cpp:334:6:bool Controller::bestClockwise(int, int)	40	static
 Controller.cpp:378:6:bool Controller::bestClockwiseGoToZero(int, int)	40	static
-Controller.cpp:398:6:void Controller::incrementPosition(bool, int, int)	32	static
-Controller.cpp:431:6:void Controller::SPI_readFrame()	24	static
-Controller.cpp:462:6:void Controller::SPI_dataFrame()	24	static
-Controller.cpp:478:6:void Controller::SPI_configurationFrame()	24	static
-Controller.cpp:494:6:void Controller::SPI_broadcastConfigurationFrame()	16	static
-Controller.cpp:503:6:void Controller::SPI_resetPositionZeroFrame()	32	static
-Controller.cpp:525:6:void Controller::SPI_readDataBytes()	24	static
-Controller.cpp:556:6:void Controller::SPI_writeDataRegister(uint8_t, uint8_t)	32	static
-Controller.cpp:601:6:void Controller::SPI_writeDataRegister_0(uint8_t, uint8_t)	32	static
-Controller.cpp:636:6:void Controller::SPI_writeDataRegister_1(uint8_t, uint8_t)	32	static
-Controller.cpp:673:6:void Controller::SPI_writeDataRegister_2(uint8_t, uint8_t)	16	static
-Controller.cpp:676:6:void Controller::SPI_readConfigBytes()	24	static
-Controller.cpp:730:6:void Controller::CAN_writeFrame()	32	static
-Controller.cpp:774:6:void Controller::CAN_readFrame()	24	static
-Controller.cpp:803:6:void Controller::CAN_dataFrame()	24	static
-Controller.cpp:814:6:void Controller::CAN_configurationFrame()	24	static
-Controller.cpp:825:6:void Controller::CAN_broadcastConfigurationFrame()	16	static
-Controller.cpp:831:6:void Controller::CAN_resetPositionZeroFrame()	32	static
-Controller.cpp:848:6:void Controller::CAN_readDataBytes()	24	static
-Controller.cpp:882:6:void Controller::CAN_writeDataRegister(uint8_t, uint8_t)	32	static
-Controller.cpp:927:6:void Controller::CAN_writeDataRegister_0(uint8_t, uint8_t)	32	static
-Controller.cpp:962:6:void Controller::CAN_writeDataRegister_1(uint8_t, uint8_t)	32	static
-Controller.cpp:999:6:void Controller::CAN_writeDataRegister_2(uint8_t, uint8_t)	16	static
-Controller.cpp:1003:6:void Controller::CAN_readConfigBytes()	24	static
+Controller.cpp:400:6:void Controller::incrementPosition(bool, int, int)	32	static
+Controller.cpp:433:6:void Controller::SPI_readFrame()	24	static
+Controller.cpp:464:6:void Controller::SPI_dataFrame()	24	static
+Controller.cpp:480:6:void Controller::SPI_configurationFrame()	24	static
+Controller.cpp:496:6:void Controller::SPI_broadcastConfigurationFrame()	16	static
+Controller.cpp:505:6:void Controller::SPI_resetPositionZeroFrame()	32	static
+Controller.cpp:527:6:void Controller::SPI_readDataBytes()	24	static
+Controller.cpp:558:6:void Controller::SPI_writeDataRegister(uint8_t, uint8_t)	32	static
+Controller.cpp:603:6:void Controller::SPI_writeDataRegister_0(uint8_t, uint8_t)	32	static
+Controller.cpp:638:6:void Controller::SPI_writeDataRegister_1(uint8_t, uint8_t)	32	static
+Controller.cpp:675:6:void Controller::SPI_writeDataRegister_2(uint8_t, uint8_t)	16	static
+Controller.cpp:678:6:void Controller::SPI_readConfigBytes()	24	static
+Controller.cpp:732:6:void Controller::CAN_writeFrame()	32	static
+Controller.cpp:776:6:void Controller::CAN_readFrame()	24	static
+Controller.cpp:805:6:void Controller::CAN_dataFrame()	24	static
+Controller.cpp:816:6:void Controller::CAN_configurationFrame()	24	static
+Controller.cpp:827:6:void Controller::CAN_broadcastConfigurationFrame()	16	static
+Controller.cpp:833:6:void Controller::CAN_resetPositionZeroFrame()	32	static
+Controller.cpp:850:6:void Controller::CAN_readDataBytes()	24	static
+Controller.cpp:884:6:void Controller::CAN_writeDataRegister(uint8_t, uint8_t)	32	static
+Controller.cpp:929:6:void Controller::CAN_writeDataRegister_0(uint8_t, uint8_t)	32	static
+Controller.cpp:964:6:void Controller::CAN_writeDataRegister_1(uint8_t, uint8_t)	32	static
+Controller.cpp:1001:6:void Controller::CAN_writeDataRegister_2(uint8_t, uint8_t)	16	static
+Controller.cpp:1005:6:void Controller::CAN_readConfigBytes()	24	static

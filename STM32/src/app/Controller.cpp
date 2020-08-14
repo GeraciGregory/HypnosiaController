@@ -392,6 +392,8 @@ bool Controller::bestClockwiseGoToZero(int i, int x)
 		clockwise = false;
 		_clock[i]->getWatchPointer(x)->nbrStepToDo = _clock[i]->getWatchPointer(x)->actualPosition;
 	}
+
+	_clock[i]->getWatchPointer(x)->newPosition = 0;
 	return clockwise;
 }
 
