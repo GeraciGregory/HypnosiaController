@@ -20,39 +20,34 @@ class View: public QWidget, public Observer
     Q_OBJECT  //Used for signals and slots
 
 public:
-    View(int x,int y,int width,int height,QString title, QWidget* parent=0);
-    //View();
-    ~View();
-    void initializeRelation(Controller* controller);
-    void setupUI(); //Setup User Interface
-    void changed();
-    void stop();
+    View(int x,int y,int width,int height,QString title, QWidget* parent=0);    //Constructor, used to initialize size of the GUI application
+    ~View();                                                                    //Destructor
+    void initializeRelation(Controller* controller);                            //Initialize relation
+    void setupUI();                                                             //Setup User Interface
+    void changed();                                                             //Interface method
+    void stop();                                                                //Interface method
 
-    QPushButton* countDown;
+    //---------------------------------
     QPushButton* anim1;
     QPushButton* plusBtn;
     QPushButton* minusBtn;
     QPushButton* resetPosition;
-
     QPushButton* btnPlusProc;
     QPushButton* btnMinusProc;
     QPushButton* btnPlusClock;
     QPushButton* btnMinusClock;
     QPushButton* btnPlusWatchPtr;
     QPushButton* btnMinusWatchPtr;
-
-
+    //---------------------------------
     QLabel* lbProcessor;
     QLabel* lbClock;
     QLabel* lbWatchPointer;
-
-public slots:
-    void onBoxChanged();
+    //---------------------------------
 
 private:
     Controller* pController;
 
-    //window
+    //window parameters
     int x;
     int y;
     int width;

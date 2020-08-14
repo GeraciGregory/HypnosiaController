@@ -1,4 +1,6 @@
-QT += core gui
+QT += core
+QT += gui
+QT += bluetooth
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,44 +23,68 @@ LIBS += -L/usr/local/lib -lwiringPi
 DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
-    Controller/countdown.cpp \
+    factory.cpp \
+    main.cpp \
+    Controller/controller.cpp \
     Events/evanim1.cpp \
+    Events/evanim2.cpp \
+    Events/evanim3.cpp \
+    Events/evanim4.cpp \
+    Events/evbluetoothconnected.cpp \
     Events/evcntdown.cpp \
     Events/evdone.cpp \
+    Events/evgotozero.cpp \
     Events/evminus.cpp \
     Events/evplus.cpp \
     Events/evrestart.cpp \
-    Model/watchpointer.cpp \
-    Model/processor.cpp \
-        main.cpp \
-    View/observer.cpp \
-    View/view.cpp \
-    factory.cpp \
+    Events/evrstpos.cpp \
     Model/clock.cpp \
     Model/data.cpp \
-    Controller/controller.cpp \
-    Events/evrstpos.cpp
+    Model/processor.cpp \
+    Model/watchpointer.cpp \
+    View/bluetoothinterface.cpp \
+    View/observer.cpp \
+    View/view.cpp \
+    Library/letterlibrary.cpp \
+    Library/numberlibrary.cpp \
+    Controller/animation1.cpp \
+    Controller/animation2.cpp \
+    Controller/animation3.cpp \
+    Controller/animation4.cpp \
+    Events/evcalibration.cpp
 
 HEADERS += \
-    Controller/countdown.h \
+    factory.h \
+    config/xf-config.h \
+    config/xf-port-config.h \
+    Controller/controller.h \
     Events/evanim1.h \
+    Events/evanim2.h \
+    Events/evanim3.h \
+    Events/evanim4.h \
+    Events/evbluetoothconnected.h \
     Events/evcntdown.h \
     Events/evdone.h \
     Events/eventids.h \
+    Events/evgotozero.h \
     Events/evminus.h \
     Events/evplus.h \
     Events/evrestart.h \
-    Model/watchpointer.h \
-    Model/processor.h \
-    View/observer.h \
-    View/view.h \
-    config/xf-config.h \
-    config/xf-port-config.h \
-    factory.h \
+    Events/evrstpos.h \
     Model/clock.h \
     Model/data.h \
-    Controller/controller.h \
-    Events/evrstpos.h
+    Model/processor.h \
+    Model/watchpointer.h \
+    View/bluetoothinterface.h \
+    View/observer.h \
+    View/view.h \
+    Library/letterlibrary.h \
+    Library/numberlibrary.h \
+    Controller/animation1.h \
+    Controller/animation2.h \
+    Controller/animation3.h \
+    Controller/animation4.h \
+    Events/evcalibration.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

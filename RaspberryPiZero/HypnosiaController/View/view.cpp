@@ -1,6 +1,7 @@
 #include "view.h"
 
 //Constructor
+//Initialize the GUI application
 View::View(int x,int y,int width,int height,QString title, QWidget* parent)
     : QWidget(parent)
 {
@@ -11,12 +12,10 @@ View::View(int x,int y,int width,int height,QString title, QWidget* parent)
     this->title = title;
 
     //BUTTONS
-    countDown = new QPushButton(this);
     anim1 = new QPushButton(this);
     plusBtn = new QPushButton(this);
     minusBtn = new QPushButton(this);
     resetPosition = new QPushButton(this);
-
     btnPlusProc = new QPushButton(this);
     btnMinusProc = new QPushButton(this);
     btnPlusClock = new QPushButton(this);
@@ -28,19 +27,13 @@ View::View(int x,int y,int width,int height,QString title, QWidget* parent)
     lbClock = new QLabel(this);
     lbWatchPointer = new QLabel(this);
 
+    //Setup user interface
     setupUI();
 }
 
-void View::onBoxChanged()
-{
-    cout << "Test" << endl;
-}
-
-
 //Desctructor
 View::~View()
-{
-}
+{}
 
 //Initialize relation
 void View::initializeRelation(Controller *controller)
@@ -53,12 +46,9 @@ void View::setupUI()
 {
     this->setGeometry(x,y,width,height);
     this->setWindowTitle(this->title);
-    //this->show();
 
-    //BUTTONS
-    countDown->setText("Countdown");
-    countDown->setGeometry(15,10,120,30);
-    anim1->setText("Animation 1");
+    //Initialize BUTTONS
+    anim1->setText("Go to ZERO");
     anim1->setGeometry(165,10,120,30);
     plusBtn->setText("+");
     plusBtn->setGeometry(50,70,50,50);
@@ -98,6 +88,4 @@ void View::changed()
 
 //Close view
 void View::stop()
-{
-
-}
+{}

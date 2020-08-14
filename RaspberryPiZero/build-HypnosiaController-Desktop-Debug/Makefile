@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_BLUETOOTH_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../HypnosiaController -I. -isystem /usr/local/include -I../HypnosiaController -I../HypnosiaController -I../HypnosiaController -isystem /usr/include/arm-linux-gnueabihf/qt5 -isystem /usr/include/arm-linux-gnueabihf/qt5/QtWidgets -isystem /usr/include/arm-linux-gnueabihf/qt5/QtGui -isystem /usr/include/arm-linux-gnueabihf/qt5/QtCore -I. -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++
+INCPATH       = -I../HypnosiaController -I. -isystem /usr/local/include -I../HypnosiaController -I../HypnosiaController -I../HypnosiaController -isystem /usr/include/arm-linux-gnueabihf/qt5 -isystem /usr/include/arm-linux-gnueabihf/qt5/QtWidgets -isystem /usr/include/arm-linux-gnueabihf/qt5/QtGui -isystem /usr/include/arm-linux-gnueabihf/qt5/QtBluetooth -isystem /usr/include/arm-linux-gnueabihf/qt5/QtCore -I. -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -37,8 +37,8 @@ COMPRESS      = gzip -9f
 DISTNAME      = HypnosiaController1.0.0
 DISTDIR = /home/pi/HypnosiaControllerRP/RaspberryPiZero/build-HypnosiaController-Desktop-Debug/.tmp/HypnosiaController1.0.0
 LINK          = g++
-LFLAGS        = 
-LIBS          = $(SUBLIBS) -L/usr/local/lib -lwiringPi -lQt5Widgets -lQt5Gui -lQt5Core -lGLESv2 -lpthread -latomic 
+LFLAGS        = -Wl,-rpath-link,/usr/lib/arm-linux-gnueabihf
+LIBS          = $(SUBLIBS) -L/usr/local/lib -lwiringPi -lQt5Widgets -lQt5Gui -lQt5Bluetooth -lQt5Core -lGLESv2 -lpthread -latomic 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -63,24 +63,37 @@ SOURCES       = ../HypnosiaController/xf/xf-core/customevent.cpp \
 		../HypnosiaController/xf/xf-port-idf/eventqueue.cpp \
 		../HypnosiaController/xf/xf-port-idf/dispatcher-active.cpp \
 		../HypnosiaController/xf/xf-port-idf/timeoutmanager-default.cpp \
-		../HypnosiaController/Controller/countdown.cpp \
+		../HypnosiaController/factory.cpp \
+		../HypnosiaController/main.cpp \
+		../HypnosiaController/Controller/controller.cpp \
 		../HypnosiaController/Events/evanim1.cpp \
+		../HypnosiaController/Events/evanim2.cpp \
+		../HypnosiaController/Events/evanim3.cpp \
+		../HypnosiaController/Events/evanim4.cpp \
+		../HypnosiaController/Events/evbluetoothconnected.cpp \
 		../HypnosiaController/Events/evcntdown.cpp \
 		../HypnosiaController/Events/evdone.cpp \
+		../HypnosiaController/Events/evgotozero.cpp \
 		../HypnosiaController/Events/evminus.cpp \
 		../HypnosiaController/Events/evplus.cpp \
 		../HypnosiaController/Events/evrestart.cpp \
-		../HypnosiaController/Model/watchpointer.cpp \
-		../HypnosiaController/Model/processor.cpp \
-		../HypnosiaController/main.cpp \
-		../HypnosiaController/View/observer.cpp \
-		../HypnosiaController/View/view.cpp \
-		../HypnosiaController/factory.cpp \
+		../HypnosiaController/Events/evrstpos.cpp \
 		../HypnosiaController/Model/clock.cpp \
 		../HypnosiaController/Model/data.cpp \
-		../HypnosiaController/Controller/controller.cpp \
-		../HypnosiaController/Events/evrstpos.cpp moc_view.cpp \
-		moc_controller.cpp
+		../HypnosiaController/Model/processor.cpp \
+		../HypnosiaController/Model/watchpointer.cpp \
+		../HypnosiaController/View/bluetoothinterface.cpp \
+		../HypnosiaController/View/observer.cpp \
+		../HypnosiaController/View/view.cpp \
+		../HypnosiaController/Library/letterlibrary.cpp \
+		../HypnosiaController/Library/numberlibrary.cpp \
+		../HypnosiaController/Controller/animation1.cpp \
+		../HypnosiaController/Controller/animation2.cpp \
+		../HypnosiaController/Controller/animation3.cpp \
+		../HypnosiaController/Controller/animation4.cpp \
+		../HypnosiaController/Events/evcalibration.cpp moc_controller.cpp \
+		moc_bluetoothinterface.cpp \
+		moc_view.cpp
 OBJECTS       = customevent.o \
 		initialevent.o \
 		nulltransition.o \
@@ -94,25 +107,38 @@ OBJECTS       = customevent.o \
 		eventqueue.o \
 		dispatcher-active.o \
 		timeoutmanager-default.o \
-		countdown.o \
+		factory.o \
+		main.o \
+		controller.o \
 		evanim1.o \
+		evanim2.o \
+		evanim3.o \
+		evanim4.o \
+		evbluetoothconnected.o \
 		evcntdown.o \
 		evdone.o \
+		evgotozero.o \
 		evminus.o \
 		evplus.o \
 		evrestart.o \
-		watchpointer.o \
-		processor.o \
-		main.o \
-		observer.o \
-		view.o \
-		factory.o \
+		evrstpos.o \
 		clock.o \
 		data.o \
-		controller.o \
-		evrstpos.o \
-		moc_view.o \
-		moc_controller.o
+		processor.o \
+		watchpointer.o \
+		bluetoothinterface.o \
+		observer.o \
+		view.o \
+		letterlibrary.o \
+		numberlibrary.o \
+		animation1.o \
+		animation2.o \
+		animation3.o \
+		animation4.o \
+		evcalibration.o \
+		moc_controller.o \
+		moc_bluetoothinterface.o \
+		moc_view.o
 DIST          = /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/common/unix.conf \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/common/linux.conf \
@@ -123,6 +149,8 @@ DIST          = /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/qconfig.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
+		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_bluetooth.pri \
+		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_bluetooth_private.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_concurrent.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_concurrent_private.pri \
@@ -145,6 +173,8 @@ DIST          = /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_linuxaccessibility_support_private.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_network.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_network_private.pri \
+		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_nfc.pri \
+		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_nfc_private.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_opengl.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_opengl_private.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_openglextensions.pri \
@@ -213,25 +243,37 @@ DIST          = /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/spec_pre.prf \
 		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
 		../HypnosiaController/xf/xf-port-idf/dispatcher-active.h \
 		../HypnosiaController/xf/xf-port-idf/timeoutmanager-default.h \
-		../HypnosiaController/Controller/countdown.h \
+		../HypnosiaController/factory.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/Controller/controller.h \
 		../HypnosiaController/Events/evanim1.h \
+		../HypnosiaController/Events/evanim2.h \
+		../HypnosiaController/Events/evanim3.h \
+		../HypnosiaController/Events/evanim4.h \
+		../HypnosiaController/Events/evbluetoothconnected.h \
 		../HypnosiaController/Events/evcntdown.h \
 		../HypnosiaController/Events/evdone.h \
 		../HypnosiaController/Events/eventids.h \
+		../HypnosiaController/Events/evgotozero.h \
 		../HypnosiaController/Events/evminus.h \
 		../HypnosiaController/Events/evplus.h \
 		../HypnosiaController/Events/evrestart.h \
-		../HypnosiaController/Model/watchpointer.h \
-		../HypnosiaController/Model/processor.h \
-		../HypnosiaController/View/observer.h \
-		../HypnosiaController/View/view.h \
-		../HypnosiaController/config/xf-config.h \
-		../HypnosiaController/config/xf-port-config.h \
-		../HypnosiaController/factory.h \
+		../HypnosiaController/Events/evrstpos.h \
 		../HypnosiaController/Model/clock.h \
 		../HypnosiaController/Model/data.h \
-		../HypnosiaController/Controller/controller.h \
-		../HypnosiaController/Events/evrstpos.h ../HypnosiaController/xf/xf-core/customevent.cpp \
+		../HypnosiaController/Model/processor.h \
+		../HypnosiaController/Model/watchpointer.h \
+		../HypnosiaController/View/bluetoothinterface.h \
+		../HypnosiaController/View/observer.h \
+		../HypnosiaController/View/view.h \
+		../HypnosiaController/Library/letterlibrary.h \
+		../HypnosiaController/Library/numberlibrary.h \
+		../HypnosiaController/Controller/animation1.h \
+		../HypnosiaController/Controller/animation2.h \
+		../HypnosiaController/Controller/animation3.h \
+		../HypnosiaController/Controller/animation4.h \
+		../HypnosiaController/Events/evcalibration.h ../HypnosiaController/xf/xf-core/customevent.cpp \
 		../HypnosiaController/xf/xf-core/initialevent.cpp \
 		../HypnosiaController/xf/xf-core/nulltransition.cpp \
 		../HypnosiaController/xf/xf-core/behavior.cpp \
@@ -244,23 +286,35 @@ DIST          = /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/spec_pre.prf \
 		../HypnosiaController/xf/xf-port-idf/eventqueue.cpp \
 		../HypnosiaController/xf/xf-port-idf/dispatcher-active.cpp \
 		../HypnosiaController/xf/xf-port-idf/timeoutmanager-default.cpp \
-		../HypnosiaController/Controller/countdown.cpp \
+		../HypnosiaController/factory.cpp \
+		../HypnosiaController/main.cpp \
+		../HypnosiaController/Controller/controller.cpp \
 		../HypnosiaController/Events/evanim1.cpp \
+		../HypnosiaController/Events/evanim2.cpp \
+		../HypnosiaController/Events/evanim3.cpp \
+		../HypnosiaController/Events/evanim4.cpp \
+		../HypnosiaController/Events/evbluetoothconnected.cpp \
 		../HypnosiaController/Events/evcntdown.cpp \
 		../HypnosiaController/Events/evdone.cpp \
+		../HypnosiaController/Events/evgotozero.cpp \
 		../HypnosiaController/Events/evminus.cpp \
 		../HypnosiaController/Events/evplus.cpp \
 		../HypnosiaController/Events/evrestart.cpp \
-		../HypnosiaController/Model/watchpointer.cpp \
-		../HypnosiaController/Model/processor.cpp \
-		../HypnosiaController/main.cpp \
-		../HypnosiaController/View/observer.cpp \
-		../HypnosiaController/View/view.cpp \
-		../HypnosiaController/factory.cpp \
+		../HypnosiaController/Events/evrstpos.cpp \
 		../HypnosiaController/Model/clock.cpp \
 		../HypnosiaController/Model/data.cpp \
-		../HypnosiaController/Controller/controller.cpp \
-		../HypnosiaController/Events/evrstpos.cpp
+		../HypnosiaController/Model/processor.cpp \
+		../HypnosiaController/Model/watchpointer.cpp \
+		../HypnosiaController/View/bluetoothinterface.cpp \
+		../HypnosiaController/View/observer.cpp \
+		../HypnosiaController/View/view.cpp \
+		../HypnosiaController/Library/letterlibrary.cpp \
+		../HypnosiaController/Library/numberlibrary.cpp \
+		../HypnosiaController/Controller/animation1.cpp \
+		../HypnosiaController/Controller/animation2.cpp \
+		../HypnosiaController/Controller/animation3.cpp \
+		../HypnosiaController/Controller/animation4.cpp \
+		../HypnosiaController/Events/evcalibration.cpp
 QMAKE_TARGET  = HypnosiaController
 DESTDIR       = 
 TARGET        = HypnosiaController
@@ -282,6 +336,8 @@ Makefile: ../HypnosiaController/HypnosiaController.pro /usr/lib/arm-linux-gnueab
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/qconfig.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
+		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_bluetooth.pri \
+		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_bluetooth_private.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_concurrent.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_concurrent_private.pri \
@@ -304,6 +360,8 @@ Makefile: ../HypnosiaController/HypnosiaController.pro /usr/lib/arm-linux-gnueab
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_linuxaccessibility_support_private.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_network.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_network_private.pri \
+		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_nfc.pri \
+		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_nfc_private.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_opengl.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_opengl_private.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_openglextensions.pri \
@@ -353,6 +411,7 @@ Makefile: ../HypnosiaController/HypnosiaController.pro /usr/lib/arm-linux-gnueab
 		../HypnosiaController/HypnosiaController.pro \
 		/usr/lib/arm-linux-gnueabihf/libQt5Widgets.prl \
 		/usr/lib/arm-linux-gnueabihf/libQt5Gui.prl \
+		/usr/lib/arm-linux-gnueabihf/libQt5Bluetooth.prl \
 		/usr/lib/arm-linux-gnueabihf/libQt5Core.prl
 	$(QMAKE) -o Makefile ../HypnosiaController/HypnosiaController.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/spec_pre.prf:
@@ -365,6 +424,8 @@ Makefile: ../HypnosiaController/HypnosiaController.pro /usr/lib/arm-linux-gnueab
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/common/g++-unix.conf:
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/qconfig.pri:
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri:
+/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_bluetooth.pri:
+/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_bluetooth_private.pri:
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri:
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_concurrent.pri:
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_concurrent_private.pri:
@@ -387,6 +448,8 @@ Makefile: ../HypnosiaController/HypnosiaController.pro /usr/lib/arm-linux-gnueab
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_linuxaccessibility_support_private.pri:
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_network.pri:
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_network_private.pri:
+/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_nfc.pri:
+/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_nfc_private.pri:
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_opengl.pri:
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_opengl_private.pri:
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_openglextensions.pri:
@@ -436,6 +499,7 @@ Makefile: ../HypnosiaController/HypnosiaController.pro /usr/lib/arm-linux-gnueab
 ../HypnosiaController/HypnosiaController.pro:
 /usr/lib/arm-linux-gnueabihf/libQt5Widgets.prl:
 /usr/lib/arm-linux-gnueabihf/libQt5Gui.prl:
+/usr/lib/arm-linux-gnueabihf/libQt5Bluetooth.prl:
 /usr/lib/arm-linux-gnueabihf/libQt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../HypnosiaController/HypnosiaController.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
@@ -452,8 +516,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../HypnosiaController/xf/xf-core/interface/resourcefactory.h ../HypnosiaController/xf/xf-core/interface/timeoutmanager.h ../HypnosiaController/xf/xf-core/interface/reactive.h ../HypnosiaController/xf/xf-core/interface/dispatcher.h ../HypnosiaController/xf/xf-core/interface/eventqueue.h ../HypnosiaController/xf/xf-core/interface/thread.h ../HypnosiaController/xf/xf-core/interface/mutex.h ../HypnosiaController/xf/xf-core/customevent.h ../HypnosiaController/xf/xf-core/event.h ../HypnosiaController/xf/xf-core/eventstatus.h ../HypnosiaController/xf/xf-core/initialevent.h ../HypnosiaController/xf/xf-core/nulltransition.h ../HypnosiaController/xf/xf-core/behavior.h ../HypnosiaController/xf/xf-core/timeout.h ../HypnosiaController/xf/xf-core/xf.h ../HypnosiaController/xf/xf-port-default-qt/mutex-default.h ../HypnosiaController/xf/xf-port-default-qt/thread-default.h ../HypnosiaController/xf/xf-port-idf/port-functions.h ../HypnosiaController/xf/xf-port-idf/resourcefactory.h ../HypnosiaController/xf/xf-port-idf/eventqueue.h ../HypnosiaController/xf/xf-port-idf/dispatcher-active.h ../HypnosiaController/xf/xf-port-idf/timeoutmanager-default.h ../HypnosiaController/Controller/countdown.h ../HypnosiaController/Events/evanim1.h ../HypnosiaController/Events/evcntdown.h ../HypnosiaController/Events/evdone.h ../HypnosiaController/Events/eventids.h ../HypnosiaController/Events/evminus.h ../HypnosiaController/Events/evplus.h ../HypnosiaController/Events/evrestart.h ../HypnosiaController/Model/watchpointer.h ../HypnosiaController/Model/processor.h ../HypnosiaController/View/observer.h ../HypnosiaController/View/view.h ../HypnosiaController/config/xf-config.h ../HypnosiaController/config/xf-port-config.h ../HypnosiaController/factory.h ../HypnosiaController/Model/clock.h ../HypnosiaController/Model/data.h ../HypnosiaController/Controller/controller.h ../HypnosiaController/Events/evrstpos.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../HypnosiaController/xf/xf-core/customevent.cpp ../HypnosiaController/xf/xf-core/initialevent.cpp ../HypnosiaController/xf/xf-core/nulltransition.cpp ../HypnosiaController/xf/xf-core/behavior.cpp ../HypnosiaController/xf/xf-core/timeout.cpp ../HypnosiaController/xf/xf-port-default-qt/mutex-default.cpp ../HypnosiaController/xf/xf-port-default-qt/thread-default.cpp ../HypnosiaController/xf/xf-port-idf/xf.cpp ../HypnosiaController/xf/xf-port-idf/port-functions.cpp ../HypnosiaController/xf/xf-port-idf/resourcefactory.cpp ../HypnosiaController/xf/xf-port-idf/eventqueue.cpp ../HypnosiaController/xf/xf-port-idf/dispatcher-active.cpp ../HypnosiaController/xf/xf-port-idf/timeoutmanager-default.cpp ../HypnosiaController/Controller/countdown.cpp ../HypnosiaController/Events/evanim1.cpp ../HypnosiaController/Events/evcntdown.cpp ../HypnosiaController/Events/evdone.cpp ../HypnosiaController/Events/evminus.cpp ../HypnosiaController/Events/evplus.cpp ../HypnosiaController/Events/evrestart.cpp ../HypnosiaController/Model/watchpointer.cpp ../HypnosiaController/Model/processor.cpp ../HypnosiaController/main.cpp ../HypnosiaController/View/observer.cpp ../HypnosiaController/View/view.cpp ../HypnosiaController/factory.cpp ../HypnosiaController/Model/clock.cpp ../HypnosiaController/Model/data.cpp ../HypnosiaController/Controller/controller.cpp ../HypnosiaController/Events/evrstpos.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../HypnosiaController/xf/xf-core/interface/resourcefactory.h ../HypnosiaController/xf/xf-core/interface/timeoutmanager.h ../HypnosiaController/xf/xf-core/interface/reactive.h ../HypnosiaController/xf/xf-core/interface/dispatcher.h ../HypnosiaController/xf/xf-core/interface/eventqueue.h ../HypnosiaController/xf/xf-core/interface/thread.h ../HypnosiaController/xf/xf-core/interface/mutex.h ../HypnosiaController/xf/xf-core/customevent.h ../HypnosiaController/xf/xf-core/event.h ../HypnosiaController/xf/xf-core/eventstatus.h ../HypnosiaController/xf/xf-core/initialevent.h ../HypnosiaController/xf/xf-core/nulltransition.h ../HypnosiaController/xf/xf-core/behavior.h ../HypnosiaController/xf/xf-core/timeout.h ../HypnosiaController/xf/xf-core/xf.h ../HypnosiaController/xf/xf-port-default-qt/mutex-default.h ../HypnosiaController/xf/xf-port-default-qt/thread-default.h ../HypnosiaController/xf/xf-port-idf/port-functions.h ../HypnosiaController/xf/xf-port-idf/resourcefactory.h ../HypnosiaController/xf/xf-port-idf/eventqueue.h ../HypnosiaController/xf/xf-port-idf/dispatcher-active.h ../HypnosiaController/xf/xf-port-idf/timeoutmanager-default.h ../HypnosiaController/factory.h ../HypnosiaController/config/xf-config.h ../HypnosiaController/config/xf-port-config.h ../HypnosiaController/Controller/controller.h ../HypnosiaController/Events/evanim1.h ../HypnosiaController/Events/evanim2.h ../HypnosiaController/Events/evanim3.h ../HypnosiaController/Events/evanim4.h ../HypnosiaController/Events/evbluetoothconnected.h ../HypnosiaController/Events/evcntdown.h ../HypnosiaController/Events/evdone.h ../HypnosiaController/Events/eventids.h ../HypnosiaController/Events/evgotozero.h ../HypnosiaController/Events/evminus.h ../HypnosiaController/Events/evplus.h ../HypnosiaController/Events/evrestart.h ../HypnosiaController/Events/evrstpos.h ../HypnosiaController/Model/clock.h ../HypnosiaController/Model/data.h ../HypnosiaController/Model/processor.h ../HypnosiaController/Model/watchpointer.h ../HypnosiaController/View/bluetoothinterface.h ../HypnosiaController/View/observer.h ../HypnosiaController/View/view.h ../HypnosiaController/Library/letterlibrary.h ../HypnosiaController/Library/numberlibrary.h ../HypnosiaController/Controller/animation1.h ../HypnosiaController/Controller/animation2.h ../HypnosiaController/Controller/animation3.h ../HypnosiaController/Controller/animation4.h ../HypnosiaController/Events/evcalibration.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../HypnosiaController/xf/xf-core/customevent.cpp ../HypnosiaController/xf/xf-core/initialevent.cpp ../HypnosiaController/xf/xf-core/nulltransition.cpp ../HypnosiaController/xf/xf-core/behavior.cpp ../HypnosiaController/xf/xf-core/timeout.cpp ../HypnosiaController/xf/xf-port-default-qt/mutex-default.cpp ../HypnosiaController/xf/xf-port-default-qt/thread-default.cpp ../HypnosiaController/xf/xf-port-idf/xf.cpp ../HypnosiaController/xf/xf-port-idf/port-functions.cpp ../HypnosiaController/xf/xf-port-idf/resourcefactory.cpp ../HypnosiaController/xf/xf-port-idf/eventqueue.cpp ../HypnosiaController/xf/xf-port-idf/dispatcher-active.cpp ../HypnosiaController/xf/xf-port-idf/timeoutmanager-default.cpp ../HypnosiaController/factory.cpp ../HypnosiaController/main.cpp ../HypnosiaController/Controller/controller.cpp ../HypnosiaController/Events/evanim1.cpp ../HypnosiaController/Events/evanim2.cpp ../HypnosiaController/Events/evanim3.cpp ../HypnosiaController/Events/evanim4.cpp ../HypnosiaController/Events/evbluetoothconnected.cpp ../HypnosiaController/Events/evcntdown.cpp ../HypnosiaController/Events/evdone.cpp ../HypnosiaController/Events/evgotozero.cpp ../HypnosiaController/Events/evminus.cpp ../HypnosiaController/Events/evplus.cpp ../HypnosiaController/Events/evrestart.cpp ../HypnosiaController/Events/evrstpos.cpp ../HypnosiaController/Model/clock.cpp ../HypnosiaController/Model/data.cpp ../HypnosiaController/Model/processor.cpp ../HypnosiaController/Model/watchpointer.cpp ../HypnosiaController/View/bluetoothinterface.cpp ../HypnosiaController/View/observer.cpp ../HypnosiaController/View/view.cpp ../HypnosiaController/Library/letterlibrary.cpp ../HypnosiaController/Library/numberlibrary.cpp ../HypnosiaController/Controller/animation1.cpp ../HypnosiaController/Controller/animation2.cpp ../HypnosiaController/Controller/animation3.cpp ../HypnosiaController/Controller/animation4.cpp ../HypnosiaController/Events/evcalibration.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -485,16 +549,83 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_view.cpp moc_controller.cpp
+compiler_moc_header_make_all: moc_controller.cpp moc_bluetoothinterface.cpp moc_view.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_view.cpp moc_controller.cpp
+	-$(DEL_FILE) moc_controller.cpp moc_bluetoothinterface.cpp moc_view.cpp
+moc_controller.cpp: ../HypnosiaController/Model/data.h \
+		../HypnosiaController/Library/letterlibrary.h \
+		../HypnosiaController/Library/numberlibrary.h \
+		../HypnosiaController/View/observer.h \
+		../HypnosiaController/Model/processor.h \
+		../HypnosiaController/Model/clock.h \
+		../HypnosiaController/Model/watchpointer.h \
+		../HypnosiaController/View/view.h \
+		../HypnosiaController/Controller/controller.h \
+		../HypnosiaController/View/bluetoothinterface.h \
+		../HypnosiaController/xf/xf-core/behavior.h \
+		../HypnosiaController/xf/xf-core/interface/reactive.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/xf/xf-core/eventstatus.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/initialevent.h \
+		../HypnosiaController/xf/xf-core/nulltransition.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/timeout.h \
+		../HypnosiaController/Controller/animation1.h \
+		../HypnosiaController/Controller/animation2.h \
+		../HypnosiaController/Controller/animation3.h \
+		../HypnosiaController/Controller/animation4.h \
+		../HypnosiaController/Controller/controller.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pi/HypnosiaControllerRP/RaspberryPiZero/build-HypnosiaController-Desktop-Debug/moc_predefs.h -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/usr/local/include -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtBluetooth -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -I. -I/usr/include/c++/8 -I/usr/include/arm-linux-gnueabihf/c++/8 -I/usr/include/c++/8/backward -I/usr/lib/gcc/arm-linux-gnueabihf/8/include -I/usr/local/include -I/usr/lib/gcc/arm-linux-gnueabihf/8/include-fixed -I/usr/include/arm-linux-gnueabihf -I/usr/include ../HypnosiaController/Controller/controller.h -o moc_controller.cpp
+
+moc_bluetoothinterface.cpp: ../HypnosiaController/View/observer.h \
+		../HypnosiaController/Controller/controller.h \
+		../HypnosiaController/Model/data.h \
+		../HypnosiaController/Library/letterlibrary.h \
+		../HypnosiaController/Library/numberlibrary.h \
+		../HypnosiaController/Model/processor.h \
+		../HypnosiaController/Model/clock.h \
+		../HypnosiaController/Model/watchpointer.h \
+		../HypnosiaController/View/view.h \
+		../HypnosiaController/View/bluetoothinterface.h \
+		../HypnosiaController/xf/xf-core/behavior.h \
+		../HypnosiaController/xf/xf-core/interface/reactive.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/xf/xf-core/eventstatus.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/initialevent.h \
+		../HypnosiaController/xf/xf-core/nulltransition.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/timeout.h \
+		../HypnosiaController/Controller/animation1.h \
+		../HypnosiaController/Controller/animation2.h \
+		../HypnosiaController/Controller/animation3.h \
+		../HypnosiaController/Controller/animation4.h \
+		../HypnosiaController/View/bluetoothinterface.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pi/HypnosiaControllerRP/RaspberryPiZero/build-HypnosiaController-Desktop-Debug/moc_predefs.h -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/usr/local/include -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtBluetooth -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -I. -I/usr/include/c++/8 -I/usr/include/arm-linux-gnueabihf/c++/8 -I/usr/include/c++/8/backward -I/usr/lib/gcc/arm-linux-gnueabihf/8/include -I/usr/local/include -I/usr/lib/gcc/arm-linux-gnueabihf/8/include-fixed -I/usr/include/arm-linux-gnueabihf -I/usr/include ../HypnosiaController/View/bluetoothinterface.h -o moc_bluetoothinterface.cpp
+
 moc_view.cpp: ../HypnosiaController/Controller/controller.h \
 		../HypnosiaController/Model/data.h \
+		../HypnosiaController/Library/letterlibrary.h \
+		../HypnosiaController/Library/numberlibrary.h \
 		../HypnosiaController/View/observer.h \
 		../HypnosiaController/Model/processor.h \
 		../HypnosiaController/Model/clock.h \
 		../HypnosiaController/Model/watchpointer.h \
 		../HypnosiaController/View/view.h \
+		../HypnosiaController/View/bluetoothinterface.h \
 		../HypnosiaController/xf/xf-core/behavior.h \
 		../HypnosiaController/xf/xf-core/interface/reactive.h \
 		../HypnosiaController/xf/xf-core/event.h \
@@ -508,37 +639,14 @@ moc_view.cpp: ../HypnosiaController/Controller/controller.h \
 		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
 		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
 		../HypnosiaController/xf/xf-core/timeout.h \
-		../HypnosiaController/Controller/countdown.h \
+		../HypnosiaController/Controller/animation1.h \
+		../HypnosiaController/Controller/animation2.h \
+		../HypnosiaController/Controller/animation3.h \
+		../HypnosiaController/Controller/animation4.h \
 		../HypnosiaController/View/view.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pi/HypnosiaControllerRP/RaspberryPiZero/build-HypnosiaController-Desktop-Debug/moc_predefs.h -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/usr/local/include -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -I. -I/usr/include/c++/8 -I/usr/include/arm-linux-gnueabihf/c++/8 -I/usr/include/c++/8/backward -I/usr/lib/gcc/arm-linux-gnueabihf/8/include -I/usr/local/include -I/usr/lib/gcc/arm-linux-gnueabihf/8/include-fixed -I/usr/include/arm-linux-gnueabihf -I/usr/include ../HypnosiaController/View/view.h -o moc_view.cpp
-
-moc_controller.cpp: ../HypnosiaController/Model/data.h \
-		../HypnosiaController/View/observer.h \
-		../HypnosiaController/Model/processor.h \
-		../HypnosiaController/Model/clock.h \
-		../HypnosiaController/Model/watchpointer.h \
-		../HypnosiaController/View/view.h \
-		../HypnosiaController/Controller/controller.h \
-		../HypnosiaController/xf/xf-core/behavior.h \
-		../HypnosiaController/xf/xf-core/interface/reactive.h \
-		../HypnosiaController/xf/xf-core/event.h \
-		../HypnosiaController/xf/xf-core/eventstatus.h \
-		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
-		../HypnosiaController/xf/xf-core/initialevent.h \
-		../HypnosiaController/xf/xf-core/nulltransition.h \
-		../HypnosiaController/xf/xf-core/xf.h \
-		../HypnosiaController/config/xf-config.h \
-		../HypnosiaController/config/xf-port-config.h \
-		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
-		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
-		../HypnosiaController/xf/xf-core/timeout.h \
-		../HypnosiaController/Controller/countdown.h \
-		../HypnosiaController/Controller/controller.h \
-		moc_predefs.h \
-		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pi/HypnosiaControllerRP/RaspberryPiZero/build-HypnosiaController-Desktop-Debug/moc_predefs.h -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/usr/local/include -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -I. -I/usr/include/c++/8 -I/usr/include/arm-linux-gnueabihf/c++/8 -I/usr/include/c++/8/backward -I/usr/lib/gcc/arm-linux-gnueabihf/8/include -I/usr/local/include -I/usr/lib/gcc/arm-linux-gnueabihf/8/include-fixed -I/usr/include/arm-linux-gnueabihf -I/usr/include ../HypnosiaController/Controller/controller.h -o moc_controller.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pi/HypnosiaControllerRP/RaspberryPiZero/build-HypnosiaController-Desktop-Debug/moc_predefs.h -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/usr/local/include -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/home/pi/HypnosiaControllerRP/RaspberryPiZero/HypnosiaController -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtBluetooth -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -I. -I/usr/include/c++/8 -I/usr/include/arm-linux-gnueabihf/c++/8 -I/usr/include/c++/8/backward -I/usr/lib/gcc/arm-linux-gnueabihf/8/include -I/usr/local/include -I/usr/lib/gcc/arm-linux-gnueabihf/8/include-fixed -I/usr/include/arm-linux-gnueabihf -I/usr/include ../HypnosiaController/View/view.h -o moc_view.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -688,14 +796,17 @@ timeoutmanager-default.o: ../HypnosiaController/xf/xf-port-idf/timeoutmanager-de
 		../HypnosiaController/xf/xf-core/timeout.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o timeoutmanager-default.o ../HypnosiaController/xf/xf-port-idf/timeoutmanager-default.cpp
 
-countdown.o: ../HypnosiaController/Controller/countdown.cpp ../HypnosiaController/Controller/countdown.h \
+factory.o: ../HypnosiaController/factory.cpp ../HypnosiaController/factory.h \
 		../HypnosiaController/Controller/controller.h \
 		../HypnosiaController/Model/data.h \
+		../HypnosiaController/Library/letterlibrary.h \
+		../HypnosiaController/Library/numberlibrary.h \
 		../HypnosiaController/View/observer.h \
 		../HypnosiaController/Model/processor.h \
 		../HypnosiaController/Model/clock.h \
 		../HypnosiaController/Model/watchpointer.h \
 		../HypnosiaController/View/view.h \
+		../HypnosiaController/View/bluetoothinterface.h \
 		../HypnosiaController/xf/xf-core/behavior.h \
 		../HypnosiaController/xf/xf-core/interface/reactive.h \
 		../HypnosiaController/xf/xf-core/event.h \
@@ -709,10 +820,85 @@ countdown.o: ../HypnosiaController/Controller/countdown.cpp ../HypnosiaControlle
 		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
 		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
 		../HypnosiaController/xf/xf-core/timeout.h \
-		../HypnosiaController/Events/evdone.h \
+		../HypnosiaController/Controller/animation1.h \
+		../HypnosiaController/Controller/animation2.h \
+		../HypnosiaController/Controller/animation3.h \
+		../HypnosiaController/Controller/animation4.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o factory.o ../HypnosiaController/factory.cpp
+
+main.o: ../HypnosiaController/main.cpp ../HypnosiaController/xf/xf-core/behavior.h \
+		../HypnosiaController/xf/xf-core/interface/reactive.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/xf/xf-core/eventstatus.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/initialevent.h \
+		../HypnosiaController/xf/xf-core/nulltransition.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/timeout.h \
+		../HypnosiaController/factory.h \
+		../HypnosiaController/Controller/controller.h \
+		../HypnosiaController/Model/data.h \
+		../HypnosiaController/Library/letterlibrary.h \
+		../HypnosiaController/Library/numberlibrary.h \
+		../HypnosiaController/View/observer.h \
+		../HypnosiaController/Model/processor.h \
+		../HypnosiaController/Model/clock.h \
+		../HypnosiaController/Model/watchpointer.h \
+		../HypnosiaController/View/view.h \
+		../HypnosiaController/View/bluetoothinterface.h \
+		../HypnosiaController/Controller/animation1.h \
+		../HypnosiaController/Controller/animation2.h \
+		../HypnosiaController/Controller/animation3.h \
+		../HypnosiaController/Controller/animation4.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../HypnosiaController/main.cpp
+
+controller.o: ../HypnosiaController/Controller/controller.cpp ../HypnosiaController/Controller/controller.h \
+		../HypnosiaController/Model/data.h \
+		../HypnosiaController/Library/letterlibrary.h \
+		../HypnosiaController/Library/numberlibrary.h \
+		../HypnosiaController/View/observer.h \
+		../HypnosiaController/Model/processor.h \
+		../HypnosiaController/Model/clock.h \
+		../HypnosiaController/Model/watchpointer.h \
+		../HypnosiaController/View/view.h \
+		../HypnosiaController/View/bluetoothinterface.h \
+		../HypnosiaController/xf/xf-core/behavior.h \
+		../HypnosiaController/xf/xf-core/interface/reactive.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/xf/xf-core/eventstatus.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/initialevent.h \
+		../HypnosiaController/xf/xf-core/nulltransition.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/timeout.h \
+		../HypnosiaController/Controller/animation1.h \
+		../HypnosiaController/Controller/animation2.h \
+		../HypnosiaController/Controller/animation3.h \
+		../HypnosiaController/Controller/animation4.h \
+		../HypnosiaController/Events/evrestart.h \
 		../HypnosiaController/xf/xf-core/customevent.h \
-		../HypnosiaController/Events/eventids.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o countdown.o ../HypnosiaController/Controller/countdown.cpp
+		../HypnosiaController/Events/eventids.h \
+		../HypnosiaController/Events/evcntdown.h \
+		../HypnosiaController/Events/evanim1.h \
+		../HypnosiaController/Events/evanim2.h \
+		../HypnosiaController/Events/evanim3.h \
+		../HypnosiaController/Events/evanim4.h \
+		../HypnosiaController/Events/evdone.h \
+		../HypnosiaController/Events/evplus.h \
+		../HypnosiaController/Events/evminus.h \
+		../HypnosiaController/Events/evrstpos.h \
+		../HypnosiaController/Events/evgotozero.h \
+		../HypnosiaController/Events/evbluetoothconnected.h \
+		../HypnosiaController/Events/evcalibration.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o controller.o ../HypnosiaController/Controller/controller.cpp
 
 evanim1.o: ../HypnosiaController/Events/evanim1.cpp ../HypnosiaController/Events/evanim1.h \
 		../HypnosiaController/xf/xf-core/customevent.h \
@@ -725,6 +911,54 @@ evanim1.o: ../HypnosiaController/Events/evanim1.cpp ../HypnosiaController/Events
 		../HypnosiaController/xf/xf-core/event.h \
 		../HypnosiaController/Events/eventids.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o evanim1.o ../HypnosiaController/Events/evanim1.cpp
+
+evanim2.o: ../HypnosiaController/Events/evanim2.cpp ../HypnosiaController/Events/evanim2.h \
+		../HypnosiaController/xf/xf-core/customevent.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/Events/eventids.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o evanim2.o ../HypnosiaController/Events/evanim2.cpp
+
+evanim3.o: ../HypnosiaController/Events/evanim3.cpp ../HypnosiaController/Events/evanim3.h \
+		../HypnosiaController/xf/xf-core/customevent.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/Events/eventids.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o evanim3.o ../HypnosiaController/Events/evanim3.cpp
+
+evanim4.o: ../HypnosiaController/Events/evanim4.cpp ../HypnosiaController/Events/evanim4.h \
+		../HypnosiaController/xf/xf-core/customevent.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/Events/eventids.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o evanim4.o ../HypnosiaController/Events/evanim4.cpp
+
+evbluetoothconnected.o: ../HypnosiaController/Events/evbluetoothconnected.cpp ../HypnosiaController/Events/evbluetoothconnected.h \
+		../HypnosiaController/xf/xf-core/customevent.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/Events/eventids.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o evbluetoothconnected.o ../HypnosiaController/Events/evbluetoothconnected.cpp
 
 evcntdown.o: ../HypnosiaController/Events/evcntdown.cpp ../HypnosiaController/Events/evcntdown.h \
 		../HypnosiaController/xf/xf-core/customevent.h \
@@ -749,6 +983,18 @@ evdone.o: ../HypnosiaController/Events/evdone.cpp ../HypnosiaController/Events/e
 		../HypnosiaController/xf/xf-core/event.h \
 		../HypnosiaController/Events/eventids.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o evdone.o ../HypnosiaController/Events/evdone.cpp
+
+evgotozero.o: ../HypnosiaController/Events/evgotozero.cpp ../HypnosiaController/Events/evgotozero.h \
+		../HypnosiaController/xf/xf-core/customevent.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/Events/eventids.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o evgotozero.o ../HypnosiaController/Events/evgotozero.cpp
 
 evminus.o: ../HypnosiaController/Events/evminus.cpp ../HypnosiaController/Events/evminus.h \
 		../HypnosiaController/xf/xf-core/customevent.h \
@@ -786,131 +1032,6 @@ evrestart.o: ../HypnosiaController/Events/evrestart.cpp ../HypnosiaController/Ev
 		../HypnosiaController/Events/eventids.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o evrestart.o ../HypnosiaController/Events/evrestart.cpp
 
-watchpointer.o: ../HypnosiaController/Model/watchpointer.cpp ../HypnosiaController/Model/watchpointer.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o watchpointer.o ../HypnosiaController/Model/watchpointer.cpp
-
-processor.o: ../HypnosiaController/Model/processor.cpp ../HypnosiaController/Model/processor.h \
-		../HypnosiaController/Model/clock.h \
-		../HypnosiaController/Model/watchpointer.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o processor.o ../HypnosiaController/Model/processor.cpp
-
-main.o: ../HypnosiaController/main.cpp ../HypnosiaController/xf/xf-core/behavior.h \
-		../HypnosiaController/xf/xf-core/interface/reactive.h \
-		../HypnosiaController/xf/xf-core/event.h \
-		../HypnosiaController/xf/xf-core/eventstatus.h \
-		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
-		../HypnosiaController/xf/xf-core/initialevent.h \
-		../HypnosiaController/xf/xf-core/nulltransition.h \
-		../HypnosiaController/xf/xf-core/xf.h \
-		../HypnosiaController/config/xf-config.h \
-		../HypnosiaController/config/xf-port-config.h \
-		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
-		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
-		../HypnosiaController/xf/xf-core/timeout.h \
-		../HypnosiaController/factory.h \
-		../HypnosiaController/Controller/controller.h \
-		../HypnosiaController/Model/data.h \
-		../HypnosiaController/View/observer.h \
-		../HypnosiaController/Model/processor.h \
-		../HypnosiaController/Model/clock.h \
-		../HypnosiaController/Model/watchpointer.h \
-		../HypnosiaController/View/view.h \
-		../HypnosiaController/Controller/countdown.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../HypnosiaController/main.cpp
-
-observer.o: ../HypnosiaController/View/observer.cpp ../HypnosiaController/View/observer.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o observer.o ../HypnosiaController/View/observer.cpp
-
-view.o: ../HypnosiaController/View/view.cpp ../HypnosiaController/View/view.h \
-		../HypnosiaController/Controller/controller.h \
-		../HypnosiaController/Model/data.h \
-		../HypnosiaController/View/observer.h \
-		../HypnosiaController/Model/processor.h \
-		../HypnosiaController/Model/clock.h \
-		../HypnosiaController/Model/watchpointer.h \
-		../HypnosiaController/xf/xf-core/behavior.h \
-		../HypnosiaController/xf/xf-core/interface/reactive.h \
-		../HypnosiaController/xf/xf-core/event.h \
-		../HypnosiaController/xf/xf-core/eventstatus.h \
-		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
-		../HypnosiaController/xf/xf-core/initialevent.h \
-		../HypnosiaController/xf/xf-core/nulltransition.h \
-		../HypnosiaController/xf/xf-core/xf.h \
-		../HypnosiaController/config/xf-config.h \
-		../HypnosiaController/config/xf-port-config.h \
-		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
-		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
-		../HypnosiaController/xf/xf-core/timeout.h \
-		../HypnosiaController/Controller/countdown.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o view.o ../HypnosiaController/View/view.cpp
-
-factory.o: ../HypnosiaController/factory.cpp ../HypnosiaController/factory.h \
-		../HypnosiaController/Controller/controller.h \
-		../HypnosiaController/Model/data.h \
-		../HypnosiaController/View/observer.h \
-		../HypnosiaController/Model/processor.h \
-		../HypnosiaController/Model/clock.h \
-		../HypnosiaController/Model/watchpointer.h \
-		../HypnosiaController/View/view.h \
-		../HypnosiaController/xf/xf-core/behavior.h \
-		../HypnosiaController/xf/xf-core/interface/reactive.h \
-		../HypnosiaController/xf/xf-core/event.h \
-		../HypnosiaController/xf/xf-core/eventstatus.h \
-		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
-		../HypnosiaController/xf/xf-core/initialevent.h \
-		../HypnosiaController/xf/xf-core/nulltransition.h \
-		../HypnosiaController/xf/xf-core/xf.h \
-		../HypnosiaController/config/xf-config.h \
-		../HypnosiaController/config/xf-port-config.h \
-		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
-		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
-		../HypnosiaController/xf/xf-core/timeout.h \
-		../HypnosiaController/Controller/countdown.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o factory.o ../HypnosiaController/factory.cpp
-
-clock.o: ../HypnosiaController/Model/clock.cpp ../HypnosiaController/Model/clock.h \
-		../HypnosiaController/Model/watchpointer.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o clock.o ../HypnosiaController/Model/clock.cpp
-
-data.o: ../HypnosiaController/Model/data.cpp ../HypnosiaController/Model/data.h \
-		../HypnosiaController/View/observer.h \
-		../HypnosiaController/Model/processor.h \
-		../HypnosiaController/Model/clock.h \
-		../HypnosiaController/Model/watchpointer.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o data.o ../HypnosiaController/Model/data.cpp
-
-controller.o: ../HypnosiaController/Controller/controller.cpp ../HypnosiaController/Controller/controller.h \
-		../HypnosiaController/Model/data.h \
-		../HypnosiaController/View/observer.h \
-		../HypnosiaController/Model/processor.h \
-		../HypnosiaController/Model/clock.h \
-		../HypnosiaController/Model/watchpointer.h \
-		../HypnosiaController/View/view.h \
-		../HypnosiaController/xf/xf-core/behavior.h \
-		../HypnosiaController/xf/xf-core/interface/reactive.h \
-		../HypnosiaController/xf/xf-core/event.h \
-		../HypnosiaController/xf/xf-core/eventstatus.h \
-		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
-		../HypnosiaController/xf/xf-core/initialevent.h \
-		../HypnosiaController/xf/xf-core/nulltransition.h \
-		../HypnosiaController/xf/xf-core/xf.h \
-		../HypnosiaController/config/xf-config.h \
-		../HypnosiaController/config/xf-port-config.h \
-		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
-		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
-		../HypnosiaController/xf/xf-core/timeout.h \
-		../HypnosiaController/Controller/countdown.h \
-		../HypnosiaController/Events/evrestart.h \
-		../HypnosiaController/xf/xf-core/customevent.h \
-		../HypnosiaController/Events/eventids.h \
-		../HypnosiaController/Events/evcntdown.h \
-		../HypnosiaController/Events/evanim1.h \
-		../HypnosiaController/Events/evdone.h \
-		../HypnosiaController/Events/evplus.h \
-		../HypnosiaController/Events/evminus.h \
-		../HypnosiaController/Events/evrstpos.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o controller.o ../HypnosiaController/Controller/controller.cpp
-
 evrstpos.o: ../HypnosiaController/Events/evrstpos.cpp ../HypnosiaController/Events/evrstpos.h \
 		../HypnosiaController/xf/xf-core/customevent.h \
 		../HypnosiaController/xf/xf-core/xf.h \
@@ -923,11 +1044,243 @@ evrstpos.o: ../HypnosiaController/Events/evrstpos.cpp ../HypnosiaController/Even
 		../HypnosiaController/Events/eventids.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o evrstpos.o ../HypnosiaController/Events/evrstpos.cpp
 
-moc_view.o: moc_view.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_view.o moc_view.cpp
+clock.o: ../HypnosiaController/Model/clock.cpp ../HypnosiaController/Model/clock.h \
+		../HypnosiaController/Model/watchpointer.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o clock.o ../HypnosiaController/Model/clock.cpp
+
+data.o: ../HypnosiaController/Model/data.cpp ../HypnosiaController/Model/data.h \
+		../HypnosiaController/Library/letterlibrary.h \
+		../HypnosiaController/Library/numberlibrary.h \
+		../HypnosiaController/View/observer.h \
+		../HypnosiaController/Model/processor.h \
+		../HypnosiaController/Model/clock.h \
+		../HypnosiaController/Model/watchpointer.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o data.o ../HypnosiaController/Model/data.cpp
+
+processor.o: ../HypnosiaController/Model/processor.cpp ../HypnosiaController/Model/processor.h \
+		../HypnosiaController/Model/clock.h \
+		../HypnosiaController/Model/watchpointer.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o processor.o ../HypnosiaController/Model/processor.cpp
+
+watchpointer.o: ../HypnosiaController/Model/watchpointer.cpp ../HypnosiaController/Model/watchpointer.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o watchpointer.o ../HypnosiaController/Model/watchpointer.cpp
+
+bluetoothinterface.o: ../HypnosiaController/View/bluetoothinterface.cpp ../HypnosiaController/View/bluetoothinterface.h \
+		../HypnosiaController/View/observer.h \
+		../HypnosiaController/Controller/controller.h \
+		../HypnosiaController/Model/data.h \
+		../HypnosiaController/Library/letterlibrary.h \
+		../HypnosiaController/Library/numberlibrary.h \
+		../HypnosiaController/Model/processor.h \
+		../HypnosiaController/Model/clock.h \
+		../HypnosiaController/Model/watchpointer.h \
+		../HypnosiaController/View/view.h \
+		../HypnosiaController/xf/xf-core/behavior.h \
+		../HypnosiaController/xf/xf-core/interface/reactive.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/xf/xf-core/eventstatus.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/initialevent.h \
+		../HypnosiaController/xf/xf-core/nulltransition.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/timeout.h \
+		../HypnosiaController/Controller/animation1.h \
+		../HypnosiaController/Controller/animation2.h \
+		../HypnosiaController/Controller/animation3.h \
+		../HypnosiaController/Controller/animation4.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bluetoothinterface.o ../HypnosiaController/View/bluetoothinterface.cpp
+
+observer.o: ../HypnosiaController/View/observer.cpp ../HypnosiaController/View/observer.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o observer.o ../HypnosiaController/View/observer.cpp
+
+view.o: ../HypnosiaController/View/view.cpp ../HypnosiaController/View/view.h \
+		../HypnosiaController/Controller/controller.h \
+		../HypnosiaController/Model/data.h \
+		../HypnosiaController/Library/letterlibrary.h \
+		../HypnosiaController/Library/numberlibrary.h \
+		../HypnosiaController/View/observer.h \
+		../HypnosiaController/Model/processor.h \
+		../HypnosiaController/Model/clock.h \
+		../HypnosiaController/Model/watchpointer.h \
+		../HypnosiaController/View/bluetoothinterface.h \
+		../HypnosiaController/xf/xf-core/behavior.h \
+		../HypnosiaController/xf/xf-core/interface/reactive.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/xf/xf-core/eventstatus.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/initialevent.h \
+		../HypnosiaController/xf/xf-core/nulltransition.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/timeout.h \
+		../HypnosiaController/Controller/animation1.h \
+		../HypnosiaController/Controller/animation2.h \
+		../HypnosiaController/Controller/animation3.h \
+		../HypnosiaController/Controller/animation4.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o view.o ../HypnosiaController/View/view.cpp
+
+letterlibrary.o: ../HypnosiaController/Library/letterlibrary.cpp ../HypnosiaController/Library/letterlibrary.h \
+		../HypnosiaController/Library/numberlibrary.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o letterlibrary.o ../HypnosiaController/Library/letterlibrary.cpp
+
+numberlibrary.o: ../HypnosiaController/Library/numberlibrary.cpp ../HypnosiaController/Library/numberlibrary.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o numberlibrary.o ../HypnosiaController/Library/numberlibrary.cpp
+
+animation1.o: ../HypnosiaController/Controller/animation1.cpp ../HypnosiaController/Controller/animation1.h \
+		../HypnosiaController/Controller/controller.h \
+		../HypnosiaController/Model/data.h \
+		../HypnosiaController/Library/letterlibrary.h \
+		../HypnosiaController/Library/numberlibrary.h \
+		../HypnosiaController/View/observer.h \
+		../HypnosiaController/Model/processor.h \
+		../HypnosiaController/Model/clock.h \
+		../HypnosiaController/Model/watchpointer.h \
+		../HypnosiaController/View/view.h \
+		../HypnosiaController/View/bluetoothinterface.h \
+		../HypnosiaController/xf/xf-core/behavior.h \
+		../HypnosiaController/xf/xf-core/interface/reactive.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/xf/xf-core/eventstatus.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/initialevent.h \
+		../HypnosiaController/xf/xf-core/nulltransition.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/timeout.h \
+		../HypnosiaController/Controller/animation2.h \
+		../HypnosiaController/Controller/animation3.h \
+		../HypnosiaController/Controller/animation4.h \
+		../HypnosiaController/Events/evdone.h \
+		../HypnosiaController/xf/xf-core/customevent.h \
+		../HypnosiaController/Events/eventids.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o animation1.o ../HypnosiaController/Controller/animation1.cpp
+
+animation2.o: ../HypnosiaController/Controller/animation2.cpp ../HypnosiaController/Controller/animation2.h \
+		../HypnosiaController/Controller/controller.h \
+		../HypnosiaController/Model/data.h \
+		../HypnosiaController/Library/letterlibrary.h \
+		../HypnosiaController/Library/numberlibrary.h \
+		../HypnosiaController/View/observer.h \
+		../HypnosiaController/Model/processor.h \
+		../HypnosiaController/Model/clock.h \
+		../HypnosiaController/Model/watchpointer.h \
+		../HypnosiaController/View/view.h \
+		../HypnosiaController/View/bluetoothinterface.h \
+		../HypnosiaController/xf/xf-core/behavior.h \
+		../HypnosiaController/xf/xf-core/interface/reactive.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/xf/xf-core/eventstatus.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/initialevent.h \
+		../HypnosiaController/xf/xf-core/nulltransition.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/timeout.h \
+		../HypnosiaController/Controller/animation1.h \
+		../HypnosiaController/Controller/animation3.h \
+		../HypnosiaController/Controller/animation4.h \
+		../HypnosiaController/Events/evdone.h \
+		../HypnosiaController/xf/xf-core/customevent.h \
+		../HypnosiaController/Events/eventids.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o animation2.o ../HypnosiaController/Controller/animation2.cpp
+
+animation3.o: ../HypnosiaController/Controller/animation3.cpp ../HypnosiaController/Controller/animation3.h \
+		../HypnosiaController/Controller/controller.h \
+		../HypnosiaController/Model/data.h \
+		../HypnosiaController/Library/letterlibrary.h \
+		../HypnosiaController/Library/numberlibrary.h \
+		../HypnosiaController/View/observer.h \
+		../HypnosiaController/Model/processor.h \
+		../HypnosiaController/Model/clock.h \
+		../HypnosiaController/Model/watchpointer.h \
+		../HypnosiaController/View/view.h \
+		../HypnosiaController/View/bluetoothinterface.h \
+		../HypnosiaController/xf/xf-core/behavior.h \
+		../HypnosiaController/xf/xf-core/interface/reactive.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/xf/xf-core/eventstatus.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/initialevent.h \
+		../HypnosiaController/xf/xf-core/nulltransition.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/timeout.h \
+		../HypnosiaController/Controller/animation1.h \
+		../HypnosiaController/Controller/animation2.h \
+		../HypnosiaController/Controller/animation4.h \
+		../HypnosiaController/Events/evdone.h \
+		../HypnosiaController/xf/xf-core/customevent.h \
+		../HypnosiaController/Events/eventids.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o animation3.o ../HypnosiaController/Controller/animation3.cpp
+
+animation4.o: ../HypnosiaController/Controller/animation4.cpp ../HypnosiaController/Controller/animation4.h \
+		../HypnosiaController/Controller/controller.h \
+		../HypnosiaController/Model/data.h \
+		../HypnosiaController/Library/letterlibrary.h \
+		../HypnosiaController/Library/numberlibrary.h \
+		../HypnosiaController/View/observer.h \
+		../HypnosiaController/Model/processor.h \
+		../HypnosiaController/Model/clock.h \
+		../HypnosiaController/Model/watchpointer.h \
+		../HypnosiaController/View/view.h \
+		../HypnosiaController/View/bluetoothinterface.h \
+		../HypnosiaController/xf/xf-core/behavior.h \
+		../HypnosiaController/xf/xf-core/interface/reactive.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/xf/xf-core/eventstatus.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/initialevent.h \
+		../HypnosiaController/xf/xf-core/nulltransition.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/timeout.h \
+		../HypnosiaController/Controller/animation1.h \
+		../HypnosiaController/Controller/animation2.h \
+		../HypnosiaController/Controller/animation3.h \
+		../HypnosiaController/Events/evdone.h \
+		../HypnosiaController/xf/xf-core/customevent.h \
+		../HypnosiaController/Events/eventids.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o animation4.o ../HypnosiaController/Controller/animation4.cpp
+
+evcalibration.o: ../HypnosiaController/Events/evcalibration.cpp ../HypnosiaController/Events/evcalibration.h \
+		../HypnosiaController/xf/xf-core/customevent.h \
+		../HypnosiaController/xf/xf-core/xf.h \
+		../HypnosiaController/config/xf-config.h \
+		../HypnosiaController/config/xf-port-config.h \
+		../HypnosiaController/xf/xf-port-idf/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/eventqueue.h \
+		../HypnosiaController/xf/xf-core/interface/dispatcher.h \
+		../HypnosiaController/xf/xf-core/event.h \
+		../HypnosiaController/Events/eventids.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o evcalibration.o ../HypnosiaController/Events/evcalibration.cpp
 
 moc_controller.o: moc_controller.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_controller.o moc_controller.cpp
+
+moc_bluetoothinterface.o: moc_bluetoothinterface.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_bluetoothinterface.o moc_bluetoothinterface.cpp
+
+moc_view.o: moc_view.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_view.o moc_view.cpp
 
 ####### Install
 

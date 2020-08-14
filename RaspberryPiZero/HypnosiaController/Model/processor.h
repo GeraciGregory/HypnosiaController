@@ -1,17 +1,17 @@
 #ifndef PROCESSOR_H
 #define PROCESSOR_H
 
+//---------------------------------------INCLUDE----------------------------------------
 #include "clock.h"
-
+//---------------------------------------DEFINE-----------------------------------------
 #define NBR_CLOCK_PER_PROCESSOR 6
-#define SIZE_REGISTER           111 //0x00 to 0x6F = 111*8bits
-
+//--------------------------------------------------------------------------------------
 class Processor
 {
 public:
-    Processor();
+    Processor();                            //Constructor
 
-    Clock* getClock(int index);
+    Clock* getClock(int index);             //Used to use the selected clock
 
 private:
     Clock* clock[NBR_CLOCK_PER_PROCESSOR];

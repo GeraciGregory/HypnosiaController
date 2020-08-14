@@ -20,10 +20,16 @@ public:
         evRestart = 1,		///< Restart event
         evCntDown = 2,
         evAnim1 = 3,
-        evDone = 4,
-        evPlus = 5,
-        evMinus = 6,
-        evRstPos = 7
+        evAnim2 = 4,
+        evAnim3 = 5,
+        evAnim4 = 6,
+        evDone = 7,
+        evPlus = 8,
+        evMinus = 9,
+        evRstPos = 10,
+        evGoToZero = 11,
+        evBluetoothConnected = 12,
+        evCalibration = 13
 	} eEventId;
 };
 
