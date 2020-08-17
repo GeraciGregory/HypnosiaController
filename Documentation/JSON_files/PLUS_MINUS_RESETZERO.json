@@ -1,0 +1,11 @@
+{
+  "header": "PLUS", //Same for MINUS & RESETZERO header
+  "body": 
+  {
+    "processorID" : 0,    //0 to 13
+    "clockID" : 0,        //0 to 5
+    "watchpointerID" : 0, //0 or 1
+    "moveWP1" : 180,      //0 to 359
+    "moveWP2" : 90        //0 to 359
+  }
+}

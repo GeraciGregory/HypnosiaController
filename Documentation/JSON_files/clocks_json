@@ -1,0 +1,46 @@
+{
+    "header":"ANIMATION"/"PLUS"/"MINUS"/"TEXT"/"CALIBRATION"/"GOTOZERO"/"RESETZERO",
+    //ANIMATION
+    "body":1
+    
+    //TEXT
+    "body":"Hypnosia"
+    
+    //PLUS and MINUS
+    "body":{
+        //clock_jsonobject
+    }
+    
+    //CALIBRATION
+    "body":[
+        //clock_jsonobject array
+    ]
+    
+    //GOTOZERO: body no needed
+    
+    //RESETZERO
+    "body":{
+        //clock_jsonobject
+    }
+}
+
+
+//clock_jsonobject
+{
+    "processorID":1
+    "clockID":4
+    "watchpointerID":0
+    "moveWP1":45
+    "moveWP2":45
+}
+
+//clock_jsonobject array
+[
+    {
+        //clock_jsonobject 1
+    },
+    ...
+    {
+        //clock_jsonobject N
+    }
+]
