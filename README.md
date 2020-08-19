@@ -20,7 +20,7 @@ Here is the breakdown:
 <br>
 ![project breakdown](breakdownProjects.JPG)
 <br>
-1) "HYPNOSIA Calibration", carried out by De Campos Ruben, consists of the detection of the position of the hands via image processing, an image taken by the user of the product. This information will then be sent via Bluetooth to the clock matrix to calibrate all the hands.
+1) "HYPNOSIA Calibration", carried out by De Campos Ruben, consists of the detection of the position of the watch pointers via image processing, an image taken by the user of the product. This information will then be sent via Bluetooth to the clock matrix to calibrate all the hands.
 2) "HYPNOSIA Controller", carried out by Geraci Gregory, consists in the creation of the first prototype of the clock matrix. That is to say set up a system that can communicate via Bluetooth and control all the movements in order to create animations.
 <br>
 
