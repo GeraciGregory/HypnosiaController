@@ -40,8 +40,9 @@ The diagram above shows the communications:
 - MASTER - GATEWAY via SPI
 - GATEWAY - SLAVES via CAN
 <br>
-![hypnosia matrix](clockMatrix.JPG)
 <br>
+
+![matrix](clockMatrix.JPG)
 
 # Presentation video
 Click on the logo !
